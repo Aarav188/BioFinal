@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.bio.ElevatorSubsystem;
@@ -22,8 +21,8 @@ public class AutoElevatorUpSpecCommand implements Action {
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        if(elevatorSubsystem.targetPosition() != ElevatorHeights.SPECDROP)
-            elevatorSubsystem.setTargetPosition(ElevatorHeights.SPECDROP);
+        if(elevatorSubsystem.targetPosition() != ElevatorHeights.SPEC)
+            elevatorSubsystem.setTargetPosition(ElevatorHeights.SPEC);
         elevatorSubsystem.updateElevationPosition();
         return !elevatorSubsystem.isAtTarget();
     }

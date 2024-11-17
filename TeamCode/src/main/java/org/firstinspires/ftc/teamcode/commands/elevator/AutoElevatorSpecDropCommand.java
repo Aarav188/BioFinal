@@ -7,11 +7,11 @@ import org.firstinspires.ftc.teamcode.bio.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.configs.ElevatorHeights;
 
 
-public class AutoElevatorUpSpecCommand extends CommandBase {
+public class AutoElevatorSpecDropCommand extends CommandBase {
     protected final ElevatorSubsystem elevatorSubsystem;
     ElapsedTime timer = new ElapsedTime();
 
-    public AutoElevatorUpSpecCommand(ElevatorSubsystem elevatorSubsystem) {
+    public AutoElevatorSpecDropCommand(ElevatorSubsystem elevatorSubsystem) {
         this.elevatorSubsystem = elevatorSubsystem;
 
         addRequirements(elevatorSubsystem);
@@ -19,9 +19,7 @@ public class AutoElevatorUpSpecCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
-
-        elevatorSubsystem.setTargetPosition(ElevatorHeights.SPEC);
+        elevatorSubsystem.setTargetPosition(ElevatorHeights.SPECDROP);
     }
 
     @Override
@@ -29,11 +27,11 @@ public class AutoElevatorUpSpecCommand extends CommandBase {
         timer.reset();
         elevatorSubsystem.updateElevationPosition();
     }
-
     @Override
     public void end(boolean interrupted) {
         elevatorSubsystem.elevatorAutoStop();
     }
+
     public boolean isFinished() {
         if (timer.milliseconds() > 2000) {
             return true;

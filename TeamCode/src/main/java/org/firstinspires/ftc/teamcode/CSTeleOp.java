@@ -11,9 +11,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.drivetrain.RobotCentricDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorDownCommand;
+import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorSpecDropCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpHighCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpLowCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpMiddleCommand;
+import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpSpecCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.ElevatorIncrementCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.MaintainPosition;
 import org.firstinspires.ftc.teamcode.commands.extendo.ExtendoOut;
@@ -49,7 +51,7 @@ public class CSTeleOp extends BaseOpMode {
 //        RobotCentricDriveCommand normalDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, driverPad::getLeftX, driverPad::getLeftY, driverPad::getRightX, 0.5);
 //        RobotCentricDriveCommand fastDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, driverPad::getLeftX, driverPad::getLeftY, driverPad::getRightX, 1.0);
 
-        RobotCentricDriveCommand normalDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, driverPad::getLeftY, driverPad::getLeftX, driverPad::getRightX, .8);
+        RobotCentricDriveCommand normalDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, driverPad::getLeftX, driverPad::getLeftY, driverPad::getRightX, -.8);
         mecanumDriveSubsystem.setDefaultCommand(normalDriveCommand);
 //        intakeSubsystem.setDefaultCommand(new IntakeJoystickCommand(intakeSubsystem, operatorPad::getRightY, operatorPad::getLeftY));
 
@@ -238,15 +240,16 @@ public class CSTeleOp extends BaseOpMode {
         new GamepadButton(driverPad, GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(
                         new SequentialCommandGroup(
-                                new SpecimanDropoff(outtakePivotSubsystem, outtakeClawSubsystem),
+                                new SpecimanDropoff(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100),
                                 new ParallelCommandGroup(
                                         //new SpecimanDropoff(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
-                                        new ElevatorIncrementCommand(elevatorSubsystem)
+                                        new AutoElevatorSpecDropCommand(elevatorSubsystem)
 
                                 ),
                                 new MaintainPosition(elevatorSubsystem)
                         )
                 );
+
 
 
         //TODO tell harish not to use the 1 button reset for these, use the reset button. found an issue and will take time to fix it
@@ -263,7 +266,7 @@ public class CSTeleOp extends BaseOpMode {
         new GamepadButton(driverPad, GamepadKeys.Button.RIGHT_STICK_BUTTON)
                 .whenPressed(
                         new SequentialCommandGroup(
-                                new AutoElevatorUpLowCommand(elevatorSubsystem).withTimeout(100),
+                                new AutoElevatorUpSpecCommand(elevatorSubsystem).withTimeout(100),
                                 new SpecimanDropoff(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
                                 new MaintainPosition(elevatorSubsystem)
 

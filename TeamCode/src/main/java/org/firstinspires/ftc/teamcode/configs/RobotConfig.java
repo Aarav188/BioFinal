@@ -11,9 +11,9 @@ public class RobotConfig {
     public static String INTAKE_SMALL_ROTATOR = "intakeSmallRotator";
     public static String INTAKE_STOPPER = "intakeStopper";
     public static double INTAKE_LARGE_ROTATOR_UP_POSITION = 0.85;
-    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.28; //0
+    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.33; //0
     public static double INTAKE_SMALL_ROTATOR_UP_POSITION = 0.03;
-    public static double INTAKE_SMALL_ROTATOR_DOWN_POSITION = 0.81;
+    public static double INTAKE_SMALL_ROTATOR_DOWN_POSITION = 0.78;
     public static double INTAKE_STOPPER_UP_POSITION = 0;
     public static double INTAKE_STOPPER_DOWN_POSITION = 1;
 
@@ -112,7 +112,7 @@ public class RobotConfig {
     public static double ARM_POS_BUCKET_DROP = 0.1;
     public static double ARM_POS_BUCKET_DROP_HIGH = 0;
     public static double WRIST_POS_REST = 0.5;
-    public static double ARM_POS_SPECIMAN_DROP = 1;
+    public static double ARM_POS_SPECIMAN_DROP = 0.76;
     public static double CLAW_OPEN = 0.15;
     public static double CLAW_CLOSE = 0.33;
     public static double ARM_POS_REST = 0.27;
@@ -161,8 +161,10 @@ public class RobotConfig {
     public static  int ELEVATOR_AUTODROP = -675; //80
     public static  int ELEVATOR_CYCLEDROP = -900; //80
     public static int ELEVATOR_LOWDROP = -300;
-    public static  int ELEVATOR_SPEC = -600; //80
+    public static  int ELEVATOR_SPEC = -500; //80
     public static  int ELEVATOR_MIDDROP = -750;
+
+    public static  int ELEVATOR_SPECDROP = -1000; //80
     public static  int ELEVATOR_HIGHDROP = -1100; // -725
     public static  int ELEVATOR_MAXDROP = -1100;
     public static  int ELEVATOR_PIXELSTACKFIFTH = 250; // -40

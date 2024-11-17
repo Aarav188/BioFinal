@@ -21,7 +21,7 @@ public class AutoElevatorUpLowCommand extends CommandBase {
     public void initialize() {
 
 
-        elevatorSubsystem.setTargetPosition(ElevatorHeights.SPECDROP);
+        elevatorSubsystem.setTargetPosition(ElevatorHeights.SPEC);
     }
 
     @Override

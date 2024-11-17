@@ -9,6 +9,7 @@ import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MAXDRO
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MIDDROP;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_RESET;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_SPEC;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_SPECDROP;
 
 public enum ElevatorHeights {
 
@@ -16,8 +17,9 @@ public enum ElevatorHeights {
     AUTODROP(ELEVATOR_AUTODROP),
     CYCLEDROP(ELEVATOR_CYCLEDROP),
     LOWDROP(ELEVATOR_LOWDROP),
-    SPECDROP(ELEVATOR_SPEC),
+    SPEC(ELEVATOR_SPEC),
     MIDDROP(ELEVATOR_MIDDROP),
+    SPECDROP(ELEVATOR_SPECDROP),
     HIGHDROP(ELEVATOR_HIGHDROP),
     MAXDROP(ELEVATOR_MAXDROP);
 
