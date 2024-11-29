@@ -17,6 +17,9 @@ import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpLowCommand
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpMiddleCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpSpecCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.ElevatorIncrementCommand;
+import org.firstinspires.ftc.teamcode.commands.elevator.HangCommand;
+import org.firstinspires.ftc.teamcode.commands.elevator.HangKill;
+import org.firstinspires.ftc.teamcode.commands.elevator.HangReset;
 import org.firstinspires.ftc.teamcode.commands.elevator.MaintainPosition;
 import org.firstinspires.ftc.teamcode.commands.extendo.ExtendoOut;
 import org.firstinspires.ftc.teamcode.commands.extendo.ExtendoReset;
@@ -49,10 +52,12 @@ public class CSTeleOp extends BaseOpMode {
         new ExtendoReset(extendoSubsystem);
 
 //        RobotCentricDriveCommand normalDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, driverPad::getLeftX, driverPad::getLeftY, driverPad::getRightX, 0.5);
-//        RobotCentricDriveCommand fastDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, driverPad::getLeftX, driverPad::getLeftY, driverPad::getRightX, 1.0);
+          RobotCentricDriveCommand fastDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, operatorPad::getLeftX, operatorPad::getLeftY, operatorPad::getRightX, -0.8);
 
         RobotCentricDriveCommand normalDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, driverPad::getLeftX, driverPad::getLeftY, driverPad::getRightX, -.8);
         mecanumDriveSubsystem.setDefaultCommand(normalDriveCommand);
+
+
 //        intakeSubsystem.setDefaultCommand(new IntakeJoystickCommand(intakeSubsystem, operatorPad::getRightY, operatorPad::getLeftY));
 
         //This is resetting. TODO: Feed position after auto here.
@@ -60,7 +65,7 @@ public class CSTeleOp extends BaseOpMode {
 
 
         //schedule(normalDriveCommand);
-//        (new GamepadTrigger(driverPad, GamepadKeys.Trigger.LEFT_TRIGGER)).whileHeld(fastDriveCommand);
+            (new GamepadTrigger(operatorPad, GamepadKeys.Trigger.LEFT_TRIGGER)).whileHeld(fastDriveCommand);
 //        (new GamepadTrigger(driverPad, GamepadKeys.Trigger.RIGHT_TRIGGER)).whileHeld(slowDriveCommand);
 
 
@@ -249,6 +254,16 @@ public class CSTeleOp extends BaseOpMode {
                                 new MaintainPosition(elevatorSubsystem)
                         )
                 );
+        new GamepadButton(driverPad, GamepadKeys.Button.LEFT_STICK_BUTTON).whenPressed(
+                    new HangCommand(hangSubsystem)
+                );
+        new GamepadButton(operatorPad, GamepadKeys.Button.X).whenPressed(
+                new HangReset(hangSubsystem)
+            );
+
+        new GamepadButton(operatorPad, GamepadKeys.Button.Y).whenPressed(
+                new HangKill(hangSubsystem)
+        );
 
 
 

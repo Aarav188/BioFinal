@@ -13,10 +13,11 @@ import org.firstinspires.ftc.teamcode.configs.ElevatorHeights;
 
 public class AutoElevatorUpHighCommand implements Action {
     protected final ElevatorSubsystem elevatorSubsystem;
-    ElapsedTime timer = new ElapsedTime();
+    double timer;
 
     public AutoElevatorUpHighCommand(ElevatorSubsystem elevatorSubsystem) {
         this.elevatorSubsystem = elevatorSubsystem;
+        this.timer = System.currentTimeMillis();
     }
 
 
@@ -25,6 +26,6 @@ public class AutoElevatorUpHighCommand implements Action {
         if(elevatorSubsystem.targetPosition() != ElevatorHeights.HIGHDROP)
             elevatorSubsystem.setTargetPosition(ElevatorHeights.HIGHDROP);
         elevatorSubsystem.updateElevationPosition();
-        return !elevatorSubsystem.isAtTarget();
+        return !elevatorSubsystem.isAtTarget() || System.currentTimeMillis() - timer > 2000;
     }
 }

@@ -1,28 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.InstantFunction;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.Trajectory;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.autoActions.commands.elevator.AutoElevatorDownCommand;
 //import org.firstinspires.ftc.teamcode.autoActions.commands.elevator.AutoElevatorSpecDropCommand;
-import org.firstinspires.ftc.teamcode.autoActions.commands.elevator.AutoElevatorUpHighCommand;
-import org.firstinspires.ftc.teamcode.autoActions.commands.elevator.AutoElevatorUpLowCommand;
+import org.firstinspires.ftc.teamcode.autoActions.commands.elevator.AutoElevatorDeliverCommand;
 import org.firstinspires.ftc.teamcode.autoActions.commands.elevator.AutoElevatorUpSpecCommand;
+import org.firstinspires.ftc.teamcode.autoActions.commands.extendo.ExtendoOut;
+import org.firstinspires.ftc.teamcode.autoActions.commands.intake.IntakeServoDeposit;
+import org.firstinspires.ftc.teamcode.autoActions.commands.intake.IntakeServosToGround;
 import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.ClawOpen;
 import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.DepoReset;
 import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.SpecimanDropoff;
-import org.firstinspires.ftc.teamcode.commands.elevator.MaintainPosition;
+//import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorSpecDropCommand;
+
 
 @Autonomous
 public class SpecAuto extends BaseOpMode{
@@ -54,8 +49,16 @@ public class SpecAuto extends BaseOpMode{
                         .afterDisp(5, new AutoElevatorUpSpecCommand(elevatorSubsystem))
                         .afterDisp(8, new SpecimanDropoff(outtakePivotSubsystem, outtakeClawSubsystem))
                         //.afterDisp(26,new ClawOpen(outtakeClawSubsystem))
-                        .lineToX(26.5)
-                        .stopAndAdd(new AutoElevatorUpHighCommand(elevatorSubsystem))
+                        .lineToX(31.5)
+                        .stopAndAdd(new AutoElevatorDeliverCommand(elevatorSubsystem))
+                        .stopAndAdd(new ClawOpen(outtakeClawSubsystem))
+                        .stopAndAdd(new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem))
+                        .stopAndAdd(new IntakeServoDeposit(intakeSubsystem))
+                        .lineToX(10)
+                        .stopAndAdd(new AutoElevatorDownCommand(elevatorSubsystem))
+                        .stopAndAdd(new ExtendoOut(extendoSubsystem))
+                        .lineToX(9)
+                        .stopAndAdd(new IntakeServosToGround(intakeSubsystem))
 //                        .afterDisp(2, new ClawOpen(outtakeClawSubsystem))
 //                        .afterDisp(3, new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem))
 //                        .afterDisp(6, new AutoElevatorDownCommand(elevatorSubsystem))

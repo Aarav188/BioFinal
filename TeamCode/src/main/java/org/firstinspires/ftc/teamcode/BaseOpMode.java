@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.bio.BackIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.bio.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.bio.ExtendoSubsystem;
+import org.firstinspires.ftc.teamcode.bio.HangSubsystem;
 import org.firstinspires.ftc.teamcode.bio.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.bio.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.bio.OuttakeArmSubsystem;
@@ -34,6 +35,7 @@ public abstract class BaseOpMode extends CommandOpMode {
     protected OuttakeArmSubsystem outtakePivotSubsystem;
     protected OuttakeClawSubsystem outtakeClawSubsystem;
     protected ExtendoSubsystem extendoSubsystem;
+    protected HangSubsystem hangSubsystem;
 
 
     //protected ColorSensorSubsystem intakeColorSubsystem;
@@ -82,10 +84,11 @@ public abstract class BaseOpMode extends CommandOpMode {
         outtakeClawSubsystem = new OuttakeClawSubsystem(hardwareMap, dashboardTelemetry);
 
         extendoSubsystem = new ExtendoSubsystem(hardwareMap, dashboardTelemetry);
+        hangSubsystem = new HangSubsystem(hardwareMap, telemetry);
 
 
 
-        register(mecanumDriveSubsystem,  elevatorSubsystem, intakeSubsystem, outtakeDropperSubsystem, outtakePivotSubsystem, outtakeClawSubsystem, extendoSubsystem);
+        register(mecanumDriveSubsystem,  elevatorSubsystem, intakeSubsystem, outtakeDropperSubsystem, outtakePivotSubsystem, outtakeClawSubsystem, extendoSubsystem, hangSubsystem);
 
         intakeSubsystem.depoPosition();
         outtakePivotSubsystem.specimanPickUp();

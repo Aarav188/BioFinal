@@ -48,7 +48,7 @@ public class ElevatorSubsystem extends TacoSubsystem {
 
 
     public void setSlidesPower(){
-        elevationMotors.set(0.01);
+        elevationMotors.set(0.0);
     }
 
 
