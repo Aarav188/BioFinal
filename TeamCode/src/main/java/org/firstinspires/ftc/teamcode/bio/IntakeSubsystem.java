@@ -2,18 +2,17 @@ package org.firstinspires.ftc.teamcode.bio;
 
 
 
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_LARGE_ROTATOR;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_LARGE_ROTATOR_DOWN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_LARGE_ROTATOR_UP_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_POWER;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_ROTATION_MOTOR;
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_SMALL_ROTATOR;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_ROTATOR;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_SMALL_ROTATOR_DOWN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_SMALL_ROTATOR_UP_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_STOPPER;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_STOPPER_DOWN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_STOPPER_UP_POSITION;
-
+import static org.firstinspires.ftc.teamcode.configs.RobotState.intakeDepo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -27,14 +26,12 @@ import java.util.Map;
 public class IntakeSubsystem extends TacoSubsystem {
     private final MotorEx rotationMotor;
     private final Servo intakeStopper;
-    private final Servo intakeLargeRotator;
-    private final Servo intakeSmallRotator;
+    private final Servo intakeRotator;
 
     public IntakeSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
         super(hardwareMap, telemetry);
 
-        intakeLargeRotator = hardwareMap.get(Servo.class, INTAKE_LARGE_ROTATOR);
-        intakeSmallRotator = hardwareMap.get(Servo.class, INTAKE_SMALL_ROTATOR);
+        intakeRotator = hardwareMap.get(Servo.class, INTAKE_ROTATOR);
 
         intakeStopper = hardwareMap.get(Servo.class, INTAKE_STOPPER);
 
@@ -64,9 +61,10 @@ public class IntakeSubsystem extends TacoSubsystem {
     }
 
     public void intakePosition(){
-        if(intakeLargeRotator.getPosition() != INTAKE_LARGE_ROTATOR_DOWN_POSITION) {
-            intakeLargeRotator.setPosition(INTAKE_LARGE_ROTATOR_DOWN_POSITION);
-            intakeSmallRotator.setPosition(INTAKE_SMALL_ROTATOR_DOWN_POSITION);
+        if(intakeRotator.getPosition() != INTAKE_LARGE_ROTATOR_DOWN_POSITION) {
+            intakeRotator.setPosition(INTAKE_LARGE_ROTATOR_DOWN_POSITION);
+            intakeRotator.setPosition(INTAKE_SMALL_ROTATOR_DOWN_POSITION);
+            intakeDepo = false;
         }
         else{
             depoPosition();
@@ -74,8 +72,9 @@ public class IntakeSubsystem extends TacoSubsystem {
     }
 
     public void depoPosition(){
-        intakeLargeRotator.setPosition(INTAKE_LARGE_ROTATOR_UP_POSITION);
-        intakeSmallRotator.setPosition(INTAKE_SMALL_ROTATOR_UP_POSITION);
+        intakeRotator.setPosition(INTAKE_LARGE_ROTATOR_UP_POSITION);
+        intakeRotator.setPosition(INTAKE_SMALL_ROTATOR_UP_POSITION);
+        intakeDepo = true;
     }
 
 

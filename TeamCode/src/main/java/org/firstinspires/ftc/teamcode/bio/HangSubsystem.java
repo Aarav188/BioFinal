@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.bio;
 
 
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MOTOR_KP;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MOTOR_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.HANG;
 
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -23,9 +25,11 @@ public class HangSubsystem extends TacoSubsystem {
     public HangSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
         super(hardwareMap, telemetry);
         hangMotor = new MotorEx(hardwareMap, HANG, Motor.GoBILDA.RPM_312);
-        hangMotor.resetEncoder();
+
 
         //rightIntakeServo.setDirection(Servo.Direction.REVERSE);
+        configureMotors();
+        hangMotor.resetEncoder();
     }
     public void hang(int position) {
         hangMotor.setTargetPosition(position);
@@ -61,7 +65,12 @@ public class HangSubsystem extends TacoSubsystem {
     public int getPosition() {
         return hangMotor.getCurrentPosition();
     }
-
+    public void configureMotors() {
+        hangMotor.setRunMode(Motor.RunMode.PositionControl);
+        hangMotor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        hangMotor.setPositionCoefficient(ELEVATOR_MOTOR_KP);
+        hangMotor.setPositionTolerance(ELEVATOR_MOTOR_TOLERANCE);
+    }
     /**
      * this is a teleop method that sets position based on joystick location
      * change this to work later

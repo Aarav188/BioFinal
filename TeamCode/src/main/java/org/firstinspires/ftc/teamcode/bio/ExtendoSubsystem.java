@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_RIGHT_I
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_RIGHT_MAX_OUT_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.LEFT_LINKAGE;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.RIGHT_LINKAGE;
+import static org.firstinspires.ftc.teamcode.configs.RobotState.extendoOut;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -32,12 +33,14 @@ public class ExtendoSubsystem extends TacoSubsystem {
     public void extend() {
         leftAxon.setPosition(EXTENDO_LEFT_MAX_OUT_POSITION);
         rightAxon.setPosition(EXTENDO_RIGHT_MAX_OUT_POSITION);
+        extendoOut = true;
 
     }
 
     public void reset(){
         leftAxon.setPosition(EXTENDO_LEFT_IN_POSITION);
         rightAxon.setPosition(EXTENDO_RIGHT_IN_POSITION);
+        extendoOut = false;
     }
     public double position(){
         return leftAxon.getPosition();

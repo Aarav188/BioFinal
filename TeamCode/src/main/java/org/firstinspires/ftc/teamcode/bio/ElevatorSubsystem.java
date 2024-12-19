@@ -9,7 +9,7 @@ import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MOTOR_
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MOTOR_POWER;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MOTOR_RIGHT;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MOTOR_TOLERANCE;
-
+import static org.firstinspires.ftc.teamcode.configs.RobotState.targetHeight;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
@@ -136,9 +136,11 @@ public class ElevatorSubsystem extends TacoSubsystem {
     public void setTargetPosition(ElevatorHeights elevatorHeights) {
         if(this.elevatorHeights != null & this.elevatorHeights == elevatorHeights){
             this.elevatorHeights = ElevatorHeights.RESET;
+            targetHeight = ElevatorHeights.RESET;
         }
         else {
             this.elevatorHeights = elevatorHeights;
+            targetHeight = elevatorHeights;
         }
         setElevationMotorTargetPosition(elevatorHeights.getMotorPosition());
 

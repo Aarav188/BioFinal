@@ -7,8 +7,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 public class RobotConfig {
 
     // Intake Servo  Subsystem
-    public static String INTAKE_LARGE_ROTATOR = "intakeLargeRotator";
-    public static String INTAKE_SMALL_ROTATOR = "intakeSmallRotator";
+    public static String INTAKE_ROTATOR = "intakeRotator";
     public static String INTAKE_STOPPER = "intakeStopper";
     public static double INTAKE_LARGE_ROTATOR_UP_POSITION = 0.85;
     public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.32; //0
