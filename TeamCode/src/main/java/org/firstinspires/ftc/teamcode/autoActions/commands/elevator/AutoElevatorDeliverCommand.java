@@ -29,6 +29,6 @@ public class AutoElevatorDeliverCommand implements Action {
         elevatorSubsystem.updateElevationPosition();
 
 
-        return !(System.currentTimeMillis() - timer > 5000);
+        return System.currentTimeMillis() - timer < 5000 && !elevatorSubsystem.isAtTarget();
     }
 }

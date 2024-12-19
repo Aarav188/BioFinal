@@ -63,7 +63,6 @@ public class IntakeSubsystem extends TacoSubsystem {
     public void intakePosition(){
         if(intakeRotator.getPosition() != INTAKE_LARGE_ROTATOR_DOWN_POSITION) {
             intakeRotator.setPosition(INTAKE_LARGE_ROTATOR_DOWN_POSITION);
-            intakeRotator.setPosition(INTAKE_SMALL_ROTATOR_DOWN_POSITION);
             intakeDepo = false;
         }
         else{
@@ -73,7 +72,6 @@ public class IntakeSubsystem extends TacoSubsystem {
 
     public void depoPosition(){
         intakeRotator.setPosition(INTAKE_LARGE_ROTATOR_UP_POSITION);
-        intakeRotator.setPosition(INTAKE_SMALL_ROTATOR_UP_POSITION);
         intakeDepo = true;
     }
 

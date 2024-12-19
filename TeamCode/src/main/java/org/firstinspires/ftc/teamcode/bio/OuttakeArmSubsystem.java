@@ -2,6 +2,12 @@ package org.firstinspires.ftc.teamcode.bio;
 
 
 
+import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.BUCKDROP;
+import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.BUCKDROPHIGH;
+import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.DEPOPICK;
+import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.RESET;
+import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.SPECDROP;
+import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.SPECPICK;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_BUCKET_DROP;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_BUCKET_DROP_HIGH;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_RESERVOIR_PICKUP;
@@ -10,6 +16,7 @@ import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_SPECIMA
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_SPECIMAN_DROP;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.LEFT_CLAW_ROTATE;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.RIGHT_CLAW_ROTATE;
+import static org.firstinspires.ftc.teamcode.configs.RobotState.armPos;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -32,30 +39,35 @@ public class OuttakeArmSubsystem extends TacoSubsystem {
     }
 
     public void specimanPickUp(){
-            leftArmServo.setPosition(ARM_POS_SPECIMAN);
-            rightArmServo.setPosition(ARM_POS_SPECIMAN);
-
+            leftArmServo.setPosition(SPECPICK.getPosition());
+            rightArmServo.setPosition(SPECPICK.getPosition());
+            armPos = SPECPICK;
 
     }
     public void bucketDrop(){
-        leftArmServo.setPosition(ARM_POS_BUCKET_DROP);
-        rightArmServo.setPosition(ARM_POS_BUCKET_DROP);
+        leftArmServo.setPosition(BUCKDROP.getPosition());
+        rightArmServo.setPosition(BUCKDROP.getPosition());
+        armPos = BUCKDROP;
     }
     public void bucketDropHigh(){
-        leftArmServo.setPosition(ARM_POS_BUCKET_DROP_HIGH);
-        rightArmServo.setPosition(ARM_POS_BUCKET_DROP_HIGH);
+        leftArmServo.setPosition(BUCKDROPHIGH.getPosition());
+        rightArmServo.setPosition(BUCKDROPHIGH.getPosition());
+        armPos = BUCKDROPHIGH;
     }
     public void specimanDrop(){
-            leftArmServo.setPosition(ARM_POS_SPECIMAN_DROP);
-            rightArmServo.setPosition(ARM_POS_SPECIMAN_DROP);
+            leftArmServo.setPosition(SPECDROP.getPosition());
+            rightArmServo.setPosition(SPECPICK.getPosition());
+            armPos = SPECDROP;
     }
     public void resetArm(){
-        leftArmServo.setPosition(ARM_POS_REST);
-        rightArmServo.setPosition(ARM_POS_REST);
+        leftArmServo.setPosition(RESET.getPosition());
+        rightArmServo.setPosition(RESET.getPosition());
+        armPos = RESET;
     }
     public void pickUpPosition(){
-            leftArmServo.setPosition(ARM_POS_RESERVOIR_PICKUP);
-            rightArmServo.setPosition(ARM_POS_RESERVOIR_PICKUP);
+            leftArmServo.setPosition(DEPOPICK.getPosition());
+            rightArmServo.setPosition(DEPOPICK.getPosition());
+            armPos = DEPOPICK;
     }
 
 

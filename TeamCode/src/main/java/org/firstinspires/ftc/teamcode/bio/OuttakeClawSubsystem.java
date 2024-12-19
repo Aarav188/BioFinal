@@ -8,11 +8,13 @@ import static org.firstinspires.ftc.teamcode.configs.RobotConfig.CLAW_OPEN;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST_POS_REST;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST_POS_SPECIMAN;
-
+import static org.firstinspires.ftc.teamcode.configs.RobotState.outtakeClawOpen;
+import static org.firstinspires.ftc.teamcode.configs.RobotState.wristPos;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.configs.OuttakeWristPos;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,15 +31,19 @@ public class OuttakeClawSubsystem extends TacoSubsystem {
 
     public void closeClaw() {
         claw.setPosition(CLAW_CLOSE);
+        outtakeClawOpen = false;
     }
     public void openClaw(){
         claw.setPosition(CLAW_OPEN);
+        outtakeClawOpen = true;
     }
     public void setWristReset(){
         wrist.setPosition(WRIST_POS_REST);
+        wristPos = OuttakeWristPos.RESET;
     }
     public void setWristSpeciman(){
         wrist.setPosition(WRIST_POS_SPECIMAN);
+        wristPos = OuttakeWristPos.SPECPICK;
     }
 
 
