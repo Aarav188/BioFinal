@@ -8,7 +8,7 @@ public class RobotConfig {
 
     // Intake Servo  Subsystem
     public static String INTAKE_ROTATOR = "intakeRotator";
-    public static String INTAKE_STOPPER = "intakeStopper";
+    public static String INTAKE_STOPPER = "stopper";
     public static double INTAKE_LARGE_ROTATOR_UP_POSITION = 0.85;
     public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.32; //0
     public static double INTAKE_SMALL_ROTATOR_UP_POSITION = 0.03;
@@ -24,7 +24,7 @@ public class RobotConfig {
 
     // Intake Rotator Subsystem
     public static  String CAPTURE_COLOR_SENSOR = "captureColor";
-    public static  String INTAKE_ROTATION_MOTOR = "Intake";
+    public static  String INTAKE_ROTATION_MOTOR = "intake";
     public static  String INTAKE_FRONT_CLAW_SERVO = "frontClawServo";
     public static  String INTAKE_TILT_SERVO = "intakeTiltServo";
     public static  String BEAM_SERVO = "beamServo";
