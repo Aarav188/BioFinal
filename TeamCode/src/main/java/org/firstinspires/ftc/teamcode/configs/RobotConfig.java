@@ -10,11 +10,11 @@ public class RobotConfig {
     public static String INTAKE_ROTATOR = "intakeRotator";
     public static String INTAKE_STOPPER = "stopper";
     public static double INTAKE_LARGE_ROTATOR_UP_POSITION = 0.85;
-    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.32; //0
+    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.67; //0
     public static double INTAKE_SMALL_ROTATOR_UP_POSITION = 0.03;
     public static double INTAKE_SMALL_ROTATOR_DOWN_POSITION = 0.79;
-    public static double INTAKE_STOPPER_UP_POSITION = 0;
-    public static double INTAKE_STOPPER_DOWN_POSITION = 1;
+    public static double INTAKE_STOPPER_UP_POSITION = 0.55;
+    public static double INTAKE_STOPPER_DOWN_POSITION = 0.3;
 
     //extendo subsystem
     public static double EXTENDO_LEFT_MAX_OUT_POSITION = 0.03;
@@ -25,7 +25,7 @@ public class RobotConfig {
     // Intake Rotator Subsystem
     public static  String CAPTURE_COLOR_SENSOR = "captureColor";
     public static  String INTAKE_ROTATION_MOTOR = "intake";
-    public static  String INTAKE_FRONT_CLAW_SERVO = "frontClawServo";
+    public static  String CLAW_SERVO = "claw";
     public static  String INTAKE_TILT_SERVO = "intakeTiltServo";
     public static  String BEAM_SERVO = "beamServo";
     public static  double INTAKE_POWER = 1.0;
@@ -107,19 +107,19 @@ public class RobotConfig {
     public static  String LEFT_ROTATOR_SERVO = "leftOuttakeRotator";
     public static  String RIGHT_ROTATOR_SERVO = "rightOuttakeRotator";
     public static  String CLAW = "claw";
-    public static  String WRIST = "wrist";
-    public static  String LEFT_CLAW_ROTATE = "leftClawRotate";
-    public static  String RIGHT_CLAW_ROTATE = "rightClawRotate";
+    public static  String WRIST = "outtakeRotator";
+    public static  String LEFT_CLAW_ROTATE = "leftArmRotator";
+    public static  String RIGHT_CLAW_ROTATE = "rightArmRotator";
     public static double WRIST_POS_SPECIMAN = 0;
     public static double ARM_POS_SPECIMAN = 0.18;
     public static double ARM_POS_BUCKET_DROP = 0.1;
     public static double ARM_POS_BUCKET_DROP_HIGH = 0;
-    public static double WRIST_POS_REST = 0.5;
+    public static double WRIST_POS_REST = 0.58;
     public static double ARM_POS_SPECIMAN_DROP = 0.76;
     public static double CLAW_OPEN = 0.15;
     public static double CLAW_CLOSE = 0.33;
     public static double ARM_POS_REST = 0.27;
-    public static double ARM_POS_RESERVOIR_PICKUP = 0.31;
+    public static double ARM_POS_RESERVOIR_PICKUP = 0.27;
 
     public static String LEFT_LINKAGE = "leftLinkage";
     public static String RIGHT_LINKAGE = "rightLinkage";

@@ -4,7 +4,9 @@ import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_SPECIMA
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_LEFT_IN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_RIGHT_IN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_LARGE_ROTATOR_DOWN_POSITION;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_LARGE_ROTATOR_UP_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_STOPPER_DOWN_POSITION;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST_POS_REST;
 
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -37,15 +39,15 @@ public class AllMotorAndServoTester extends OpMode {
     @Override
     public void init() {
 
-
+        motor1 = hardwareMap.dcMotor.get("intake") ;
 
 
         stopper = hardwareMap.servo.get("stopper");
         intakeRotator = hardwareMap.servo.get("intakeRotator");
         claw = hardwareMap.servo.get("claw");
-        wrist = hardwareMap.servo.get("wrist");
-        leftClawRotator = hardwareMap.servo.get("leftClawRotator");
-        rightClawRotator = hardwareMap.servo.get("rightClawRotator");
+        wrist = hardwareMap.servo.get("outtakeRotator");
+        leftClawRotator = hardwareMap.servo.get("leftArmRotator");
+        rightClawRotator = hardwareMap.servo.get("rightArmRotator");
         leftLinkage = hardwareMap.servo.get("leftLinkage");
         rightLinkage = hardwareMap.servo.get("rightLinkage");
     }
@@ -55,20 +57,24 @@ public class AllMotorAndServoTester extends OpMode {
         if (gamepad1.a) {
             stopper.setPosition(INTAKE_STOPPER_DOWN_POSITION);
         }
-        if (gamepad1.b) {
-            intakeRotator.setPosition(INTAKE_LARGE_ROTATOR_DOWN_POSITION);
+        if (gamepad1.b) { // 0.27 depo reset
+            intakeRotator.setPosition(INTAKE_LARGE_ROTATOR_UP_POSITION);
         }
         if (gamepad1.y) {
-            claw.setPosition(0.5);
+            claw.setPosition(INTAKE_STOPPER_DOWN_POSITION);
         }
         if (gamepad1.x) {
-            wrist.setPosition(0.5);
+            motor1.setPower(1);
         }
-        if (gamepad2.a) {
+        else{
+            motor1.setPower(0);
+        }
+        if (gamepad1.dpad_down) {
             leftClawRotator.setPosition(ARM_POS_SPECIMAN);
+            rightClawRotator.setPosition(1-ARM_POS_SPECIMAN); // reverse right
         }
-        if (gamepad2.b) { // one of these needs to be reversed figure out which one when go
-            rightClawRotator.setPosition(ARM_POS_SPECIMAN);
+        if (gamepad1.dpad_left) {
+            wrist.setPosition(WRIST_POS_REST);
         }
 
         if (gamepad2.y) {
