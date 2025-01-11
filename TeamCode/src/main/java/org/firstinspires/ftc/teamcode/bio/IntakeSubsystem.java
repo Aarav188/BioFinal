@@ -1,26 +1,22 @@
 package org.firstinspires.ftc.teamcode.bio;
 
 
-
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_LARGE_ROTATOR_DOWN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_LARGE_ROTATOR_UP_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_POWER;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_ROTATION_MOTOR;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_ROTATOR;
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_SMALL_ROTATOR_DOWN_POSITION;
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_SMALL_ROTATOR_UP_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_STOPPER;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_STOPPER_DOWN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_STOPPER_UP_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotState.intakeDepo;
+
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class IntakeSubsystem extends TacoSubsystem {
@@ -44,7 +40,7 @@ public class IntakeSubsystem extends TacoSubsystem {
         rotationMotor.set(power);
     }
     public void intake() {
-        rotationMotor.set(-INTAKE_POWER);
+        rotationMotor.set(INTAKE_POWER);
     } //change once we figure out which side is positive
 
     public void lockSample(){

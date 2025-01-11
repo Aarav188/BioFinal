@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -13,10 +12,8 @@ import org.firstinspires.ftc.teamcode.commands.drivetrain.RobotCentricDriveComma
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorDownCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorSpecDropCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpHighCommand;
-import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpLowCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpMiddleCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpSpecCommand;
-import org.firstinspires.ftc.teamcode.commands.elevator.ElevatorIncrementCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.HangCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.HangKill;
 import org.firstinspires.ftc.teamcode.commands.elevator.HangReset;
@@ -86,23 +83,23 @@ public class CSTeleOp extends BaseOpMode {
         telemetry.addData("Extendo",1);
         telemetry.update();
 
-        Command oldTransfer = new SequentialCommandGroup(
-                new Intake(intakeSubsystem),
-                new IntakeServoDeposit(intakeSubsystem).withTimeout(100),
-                new ExtendoReset(extendoSubsystem).withTimeout(100),
-                new WaitCommand(600),
-                new IntakeStopperUp(intakeSubsystem).withTimeout(100),
-                new IntakeServoDeposit(intakeSubsystem).withTimeout(200),
-                new ExtendoReset(extendoSubsystem).withTimeout(500),
-                new StopIntake(intakeSubsystem).withTimeout(200),
-                new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
-                new ClawOpen(outtakeClawSubsystem).withTimeout(100),
-                new WaitCommand(500), //TODO tune this wait
-                new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
-                new ClawClose(outtakeClawSubsystem).withTimeout(100),
-                new AutoElevatorUpMiddleCommand(elevatorSubsystem).withTimeout(300),
-                new ArmBucketDropPosMid(outtakePivotSubsystem)
-        );
+//        Command oldTransfer = new SequentialCommandGroup(
+//                new Intake(intakeSubsystem),
+//                new IntakeServoDeposit(intakeSubsystem).withTimeout(100),
+//                new ExtendoReset(extendoSubsystem).withTimeout(100),
+//                new WaitCommand(600),
+//                new IntakeStopperUp(intakeSubsystem).withTimeout(100),
+//                new IntakeServoDeposit(intakeSubsystem).withTimeout(200),
+//                new ExtendoReset(extendoSubsystem).withTimeout(500),
+//                new StopIntake(intakeSubsystem).withTimeout(200),
+//                new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
+//                new ClawOpen(outtakeClawSubsystem).withTimeout(100),
+//                new WaitCommand(500), //TODO tune this wait
+//                new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
+//                new ClawClose(outtakeClawSubsystem).withTimeout(100),
+//                new AutoElevatorUpMiddleCommand(elevatorSubsystem).withTimeout(300),
+//                new ArmBucketDropPosMid(outtakePivotSubsystem)
+//        );
 
 //        Command transfer = new SequentialCommandGroup(
 //                new Intake(intakeSubsystem),
@@ -124,8 +121,8 @@ public class CSTeleOp extends BaseOpMode {
 //                new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
 //                new ClawClose(outtakeClawSubsystem).withTimeout(100),
 //                new AutoElevatorUpMiddleCommand(elevatorSubsystem).withTimeout(300),
-//                new ArmBucketDropPosMid(outtakePivotSubsystem)
-//        );
+//                new ArmBucketDropPosMid(outtakePivotSubsystem));
+////        );
 
 //        Command reset = new SequentialCommandGroup(
 //                new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(300),
