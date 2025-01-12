@@ -18,6 +18,6 @@ public class Intake extends InstantCommand {
 
     @Override
     public void execute() {
-        intakeSubsystem.intake(-1);
+        intakeSubsystem.intake(1);
     }
 }

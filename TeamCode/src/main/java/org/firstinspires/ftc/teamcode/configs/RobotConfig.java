@@ -10,17 +10,17 @@ public class RobotConfig {
     public static String INTAKE_ROTATOR = "intakeRotator";
     public static String INTAKE_STOPPER = "stopper";
     public static double INTAKE_LARGE_ROTATOR_UP_POSITION = 0.85;
-    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.67; //0
+    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.69; //0
     public static double INTAKE_SMALL_ROTATOR_UP_POSITION = 0.03;
     public static double INTAKE_SMALL_ROTATOR_DOWN_POSITION = 0.79;
-    public static double INTAKE_STOPPER_UP_POSITION = 0.55;
-    public static double INTAKE_STOPPER_DOWN_POSITION = 0.3;
+    public static double INTAKE_STOPPER_UP_POSITION = 0.9;
+    public static double INTAKE_STOPPER_DOWN_POSITION = 0.65;
 
     //extendo subsystem
     public static double EXTENDO_LEFT_MAX_OUT_POSITION = 0.03;
     public static double EXTENDO_RIGHT_MAX_OUT_POSITION = 0.95;
-    public static double EXTENDO_LEFT_IN_POSITION = 0.42;
-    public static double EXTENDO_RIGHT_IN_POSITION = 0.56;
+    public static double EXTENDO_LEFT_IN_POSITION = 0.36;
+    public static double EXTENDO_RIGHT_IN_POSITION = 0.50;
 
     // Intake Rotator Subsystem
     public static  String CAPTURE_COLOR_SENSOR = "captureColor";

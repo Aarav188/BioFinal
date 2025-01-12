@@ -43,15 +43,11 @@ public class CSTeleOp extends BaseOpMode {
     @Override
     public void initialize() {
         super.initialize();
-        new ClawOpen(outtakeClawSubsystem);
-        new IntakeServoDeposit(intakeSubsystem);
-        new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem);
-        new ExtendoReset(extendoSubsystem);
 
 //        RobotCentricDriveCommand normalDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, driverPad::getLeftX, driverPad::getLeftY, driverPad::getRightX, 0.5);
-          RobotCentricDriveCommand fastDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, operatorPad::getLeftX, operatorPad::getLeftY, operatorPad::getRightX, -0.8);
+  //      RobotCentricDriveCommand fastDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, operatorPad::getLeftX, operatorPad::getLeftY, operatorPad::getRightX, -0.8);
 
-        RobotCentricDriveCommand normalDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, driverPad::getLeftX, driverPad::getLeftY, driverPad::getRightX, -.8);
+        RobotCentricDriveCommand normalDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, driverPad::getLeftX, driverPad::getLeftY, driverPad::getRightX, -1);
         mecanumDriveSubsystem.setDefaultCommand(normalDriveCommand);
 
 
@@ -62,7 +58,7 @@ public class CSTeleOp extends BaseOpMode {
 
 
         //schedule(normalDriveCommand);
-            (new GamepadTrigger(operatorPad, GamepadKeys.Trigger.LEFT_TRIGGER)).whileHeld(fastDriveCommand);
+       //     (new GamepadTrigger(operatorPad, GamepadKeys.Trigger.LEFT_TRIGGER)).whileHeld(fastDriveCommand);
 //        (new GamepadTrigger(driverPad, GamepadKeys.Trigger.RIGHT_TRIGGER)).whileHeld(slowDriveCommand);
 
 
@@ -186,6 +182,7 @@ public class CSTeleOp extends BaseOpMode {
                 .whenPressed(
                         new SequentialCommandGroup(
                                 new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(750),
+                                new WaitCommand(200),
                                 new AutoElevatorDownCommand(elevatorSubsystem)
                         )
                 );

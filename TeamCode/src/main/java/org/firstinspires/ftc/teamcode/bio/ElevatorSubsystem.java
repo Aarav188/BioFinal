@@ -81,7 +81,7 @@ public class ElevatorSubsystem extends TacoSubsystem {
     }
 
     public void updateElevatorDownPostion(){
-        elevationMotors.set(0.2);
+        elevationMotors.set(0.1);
     }
 
     /**
