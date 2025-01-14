@@ -6,23 +6,19 @@ import org.firstinspires.ftc.teamcode.bio.OuttakeArmSubsystem;
 import org.firstinspires.ftc.teamcode.bio.OuttakeClawSubsystem;
 
 
-public class DepoReset extends InstantCommand {
-    private final OuttakeClawSubsystem outtakeClawSubsystem;
+public class DepoArmReset extends InstantCommand {
     private final OuttakeArmSubsystem outtakeArmSubsystem;
 
 
-    public DepoReset(OuttakeArmSubsystem outtakeArmSubsystem, OuttakeClawSubsystem outtakeClawSubsystem) {
+    public DepoArmReset(OuttakeArmSubsystem outtakeArmSubsystem) {
         this.outtakeArmSubsystem = outtakeArmSubsystem;
-        this.outtakeClawSubsystem = outtakeClawSubsystem;
 
-        addRequirements(outtakeArmSubsystem, outtakeClawSubsystem);
+        addRequirements(outtakeArmSubsystem);
     }
 
     @Override
     public void execute() {
         outtakeArmSubsystem.resetArm();
-        outtakeClawSubsystem.setWristReset();
-        outtakeClawSubsystem.openClaw();
 
     }
 

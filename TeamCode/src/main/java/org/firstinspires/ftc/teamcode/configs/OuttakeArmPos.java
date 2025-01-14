@@ -6,16 +6,8 @@ import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_BUCKET_
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_RESERVOIR_PICKUP;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_REST;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_SPECIMAN;
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_SPECIMAN_DROP;
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_AUTODROP;
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_CYCLEDROP;
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_HIGHDROP;
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_LOWDROP;
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MAXDROP;
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MIDDROP;
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_RESET;
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_SPEC;
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_SPECDROP;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_SPECIMAN_DROP_BACK;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_SPECIMAN_DROP_FRONT;
 
 public enum OuttakeArmPos {
 
@@ -24,7 +16,8 @@ public enum OuttakeArmPos {
     SPECPICK(ARM_POS_SPECIMAN),
     BUCKDROP(ARM_POS_BUCKET_DROP),
     BUCKDROPHIGH(ARM_POS_BUCKET_DROP_HIGH),
-    SPECDROP(ARM_POS_SPECIMAN_DROP);
+    SPECDROPBACK(ARM_POS_SPECIMAN_DROP_BACK),
+    SPECDROPFRONT(ARM_POS_SPECIMAN_DROP_FRONT);
 
 
     private final double armPos;

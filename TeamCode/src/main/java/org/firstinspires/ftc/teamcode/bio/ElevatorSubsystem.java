@@ -66,7 +66,7 @@ public class ElevatorSubsystem extends TacoSubsystem {
 
     public void updateElevationPosition(ElevatorHeights elevatorHeights) {
         if(elevatorHeights == ElevatorHeights.RESET){
-            elevationMotors.set(1.0);
+            elevationMotors.set(0.2);
         } else {
             elevationMotors.set(ELEVATOR_MOTOR_POWER);
         }
@@ -81,7 +81,7 @@ public class ElevatorSubsystem extends TacoSubsystem {
     }
 
     public void updateElevatorDownPostion(){
-        elevationMotors.set(0.1);
+        elevationMotors.set(0.4);
     }
 
     /**

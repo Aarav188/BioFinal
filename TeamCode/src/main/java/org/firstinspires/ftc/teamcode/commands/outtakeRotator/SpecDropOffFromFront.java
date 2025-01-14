@@ -5,13 +5,12 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.bio.OuttakeArmSubsystem;
 import org.firstinspires.ftc.teamcode.bio.OuttakeClawSubsystem;
 
-
-public class SpecimanPickup extends CommandBase {
+public class SpecDropOffFromFront extends CommandBase {
     private final OuttakeClawSubsystem outtakeClawSubsystem;
     private final OuttakeArmSubsystem outtakeArmSubsystem;
 
 
-    public SpecimanPickup(OuttakeArmSubsystem outtakeArmSubsystem, OuttakeClawSubsystem outtakeClawSubsystem) {
+    public SpecDropOffFromFront(OuttakeArmSubsystem outtakeArmSubsystem, OuttakeClawSubsystem outtakeClawSubsystem) {
         this.outtakeArmSubsystem = outtakeArmSubsystem;
         this.outtakeClawSubsystem = outtakeClawSubsystem;
 
@@ -20,9 +19,8 @@ public class SpecimanPickup extends CommandBase {
 
     @Override
     public void execute() {
-        outtakeArmSubsystem.specimanPickUp();
-        outtakeClawSubsystem.setWristSpeciman();
-        outtakeClawSubsystem.openClaw();
+        outtakeArmSubsystem.specimanDropFront();
+        outtakeClawSubsystem.setWristSpecimanFront();
 
     }
 

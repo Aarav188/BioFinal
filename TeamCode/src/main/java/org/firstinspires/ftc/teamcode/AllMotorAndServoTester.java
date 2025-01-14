@@ -35,6 +35,7 @@ public class AllMotorAndServoTester extends OpMode {
     private Servo leftLinkage;
 
     private Servo rightLinkage;
+    private Servo outtakeStopper;
 
     @Override
     public void init() {
@@ -50,6 +51,7 @@ public class AllMotorAndServoTester extends OpMode {
         rightClawRotator = hardwareMap.servo.get("rightArmRotator");
         leftLinkage = hardwareMap.servo.get("leftLinkage");
         rightLinkage = hardwareMap.servo.get("rightLinkage");
+        outtakeStopper = hardwareMap.servo.get("outtakeStopper");
     }
 
     @Override
@@ -75,6 +77,9 @@ public class AllMotorAndServoTester extends OpMode {
         }
         if (gamepad1.dpad_left) {
             wrist.setPosition(WRIST_POS_REST);
+        }
+        if(gamepad1.dpad_right){
+            outtakeStopper.setPosition(WRIST_POS_REST);
         }
 
         if (gamepad2.y) {

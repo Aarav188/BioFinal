@@ -10,13 +10,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.drivetrain.RobotCentricDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorDownCommand;
-import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorSpecDropCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpHighCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpMiddleCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpSpecCommand;
-import org.firstinspires.ftc.teamcode.commands.elevator.HangCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.HangKill;
-import org.firstinspires.ftc.teamcode.commands.elevator.HangReset;
 import org.firstinspires.ftc.teamcode.commands.elevator.MaintainPosition;
 import org.firstinspires.ftc.teamcode.commands.extendo.ExtendoOut;
 import org.firstinspires.ftc.teamcode.commands.extendo.ExtendoReset;
@@ -27,43 +24,25 @@ import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopperDown;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopperUp;
 import org.firstinspires.ftc.teamcode.commands.intake.Outtake;
 import org.firstinspires.ftc.teamcode.commands.intake.StopIntake;
-import org.firstinspires.ftc.teamcode.commands.outtakeRotator.ArmBucketDropPosMid;
-import org.firstinspires.ftc.teamcode.commands.outtakeRotator.ArmDropPos;
+import org.firstinspires.ftc.teamcode.commands.outtakeRotator.ArmDropHighBucket;
 import org.firstinspires.ftc.teamcode.commands.outtakeRotator.ClawClose;
 import org.firstinspires.ftc.teamcode.commands.outtakeRotator.ClawOpen;
 import org.firstinspires.ftc.teamcode.commands.outtakeRotator.DepoPickUpPos;
-import org.firstinspires.ftc.teamcode.commands.outtakeRotator.DepoReset;
-import org.firstinspires.ftc.teamcode.commands.outtakeRotator.SpecimanDropoff;
-import org.firstinspires.ftc.teamcode.commands.outtakeRotator.SpecimanPickup;
+import org.firstinspires.ftc.teamcode.commands.outtakeRotator.DepoArmReset;
+import org.firstinspires.ftc.teamcode.commands.outtakeRotator.DepoWristReset;
+import org.firstinspires.ftc.teamcode.commands.outtakeRotator.SpecDropOffFromFront;
+import org.firstinspires.ftc.teamcode.commands.outtakeRotator.SpecimanDropoffFromBack;
+import org.firstinspires.ftc.teamcode.commands.outtakeRotator.SpecimanArmPosPickup;
+import org.firstinspires.ftc.teamcode.commands.outtakeRotator.SpecimanWristPosPickup;
 
 
 @TeleOp(group = "Competition")
 public class CSTeleOp extends BaseOpMode {
-    private boolean toggleBAction = false;
     @Override
     public void initialize() {
         super.initialize();
-
-//        RobotCentricDriveCommand normalDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, driverPad::getLeftX, driverPad::getLeftY, driverPad::getRightX, 0.5);
-  //      RobotCentricDriveCommand fastDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, operatorPad::getLeftX, operatorPad::getLeftY, operatorPad::getRightX, -0.8);
-
         RobotCentricDriveCommand normalDriveCommand = new RobotCentricDriveCommand(mecanumDriveSubsystem, driverPad::getLeftX, driverPad::getLeftY, driverPad::getRightX, -1);
         mecanumDriveSubsystem.setDefaultCommand(normalDriveCommand);
-
-
-//        intakeSubsystem.setDefaultCommand(new IntakeJoystickCommand(intakeSubsystem, operatorPad::getRightY, operatorPad::getLeftY));
-
-        //This is resetting. TODO: Feed position after auto here.
-        // SequentialCommandGroup resetcommand = new SequentialCommandGroup();
-
-
-        //schedule(normalDriveCommand);
-       //     (new GamepadTrigger(operatorPad, GamepadKeys.Trigger.LEFT_TRIGGER)).whileHeld(fastDriveCommand);
-//        (new GamepadTrigger(driverPad, GamepadKeys.Trigger.RIGHT_TRIGGER)).whileHeld(slowDriveCommand);
-
-
-        // Elevator Controls
-        // Set Positions
 
 
         new GamepadButton(driverPad, GamepadKeys.Button.A)
@@ -79,120 +58,39 @@ public class CSTeleOp extends BaseOpMode {
         telemetry.addData("Extendo",1);
         telemetry.update();
 
-//        Command oldTransfer = new SequentialCommandGroup(
-//                new Intake(intakeSubsystem),
-//                new IntakeServoDeposit(intakeSubsystem).withTimeout(100),
-//                new ExtendoReset(extendoSubsystem).withTimeout(100),
-//                new WaitCommand(600),
-//                new IntakeStopperUp(intakeSubsystem).withTimeout(100),
-//                new IntakeServoDeposit(intakeSubsystem).withTimeout(200),
-//                new ExtendoReset(extendoSubsystem).withTimeout(500),
-//                new StopIntake(intakeSubsystem).withTimeout(200),
-//                new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
-//                new ClawOpen(outtakeClawSubsystem).withTimeout(100),
-//                new WaitCommand(500), //TODO tune this wait
-//                new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
-//                new ClawClose(outtakeClawSubsystem).withTimeout(100),
-//                new AutoElevatorUpMiddleCommand(elevatorSubsystem).withTimeout(300),
-//                new ArmBucketDropPosMid(outtakePivotSubsystem)
-//        );
-
-//        Command transfer = new SequentialCommandGroup(
-//                new Intake(intakeSubsystem),
-//                new ParallelCommandGroup(
-//                        new IntakeServoDeposit(intakeSubsystem).withTimeout(100),
-//                        new ExtendoReset(extendoSubsystem).withTimeout(100)
-//                ),
-//                new WaitCommand(600),
-//                new ParallelCommandGroup(
-//                        new IntakeStopperUp(intakeSubsystem).withTimeout(100),
-//                        new IntakeServoDeposit(intakeSubsystem).withTimeout(200),
-//                        new ExtendoReset(extendoSubsystem).withTimeout(500),
-//                        new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200)
-//                        //new ClawOpen(outtakeClawSubsystem).withTimeout(100)
-//                ),
-//
-//                new StopIntake(intakeSubsystem).withTimeout(200),
-//                new WaitCommand(500), //TODO tune this wait
-//                new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
-//                new ClawClose(outtakeClawSubsystem).withTimeout(100),
-//                new AutoElevatorUpMiddleCommand(elevatorSubsystem).withTimeout(300),
-//                new ArmBucketDropPosMid(outtakePivotSubsystem));
-////        );
-
-//        Command reset = new SequentialCommandGroup(
-//                new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(300),
-//                new AutoElevatorDownCommand(elevatorSubsystem).withTimeout(200),
-//                new ExtendoReset(extendoSubsystem).withTimeout(10),
-//                new IntakeServoDeposit(intakeSubsystem).withTimeout(10)
-//        );
-//
-//        ConditionalCommand toggleCommand = new ConditionalCommand(
-//                transfer, // Command when toggleBAction is true
-//                reset,    // Command when toggleBAction is false
-//                () -> toggleBAction // Condition to toggle between commands
-//        );
-
-//// Bind the command to the B button
-//        new GamepadButton(driverPad, GamepadKeys.Button.B)
-//                .whenPressed(toggleCommand, toggleBAction = !toggleBAction);
         new GamepadButton(driverPad, GamepadKeys.Button.B)
                 .whenPressed(
                         new SequentialCommandGroup(
                                 new Intake(intakeSubsystem),
                                 new IntakeServoDeposit(intakeSubsystem).withTimeout(100),
                                 new ExtendoReset(extendoSubsystem).withTimeout(100),
-                                new WaitCommand(600),
-                                new IntakeStopperUp(intakeSubsystem).withTimeout(100),
-                                new IntakeServoDeposit(intakeSubsystem).withTimeout(200),
-                                new ExtendoReset(extendoSubsystem).withTimeout(500),
-                                new StopIntake(intakeSubsystem).withTimeout(200),
-                                new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
-                                new ClawOpen(outtakeClawSubsystem).withTimeout(100),
-                                new WaitCommand(500), //TODO tune this wait
                                 new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
-                                new ClawClose(outtakeClawSubsystem).withTimeout(100)
-//                                new AutoElevatorUpHighCommand(elevatorSubsystem).withTimeout(300),
-//                                new ArmDropPos(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100)
+                                new WaitCommand(400),
+                                new IntakeStopperUp(intakeSubsystem).withTimeout(400),
+                                new StopIntake(intakeSubsystem).withTimeout(10)
+
 
                         )
                 );
         telemetry.addData("Extendo",0);
         telemetry.update();
 
-//        boolean intakeServosUp = true;
-//            new GamepadButton(driverPad, GamepadKeys.Button.X)
-//                    .whenPressed(
-//                            new SequentialCommandGroup(
-//                                    new IntakeServosToGround(intakeSubsystem).withTimeout(100)
-//                            )
-//                    );
-//            intakeServosUp = false;
-//
-//
-//            new GamepadButton(driverPad, GamepadKeys.Button.Y)
-//                    .whenPressed(
-//                            new SequentialCommandGroup(
-//                                    new IntakeServoDeposit(intakeSubsystem).withTimeout(100)
-//                            )
-//
-//                    );
-        //intakeServosUp = true;
         new GamepadButton(driverPad, GamepadKeys.Button.X)
                 .whenPressed(
                         new SequentialCommandGroup(
-                                new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(750),
-                                new WaitCommand(200),
+                                new ParallelCommandGroup(
+                                        new DepoWristReset(outtakeClawSubsystem).withTimeout(10),
+                                        new DepoArmReset(outtakePivotSubsystem).withTimeout(10),
+                                        new AutoElevatorUpMiddleCommand(elevatorSubsystem)
+                                ),
                                 new AutoElevatorDownCommand(elevatorSubsystem)
                         )
                 );
-        new GamepadButton(driverPad, GamepadKeys.Button.Y)
-                .whenPressed(
-                        new ParallelCommandGroup(
-                                new ClawOpen(outtakeClawSubsystem).withTimeout(100),
-                                new MaintainPosition(elevatorSubsystem)
-                        )
-                );
+
+        new GamepadButton(driverPad, GamepadKeys.Button.Y).whenPressed(
+                new HangKill(hangSubsystem)
+        );
+
         new GamepadTrigger(driverPad, GamepadKeys.Trigger.RIGHT_TRIGGER)
                 .whenPressed(
                         new SequentialCommandGroup(
@@ -238,36 +136,8 @@ public class CSTeleOp extends BaseOpMode {
         // clawOpen = true;
         new GamepadButton(driverPad, GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(
-                        new SequentialCommandGroup(
-                                new SpecimanDropoff(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100),
-                                new ParallelCommandGroup(
-                                        //new SpecimanDropoff(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
-                                        new AutoElevatorSpecDropCommand(elevatorSubsystem)
-
-                                ),
-                                new MaintainPosition(elevatorSubsystem)
-                        )
-                );
-        new GamepadButton(driverPad, GamepadKeys.Button.LEFT_STICK_BUTTON).whenPressed(
-                    new HangCommand(hangSubsystem)
-                );
-        new GamepadButton(operatorPad, GamepadKeys.Button.X).whenPressed(
-                new HangReset(hangSubsystem)
-            );
-
-        new GamepadButton(operatorPad, GamepadKeys.Button.Y).whenPressed(
-                new HangKill(hangSubsystem)
-        );
-
-
-
-        //TODO tell harish not to use the 1 button reset for these, use the reset button. found an issue and will take time to fix it
-        new GamepadButton(driverPad, GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(new SequentialCommandGroup(
-                                new ParallelCommandGroup(
-                                        new AutoElevatorUpHighCommand(elevatorSubsystem).withTimeout(100),
-                                        new ArmDropPos(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100)
-                                ),
+                        new ParallelCommandGroup(
+                                new ClawOpen(outtakeClawSubsystem).withTimeout(100),
                                 new MaintainPosition(elevatorSubsystem)
                         )
                 );
@@ -276,40 +146,49 @@ public class CSTeleOp extends BaseOpMode {
                 .whenPressed(
                         new SequentialCommandGroup(
                                 new AutoElevatorUpSpecCommand(elevatorSubsystem).withTimeout(100),
-                                new SpecimanDropoff(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
+                                new SpecimanDropoffFromBack(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
                                 new MaintainPosition(elevatorSubsystem)
-
-//                                new ParallelCommandGroup(
-//                                        new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100),
-//                                        new MaintainPosition(elevatorSubsystem)
-//                                )
                         )
 
                 );
-        new GamepadButton(driverPad, GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(
-                        new ParallelCommandGroup(
-                                new AutoElevatorUpMiddleCommand(elevatorSubsystem),
-                                new ArmBucketDropPosMid(outtakePivotSubsystem).withTimeout(100)
 
-                        )
-                );
-
-
-        new GamepadButton(driverPad, GamepadKeys.Button.DPAD_DOWN).
+        // spec pickup
+        new GamepadButton(driverPad, GamepadKeys.Button.DPAD_RIGHT).
                 whenPressed(
                         new SequentialCommandGroup(
-                                new SpecimanPickup(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200)
+                                new SpecimanArmPosPickup(outtakePivotSubsystem).withTimeout(400),
+                                new SpecimanWristPosPickup(outtakeClawSubsystem).withTimeout(200)
+
                         )
                 );
 
+        // sample drop
+        new GamepadButton(driverPad, GamepadKeys.Button.DPAD_LEFT)
+                .whenPressed(new SequentialCommandGroup(
+                                new ParallelCommandGroup(
+                                        new AutoElevatorUpHighCommand(elevatorSubsystem).withTimeout(100),
+                                        new ArmDropHighBucket(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100)
+                                ),
+                                new MaintainPosition(elevatorSubsystem)
+                        )
+                );
+
+
+
+        // spec drop from back
         new GamepadButton(driverPad, GamepadKeys.Button.DPAD_UP).whenPressed(
                 new SequentialCommandGroup(
                         new AutoElevatorUpHighCommand(elevatorSubsystem).withTimeout(200),
-                        // new SpecimanDropoff(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
-                        new WaitCommand(500),
-                        new SpecimanPickup(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100),
-                        new AutoElevatorUpMiddleCommand(elevatorSubsystem).withTimeout(200),
+                        new SpecDropOffFromFront(outtakePivotSubsystem, outtakeClawSubsystem),
+                        new MaintainPosition(elevatorSubsystem)
+                )
+        );
+
+        // spec drop from back
+        new GamepadButton(driverPad, GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                new SequentialCommandGroup(
+                        new AutoElevatorUpHighCommand(elevatorSubsystem).withTimeout(200),
+                        new SpecimanDropoffFromBack(outtakePivotSubsystem, outtakeClawSubsystem),
                         new MaintainPosition(elevatorSubsystem)
                 )
         );
