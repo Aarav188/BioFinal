@@ -5,18 +5,17 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.bio.OuttakeArmSubsystem;
 import org.firstinspires.ftc.teamcode.bio.OuttakeClawSubsystem;
 
 
-public class SpecimanPickup implements Action {
+public class SpecDropOffFromFront implements Action {
     private final OuttakeArmSubsystem outtakeArmSubsystem;
     private final OuttakeClawSubsystem outtakeClawSubsystem;
 
 
-    public SpecimanPickup(OuttakeArmSubsystem outtakeArmSubsystem, OuttakeClawSubsystem outtakeClawSubsystem) {
+    public SpecDropOffFromFront(OuttakeArmSubsystem outtakeArmSubsystem, OuttakeClawSubsystem outtakeClawSubsystem) {
         this.outtakeArmSubsystem = outtakeArmSubsystem;
         this.outtakeClawSubsystem = outtakeClawSubsystem;
 
@@ -24,9 +23,8 @@ public class SpecimanPickup implements Action {
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        outtakeArmSubsystem.resetArm();
-        outtakeClawSubsystem.setWristReset();
-        outtakeClawSubsystem.openClaw();
+        outtakeArmSubsystem.specimanDropBack();
+        outtakeClawSubsystem.setWristSpecimanBack();
         return false;
     }
 }

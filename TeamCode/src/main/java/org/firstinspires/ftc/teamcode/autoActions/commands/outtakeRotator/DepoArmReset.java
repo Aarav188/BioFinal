@@ -10,21 +10,18 @@ import org.firstinspires.ftc.teamcode.bio.OuttakeArmSubsystem;
 import org.firstinspires.ftc.teamcode.bio.OuttakeClawSubsystem;
 
 
-public class ArmDropPos implements Action {
+public class DepoArmReset implements Action {
     private final OuttakeArmSubsystem outtakeArmSubsystem;
-    private final OuttakeClawSubsystem outtakeClawSubsystem;
 
 
-    public ArmDropPos(OuttakeArmSubsystem outtakeArmSubsystem, OuttakeClawSubsystem outtakeClawSubsystem) {
+    public DepoArmReset(OuttakeArmSubsystem outtakeArmSubsystem) {
         this.outtakeArmSubsystem = outtakeArmSubsystem;
-        this.outtakeClawSubsystem = outtakeClawSubsystem;
 
     }
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        outtakeArmSubsystem.bucketDropHigh();
-        outtakeClawSubsystem.setWristSpecimanBack();
+        outtakeArmSubsystem.resetArm();
         return false;
     }
 }

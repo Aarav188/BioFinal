@@ -10,21 +10,18 @@ import org.firstinspires.ftc.teamcode.bio.OuttakeArmSubsystem;
 import org.firstinspires.ftc.teamcode.bio.OuttakeClawSubsystem;
 
 
-public class SpecimanDropoff implements Action {
+public class SpecArmPosPickup implements Action {
     private final OuttakeArmSubsystem outtakeArmSubsystem;
-    private final OuttakeClawSubsystem outtakeClawSubsystem;
 
 
-    public SpecimanDropoff(OuttakeArmSubsystem outtakeArmSubsystem, OuttakeClawSubsystem outtakeClawSubsystem) {
+    public SpecArmPosPickup(OuttakeArmSubsystem outtakeArmSubsystem) {
         this.outtakeArmSubsystem = outtakeArmSubsystem;
-        this.outtakeClawSubsystem = outtakeClawSubsystem;
 
     }
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        outtakeArmSubsystem.specimanDropBack();
-        outtakeClawSubsystem.setWristSpecimanBack();
+        outtakeArmSubsystem.resetArm();
         return false;
     }
 }

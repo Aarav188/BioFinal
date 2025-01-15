@@ -6,11 +6,11 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.bio.OuttakeClawSubsystem;
 
 
-public class SpecimanWristPosPickup extends CommandBase {
+public class SpecWristPosPickup extends CommandBase {
     private final OuttakeClawSubsystem outtakeClawSubsystem;
 
 
-    public SpecimanWristPosPickup(OuttakeClawSubsystem outtakeClawSubsystem) {
+    public SpecWristPosPickup(OuttakeClawSubsystem outtakeClawSubsystem) {
         this.outtakeClawSubsystem = outtakeClawSubsystem;
 
         addRequirements(outtakeClawSubsystem);

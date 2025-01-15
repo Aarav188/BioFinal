@@ -3,14 +3,13 @@ package org.firstinspires.ftc.teamcode.commands.outtakeRotator;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.bio.OuttakeArmSubsystem;
-import org.firstinspires.ftc.teamcode.bio.OuttakeClawSubsystem;
 
 
-public class SpecimanArmPosPickup extends CommandBase {
+public class SpecArmPosPickup extends CommandBase {
     private final OuttakeArmSubsystem outtakeArmSubsystem;
 
 
-    public SpecimanArmPosPickup(OuttakeArmSubsystem outtakeArmSubsystem) {
+    public SpecArmPosPickup(OuttakeArmSubsystem outtakeArmSubsystem) {
         this.outtakeArmSubsystem = outtakeArmSubsystem;
 
         addRequirements(outtakeArmSubsystem);
