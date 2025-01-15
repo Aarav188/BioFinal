@@ -182,7 +182,7 @@ public class CSTeleOp extends BaseOpMode {
                 .whenPressed(
                         new SequentialCommandGroup(
                                 new DepoReset(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(750),
-                                new WaitCommand(200),
+                                new WaitCommand(400),
                                 new AutoElevatorDownCommand(elevatorSubsystem)
                         )
                 );

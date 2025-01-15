@@ -113,7 +113,7 @@ public class RobotConfig {
     public static double WRIST_POS_SPECIMAN = 0;
     public static double ARM_POS_SPECIMAN = 0.18;
     public static double ARM_POS_BUCKET_DROP = 0.1;
-    public static double ARM_POS_BUCKET_DROP_HIGH = 0;
+    public static double ARM_POS_BUCKET_DROP_HIGH = 0.2;
     public static double WRIST_POS_REST = 0.58;
     public static double ARM_POS_SPECIMAN_DROP = 0.76;
     public static double CLAW_OPEN = 0.15;
@@ -163,9 +163,9 @@ public class RobotConfig {
     public static  int ELEVATOR_RESET = 0;
     public static  int ELEVATOR_AUTODROP = -675; //80
     public static  int ELEVATOR_CYCLEDROP = -900; //80
-    public static int ELEVATOR_LOWDROP = -300;
+    public static int ELEVATOR_LOWDROP = -400;
     public static  int ELEVATOR_SPEC = -500; //80
-    public static  int ELEVATOR_MIDDROP = -750;
+    public static  int ELEVATOR_MIDDROP = -900;
 
     public static  int ELEVATOR_SPECDROP = -850; //80
     public static  int ELEVATOR_HIGHDROP = -1100; // -725
