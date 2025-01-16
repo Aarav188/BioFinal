@@ -28,14 +28,13 @@ import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.SpecDr
 
 @Autonomous
 public class SpecAuto extends BaseOpMode{
-    Pose2d startingPose = new Pose2d(12,-63,-90);
+    Pose2d startingPose = new Pose2d(12,-63,Math.toRadians(-90));
     @Override
     public void runOpMode(){
         super.initialize();
         MecanumDrive drive = new MecanumDrive(hardwareMap, startingPose);
         TrajectoryActionBuilder initialSpecDrop = drive.actionBuilder(startingPose)
-              //  .setReversed(true)
-                .lineToY(-30);//.afterDisp(10, new ParallelAction(new AutoElevatorUpSpecCommand(elevatorSubsystem), new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem)));
+                .lineToYLinearHeading(-30, Math.toRadians(-90));//.afterDisp(10, new ParallelAction(new AutoElevatorUpSpecCommand(elevatorSubsystem), new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem)));
 
         TrajectoryActionBuilder moveToFirstGroundSpecAndDrop = initialSpecDrop.endTrajectory().fresh()
                 .splineTo(new Vector2d(48, -24), 90).afterDisp(5, new ParallelAction(new Intake(intakeSubsystem), new ClawClose(outtakeClawSubsystem), new ExtendoOut(extendoSubsystem)))//, new AutoElevatorDownCommand(elevatorSubsystem), new DepoArmReset(outtakePivotSubsystem), new DepoWristReset(outtakeClawSubsystem), new ExtendoOut(extendoSubsystem)))
