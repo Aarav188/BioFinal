@@ -36,9 +36,10 @@ public class SpecAuto extends BaseOpMode{
         TrajectoryActionBuilder initialSpecDrop = drive.actionBuilder(startingPose)
                 .lineToYLinearHeading(-30, Math.toRadians(-90));//.afterDisp(10, new ParallelAction(new AutoElevatorUpSpecCommand(elevatorSubsystem), new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem)));
 
+
         TrajectoryActionBuilder moveToFirstGroundSpecAndDrop = initialSpecDrop.endTrajectory().fresh()
-                .splineTo(new Vector2d(48, -24), 90).afterDisp(5, new ParallelAction(new Intake(intakeSubsystem), new ClawClose(outtakeClawSubsystem), new ExtendoOut(extendoSubsystem)))//, new AutoElevatorDownCommand(elevatorSubsystem), new DepoArmReset(outtakePivotSubsystem), new DepoWristReset(outtakeClawSubsystem), new ExtendoOut(extendoSubsystem)))
-                .splineTo(new Vector2d(55, -60), 45).afterDisp(20, new Outtake(intakeSubsystem));
+                .splineToLinearHeading(new Pose2d(35, -35, Math.toRadians(40)), Math.toRadians(50)).afterDisp(5, new ParallelAction(new Intake(intakeSubsystem), new ClawClose(outtakeClawSubsystem), new ExtendoOut(extendoSubsystem)))//, new AutoElevatorDownCommand(elevatorSubsystem), new DepoArmReset(outtakePivotSubsystem), new DepoWristReset(outtakeClawSubsystem), new ExtendoOut(extendoSubsystem)))
+                .splineToLinearHeading(new Pose2d(53, -50, Math.toRadians(70)), Math.toRadians(70)).afterDisp(20, new Outtake(intakeSubsystem));
 
         TrajectoryActionBuilder moveToSecondGroundSpecAndDrop = moveToFirstGroundSpecAndDrop.endTrajectory().fresh();
 
