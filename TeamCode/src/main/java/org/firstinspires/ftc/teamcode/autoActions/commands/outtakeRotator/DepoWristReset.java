@@ -22,7 +22,7 @@ public class DepoWristReset implements Action {
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
         outtakeClawSubsystem.setWristReset();
-        outtakeClawSubsystem.openClaw();
+        outtakeClawSubsystem.closeClaw();
         return false;
     }
 }
