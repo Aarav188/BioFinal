@@ -18,7 +18,7 @@ public class Intake implements Action {
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        intakeSubsystem.intake(-1);
+        intakeSubsystem.intake(1);
         return false;
     }
 }

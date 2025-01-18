@@ -14,6 +14,8 @@ import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_STOPPER_
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST_POS_REST;
 import static org.firstinspires.ftc.teamcode.configs.RobotState.targetHeight;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
@@ -22,6 +24,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.bio.ElevatorSubsystem;
+import org.firstinspires.ftc.teamcode.commands.elevator.ElevatorIncrementCommand;
+import org.firstinspires.ftc.teamcode.commands.elevator.ResetElevatorCommand;
 import org.firstinspires.ftc.teamcode.configs.ElevatorHeights;
 
 @TeleOp
@@ -51,7 +57,7 @@ public class AllMotorAndServoTester extends OpMode {
     private MotorGroup elevationMotors;
 
     private ElevatorHeights elevatorHeights;
-
+    private ElevatorSubsystem elevatorSubsystem;
     private int position;
 
     @Override
@@ -68,19 +74,10 @@ public class AllMotorAndServoTester extends OpMode {
         rightClawRotator = hardwareMap.servo.get("rightArmRotator");
         leftLinkage = hardwareMap.servo.get("leftLinkage");
         rightLinkage = hardwareMap.servo.get("rightLinkage");
-        leftElevationMotor = new MotorEx(hardwareMap, ELEVATOR_MOTOR_LEFT, Motor.GoBILDA.RPM_1150); //TODO Check the rpm
-        rightElevationMotor = new MotorEx(hardwareMap, ELEVATOR_MOTOR_RIGHT, Motor.GoBILDA.RPM_1150);
-        rightElevationMotor.setInverted(true); //TODO check which one is inverted, if any
-        elevationMotors = new MotorGroup(rightElevationMotor, leftElevationMotor);
-        elevatorHeights = ElevatorHeights.RESET;
-
-        elevationMotors.setRunMode(Motor.RunMode.PositionControl);
-        elevationMotors.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        elevationMotors.setPositionCoefficient(ELEVATOR_MOTOR_KP);
-        elevationMotors.setPositionTolerance(ELEVATOR_MOTOR_TOLERANCE);
-
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        Telemetry dashboardTelemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        elevatorSubsystem = new ElevatorSubsystem(hardwareMap, dashboardTelemetry);
         position = 0;
-        elevationMotors.resetEncoder();
     }
 
     @Override
@@ -92,12 +89,11 @@ public class AllMotorAndServoTester extends OpMode {
             intakeRotator.setPosition(INTAKE_LARGE_ROTATOR_UP_POSITION);
         }
         if (gamepad1.y) {
-            setElevationMotorTargetPosition(position);
-            position = position - 10;
+            new ElevatorIncrementCommand(elevatorSubsystem);
+
         }
         if (gamepad1.x) {
-            setElevationMotorTargetPosition(position);
-            position = position + 10;
+            new ResetElevatorCommand(elevatorSubsystem);
         }
 
 //        if (gamepad1.y) {
@@ -124,127 +120,6 @@ public class AllMotorAndServoTester extends OpMode {
             rightLinkage.setPosition(EXTENDO_RIGHT_IN_POSITION);
         }
 
-    }
-
-    public void setSlidesPower(){
-        elevationMotors.set(0.0);
-    }
-
-
-    private void setElevationMotorTargetPosition(int position) {
-        elevationMotors.setTargetPosition(position);
-        if(isAtTarget()){
-            elevationMotors.setTargetPosition(0);
-        }
-    }
-
-    public int getCurrentPosition(){
-        return elevatorHeights.getMotorPosition();
-    } //dunno if this works or not
-
-
-    public void updateElevationPosition(ElevatorHeights elevatorHeights) {
-        if(elevatorHeights == ElevatorHeights.RESET){
-            elevationMotors.set(1.0);
-        } else {
-            elevationMotors.set(ELEVATOR_MOTOR_POWER);
-        }
-
-
-    }
-    public void specDropOff(){
-        elevationMotors.setTargetPosition(rightElevationMotor.encoder.getPosition() - 400);
-    }
-    public void updateElevationPosition(){
-        elevationMotors.set(ELEVATOR_MOTOR_POWER);
-    }
-
-    public void updateElevatorDownPostion(){
-        elevationMotors.set(0.1);
-    }
-
-    /**
-     * decrease that 20 if pid is good, increase if bad, essentially the margin of error
-     */
-    public boolean isAtTarget() {
-        if(Math.abs(getPosition() - elevatorHeights.getMotorPosition()) < 10){
-            return true;
-        }
-        return false;
-    }
-    public boolean isAtIncrementTarget(int target){
-        if(Math.abs(getPosition() - target) < 50){
-            return true;
-        }
-        return false;
-    }
-
-    public int getPosition() {
-        return rightElevationMotor.getCurrentPosition();
-    }
-
-    public ElevatorHeights targetPosition(){
-        return elevatorHeights;
-    }
-    public void stop() {
-        elevationMotors.stopMotor();
-    }
-
-
-    public void resetEncoder() {
-        elevationMotors.resetEncoder();
-    }
-
-    public void resetStop(){
-        if(rightElevationMotor.encoder.getPosition() >=0 && rightElevationMotor.encoder.getPosition() <= 300) {
-            elevationMotors.stopMotor();
-        }
-    }
-
-    public void elevatorAutoStop(){
-        if(elevatorHeights != ElevatorHeights.RESET) {
-            elevationMotors.set(0.1);
-        }
-        else{
-            elevationMotors.stopMotor();
-        }
-    }
-    public void maintainPosition(){
-        elevationMotors.set(0.1);
-    }
-    public void setTargetPosition(ElevatorHeights elevatorHeights) {
-        if(this.elevatorHeights != null & this.elevatorHeights == elevatorHeights){
-            this.elevatorHeights = ElevatorHeights.RESET;
-            targetHeight = ElevatorHeights.RESET;
-        }
-        else {
-            this.elevatorHeights = elevatorHeights;
-            targetHeight = elevatorHeights;
-        }
-        setElevationMotorTargetPosition(elevatorHeights.getMotorPosition());
-
-    }
-    public void setTargetPositionMaintain(ElevatorHeights elevatorHeights){
-        setElevationMotorTargetPosition(elevatorHeights.getMotorPosition());
-    }
-
-    public void goToRawPosition(int target, double power) {
-        elevationMotors.setTargetPosition(target);
-        while (!elevationMotors.atTargetPosition()) {
-            if (elevationMotors.getCurrentPosition() > target) {
-                break;
-            }
-            elevationMotors.set(power);
-        }
-        elevationMotors.set(0);
-    }
-
-
-    public void configureMotors() {
-        elevationMotors.setRunMode(Motor.RunMode.PositionControl);
-        elevationMotors.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        elevationMotors.setPositionCoefficient(ELEVATOR_MOTOR_KP);
-        elevationMotors.setPositionTolerance(ELEVATOR_MOTOR_TOLERANCE);
     }
 }
 

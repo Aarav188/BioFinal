@@ -74,7 +74,7 @@ public class IntakeSubsystem extends TacoSubsystem {
 
 
     public void outtake() {
-        rotationMotor.set(1);
+        rotationMotor.set(-1);
     }
 
     public void stop(){

@@ -24,7 +24,7 @@ public class ArmDropHighBucket extends CommandBase {
     @Override
     public void execute() {
         outtakeArmSubsystem.bucketDropHigh();
-        outtakeClawSubsystem.setWristSpecimanBack();
+        outtakeClawSubsystem.bucketDrop();
 
     }
 

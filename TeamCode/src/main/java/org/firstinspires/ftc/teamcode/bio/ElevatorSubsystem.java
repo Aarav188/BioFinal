@@ -52,11 +52,8 @@ public class ElevatorSubsystem extends TacoSubsystem {
     }
 
 
-    private void setElevationMotorTargetPosition(int position) {
+    public void setElevationMotorTargetPosition(int position) {
         elevationMotors.setTargetPosition(position);
-        if(isAtTarget()){
-            elevationMotors.setTargetPosition(0);
-        }
     }
 
     public int getCurrentPosition(){
@@ -88,7 +85,7 @@ public class ElevatorSubsystem extends TacoSubsystem {
      * decrease that 20 if pid is good, increase if bad, essentially the margin of error
      */
     public boolean isAtTarget() {
-        if(Math.abs(getPosition() - elevatorHeights.getMotorPosition()) < 10){
+        if(Math.abs(getPosition() - elevatorHeights.getMotorPosition()) < 50){
             return true;
         }
         return false;
@@ -131,7 +128,7 @@ public class ElevatorSubsystem extends TacoSubsystem {
         }
     }
     public void maintainPosition(){
-        elevationMotors.set(0.1);
+        elevationMotors.set(0.2);
     }
     public void setTargetPosition(ElevatorHeights elevatorHeights) {
         if(this.elevatorHeights != null & this.elevatorHeights == elevatorHeights){

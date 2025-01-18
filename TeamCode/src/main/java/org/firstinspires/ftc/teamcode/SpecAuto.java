@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.autoActions.commands.elevator.AutoElevatorDownCommand;
@@ -36,15 +37,22 @@ public class SpecAuto extends BaseOpMode{
         super.initialize();
         MecanumDrive drive = new MecanumDrive(hardwareMap, startingPose);
         TrajectoryActionBuilder initialSpecDrop = drive.actionBuilder(startingPose)
-                .lineToYLinearHeading(-30, Math.toRadians(-90));//.afterDisp(10, new ParallelAction(new AutoElevatorUpSpecCommand(elevatorSubsystem), new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem)));
+                .lineToYLinearHeading(-35, Math.toRadians(-90));//.afterDisp(10, new ParallelAction(new AutoElevatorUpSpecCommand(elevatorSubsystem), new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem)));
 
 
         TrajectoryActionBuilder moveToFirstGroundSpecAndDrop = initialSpecDrop.endTrajectory().fresh()
+                .afterDisp(10, new SequentialAction(new ExtendoOut(extendoSubsystem)))
+                .afterDisp(15, new ParallelAction(new IntakeServosToGround(intakeSubsystem), new Intake(intakeSubsystem)))
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(35, -35, Math.toRadians(40)), Math.toRadians(50)).afterDisp(10, new SequentialAction(new ExtendoOut(extendoSubsystem), new IntakeServosToGround(intakeSubsystem), new Intake(intakeSubsystem)))
-                .splineToLinearHeading(new Pose2d(53, -50, Math.toRadians(70)), Math.toRadians(70)).afterDisp(20, new SequentialAction(new Outtake(intakeSubsystem)));
-        //    .splineToLinearHeading(new Pose2d(53, -50, Math.toRadians(70)), Math.toRadians(70)).afterDisp(20, new Outtake(intakeSubsystem));
-
+                .splineToLinearHeading(new Pose2d(26, -46, Math.toRadians(50)), Math.toRadians(50))
+                .splineToLinearHeading(new Pose2d(32, -40, Math.toRadians(50)), Math.toRadians(50)).afterDisp(20, new SequentialAction(new Outtake(intakeSubsystem)))
+                .splineToLinearHeading(new Pose2d(32, -50, Math.toRadians(-70)), Math.toRadians(70)).afterDisp(5, new SequentialAction(new Intake(intakeSubsystem)))
+                .splineToLinearHeading(new Pose2d(33, -46, Math.toRadians(50)), Math.toRadians(50))
+                .splineToLinearHeading(new Pose2d(39, -40, Math.toRadians(50)), Math.toRadians(50)).afterDisp(20, new SequentialAction(new Outtake(intakeSubsystem)))
+                .splineToLinearHeading(new Pose2d(39, -50, Math.toRadians(-70)), Math.toRadians(70)).afterDisp(5, new SequentialAction(new Intake(intakeSubsystem)))
+                .splineToLinearHeading(new Pose2d(40, -46, Math.toRadians(50)), Math.toRadians(50))
+                .splineToLinearHeading(new Pose2d(46, -40, Math.toRadians(50)), Math.toRadians(50)).afterDisp(5, new ParallelAction(new StopIntake(intakeSubsystem), new ExtendoReset(extendoSubsystem)))
+                .splineToLinearHeading(new Pose2d(19, -60, Math.toRadians(90)), Math.toRadians(-90));
         TrajectoryActionBuilder moveToSecondGroundSpecAndDrop = moveToFirstGroundSpecAndDrop.endTrajectory().fresh();
 
         //actions on init put in here

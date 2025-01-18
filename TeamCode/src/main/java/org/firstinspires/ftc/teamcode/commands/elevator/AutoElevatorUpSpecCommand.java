@@ -19,9 +19,7 @@ public class AutoElevatorUpSpecCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
-
-        elevatorSubsystem.setTargetPosition(ElevatorHeights.SPEC);
+        elevatorSubsystem.setTargetPosition(ElevatorHeights.SPECDROP);
     }
 
     @Override
@@ -32,12 +30,9 @@ public class AutoElevatorUpSpecCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        elevatorSubsystem.elevatorAutoStop();
+        elevatorSubsystem.maintainPosition();
     }
     public boolean isFinished() {
-        if (timer.milliseconds() > 2000) {
-            return true;
-        }
         return elevatorSubsystem.isAtTarget();
     }
 

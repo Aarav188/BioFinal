@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.configs.RobotConfig.CLAW;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.CLAW_CLOSE;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.CLAW_OPEN;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST_POS_BUCKET_DROP;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST_POS_REST;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST_POS_SPECIMAN_BACK;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST_POS_SPECIMAN_FRONT;
@@ -47,6 +48,10 @@ public class OuttakeClawSubsystem extends TacoSubsystem {
     }
     public void setWristSpecimanBack(){
         wrist.setPosition(WRIST_POS_SPECIMAN_BACK);
+        wristPos = OuttakeWristPos.SPECDROPBACK;
+    }
+    public void bucketDrop(){
+        wrist.setPosition(WRIST_POS_BUCKET_DROP);
         wristPos = OuttakeWristPos.SPECDROPBACK;
     }
 

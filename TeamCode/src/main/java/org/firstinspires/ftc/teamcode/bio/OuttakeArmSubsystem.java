@@ -53,7 +53,7 @@ public class OuttakeArmSubsystem extends TacoSubsystem {
     }
     public void specimanDropFront(){
         leftArmServo.setPosition(SPECDROPFRONT.getPosition());
-        rightArmServo.setPosition(SPECDROPBACK.getPosition());
+        rightArmServo.setPosition(SPECDROPFRONT.getPosition());
         armPos = SPECDROPFRONT;
     }
     public void resetArm(){

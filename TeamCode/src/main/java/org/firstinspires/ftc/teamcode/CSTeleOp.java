@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.drivetrain.RobotCentricDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorDownCommand;
+import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorSpecDropCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpHighCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpMiddleCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpSpecCommand;
@@ -48,6 +49,7 @@ public class CSTeleOp extends BaseOpMode {
         new GamepadButton(driverPad, GamepadKeys.Button.A)
                 .whenPressed(
                         new SequentialCommandGroup(
+                                new IntakeStopperDown(intakeSubsystem).withTimeout(10),
                                 new ExtendoOut(extendoSubsystem).withTimeout(150),
                                 new IntakeServosToGround(intakeSubsystem).withTimeout(100),
                                 new IntakeStopperDown(intakeSubsystem).withTimeout(100),
@@ -79,11 +81,11 @@ public class CSTeleOp extends BaseOpMode {
                 .whenPressed(
                         new SequentialCommandGroup(
                                 new ParallelCommandGroup(
-                                        new DepoWristReset(outtakeClawSubsystem).withTimeout(10),
-                                        new DepoArmReset(outtakePivotSubsystem).withTimeout(10),
-                                        new AutoElevatorUpMiddleCommand(elevatorSubsystem)
+                                        new DepoWristReset(outtakeClawSubsystem).withTimeout(2000),
+                                        new DepoArmReset(outtakePivotSubsystem).withTimeout(2000)
                                 ),
                                 new AutoElevatorDownCommand(elevatorSubsystem)
+
                         )
                 );
 
@@ -166,8 +168,8 @@ public class CSTeleOp extends BaseOpMode {
         new GamepadButton(driverPad, GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new SequentialCommandGroup(
                                 new ParallelCommandGroup(
-                                        new AutoElevatorUpHighCommand(elevatorSubsystem).withTimeout(100),
-                                        new ArmDropHighBucket(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100)
+                                        new AutoElevatorUpHighCommand(elevatorSubsystem),
+                                        new ArmDropHighBucket(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(300)
                                 ),
                                 new MaintainPosition(elevatorSubsystem)
                         )
@@ -178,8 +180,8 @@ public class CSTeleOp extends BaseOpMode {
         // spec drop from back
         new GamepadButton(driverPad, GamepadKeys.Button.DPAD_UP).whenPressed(
                 new SequentialCommandGroup(
-                        new AutoElevatorUpHighCommand(elevatorSubsystem).withTimeout(200),
-                        new SpecDropOffFromFront(outtakePivotSubsystem, outtakeClawSubsystem),
+                        new AutoElevatorUpSpecCommand(elevatorSubsystem),
+                        new SpecDropOffFromFront(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100),
                         new MaintainPosition(elevatorSubsystem)
                 )
         );
