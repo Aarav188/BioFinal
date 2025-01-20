@@ -47,30 +47,41 @@ public class SpecAuto extends BaseOpMode{
         MecanumDrive drive = new MecanumDrive(hardwareMap, startingPose);
         TrajectoryActionBuilder initialSpecDrop = drive.actionBuilder(startingPose)
                // .afterDisp(10, new ParallelAction(new AutoElevatorUpSpecCommand(elevatorSubsystem), new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem)))
-                .lineToYLinearHeading(-35, Math.toRadians(-90)).afterDisp(20, new SequentialAction(
+                .afterDisp(20, new SequentialAction(
                         new AutoElevatorDeliverCommand(elevatorSubsystem),
                         new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem),
                         new MaintainPosition(elevatorSubsystem)
                 ))
+                .lineToYLinearHeading(-35, Math.toRadians(-90))
                 .waitSeconds(1);
 
         TrajectoryActionBuilder moveToFirstGroundSpecAndDrop = initialSpecDrop.endTrajectory().fresh()
                 .afterDisp(5, new SequentialAction(new AutoElevatorDownCommand(elevatorSubsystem)))
-                .afterDisp(10, new SequentialAction(new ExtendoOut(extendoSubsystem)))
+                .afterDisp(10, new SequentialAction(new ExtendoOut(extendoSubsystem)) )
                 .afterDisp(15, new ParallelAction(new IntakeServosToGround(intakeSubsystem), new Intake(intakeSubsystem)))
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(26, -46, Math.toRadians(50)), Math.toRadians(50))
-                .splineToLinearHeading(new Pose2d(32, -40, Math.toRadians(55)), Math.toRadians(50)).afterDisp(20, new SequentialAction(new Outtake(intakeSubsystem)))
-                .splineToLinearHeading(new Pose2d(32, -50, Math.toRadians(-70)), Math.toRadians(70)).afterDisp(5, new SequentialAction(new Intake(intakeSubsystem)))
-                .splineToLinearHeading(new Pose2d(33, -46, Math.toRadians(50)), Math.toRadians(50))
-                .splineToLinearHeading(new Pose2d(39, -40, Math.toRadians(50)), Math.toRadians(50)).afterDisp(20, new SequentialAction(new Outtake(intakeSubsystem)))
-                .splineToLinearHeading(new Pose2d(39, -50, Math.toRadians(-70)), Math.toRadians(70)).afterDisp(5, new SequentialAction(new Intake(intakeSubsystem)))
-                .splineToLinearHeading(new Pose2d(40, -46, Math.toRadians(50)), Math.toRadians(50))
-                .splineToLinearHeading(new Pose2d(46, -40, Math.toRadians(50)), Math.toRadians(50)).afterDisp(5, new ParallelAction(new IntakeServoDeposit(intakeSubsystem), new ExtendoReset(extendoSubsystem), new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem))).afterDisp(15, new SequentialAction(new IntakeStopperUp(intakeSubsystem))).afterDisp(20, new OuttakeLockSample(outtakeClawSubsystem)).afterDisp(23, new SequentialAction(new SpecArmPosPickup(outtakePivotSubsystem))).afterDisp(30, new SpecWristPosPickup(outtakeClawSubsystem))//, new SpecWristPosPickup(outtakeClawSubsystem)))
-                .splineToLinearHeading(new Pose2d(40, -62, Math.toRadians(100)), Math.toRadians(-80))
+                .splineToLinearHeading(new Pose2d(28, -50, Math.toRadians(50)), Math.toRadians(50))
+                .splineToLinearHeading(new Pose2d(31, -46, Math.toRadians(55)), Math.toRadians(50)).afterDisp(20, new SequentialAction(new Outtake(intakeSubsystem)))
+                .splineToLinearHeading(new Pose2d(40, -54, Math.toRadians(-70)), Math.toRadians(70)).afterDisp(5, new SequentialAction(new Intake(intakeSubsystem)))
+                .splineToLinearHeading(new Pose2d(36, -50, Math.toRadians(50)), Math.toRadians(50))
+                .splineToLinearHeading(new Pose2d(42, -46, Math.toRadians(50)), Math.toRadians(50)).afterDisp(20, new SequentialAction(new Outtake(intakeSubsystem)))
+                .splineToLinearHeading(new Pose2d(46, -50, Math.toRadians(-70)), Math.toRadians(70)).afterDisp(5, new SequentialAction(new Intake(intakeSubsystem)))
+                .splineToLinearHeading(new Pose2d(48, -46, Math.toRadians(50)), Math.toRadians(50))
+                .splineToLinearHeading(new Pose2d(54, -50, Math.toRadians(50)), Math.toRadians(50)).afterDisp(5, new ParallelAction(new IntakeServoDeposit(intakeSubsystem), new ExtendoReset(extendoSubsystem), new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem))).afterDisp(15, new SequentialAction(new IntakeStopperUp(intakeSubsystem))).afterDisp(20, new OuttakeLockSample(outtakeClawSubsystem)).afterDisp(23, new SequentialAction(new SpecArmPosPickup(outtakePivotSubsystem))).afterDisp(30, new SpecWristPosPickup(outtakeClawSubsystem))//, new SpecWristPosPickup(outtakeClawSubsystem)))
+                .splineToLinearHeading(new Pose2d(45, -62, Math.toRadians(100)), Math.toRadians(-80))
                 .waitSeconds(1)
                 .afterDisp(0, new OuttakeUnlockSample(outtakeClawSubsystem))
-                .splineToLinearHeading(new Pose2d(40, -68, Math.toRadians(100)), Math.toRadians(-80)).afterDisp(0, new ClawClose(outtakeClawSubsystem)).waitSeconds(1);
+               .splineToLinearHeading(new Pose2d(50, -74, Math.toRadians(100)), Math.toRadians(-80)).afterDisp(0, new ClawClose(outtakeClawSubsystem)).waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(12.5, -35, Math.toRadians(-90)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(12.5, -30, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(45, -62, Math.toRadians(100)), Math.toRadians(-80))
+                .waitSeconds(1)
+                .afterDisp(0, new OuttakeUnlockSample(outtakeClawSubsystem))
+                .splineToLinearHeading(new Pose2d(50, -74, Math.toRadians(100)), Math.toRadians(-80)).afterDisp(0, new ClawClose(outtakeClawSubsystem)).waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(12.5, -35, Math.toRadians(-90)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(12.5, -30, Math.toRadians(-90)), Math.toRadians(-90))
+
+                ;
         TrajectoryActionBuilder moveToSecondGroundSpecAndDrop = moveToFirstGroundSpecAndDrop.endTrajectory().fresh();
 
         //actions on init put in here
