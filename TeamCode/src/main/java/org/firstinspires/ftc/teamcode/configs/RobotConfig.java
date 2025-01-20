@@ -10,7 +10,7 @@ public class RobotConfig {
     public static String INTAKE_ROTATOR = "intakeRotator";
     public static String INTAKE_STOPPER = "stopper";
     public static double INTAKE_LARGE_ROTATOR_UP_POSITION = 0.85;
-    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.69; //0
+    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.68; //0
     public static double INTAKE_SMALL_ROTATOR_UP_POSITION = 0.03;
     public static double INTAKE_SMALL_ROTATOR_DOWN_POSITION = 0.79;
     public static double INTAKE_STOPPER_UP_POSITION = 0.9;
@@ -110,7 +110,7 @@ public class RobotConfig {
     public static  String WRIST = "outtakeRotator";
     public static  String LEFT_CLAW_ROTATE = "leftArmRotator";
     public static  String RIGHT_CLAW_ROTATE = "rightArmRotator";
-    public static double WRIST_POS_SPECIMAN_BACK = 0.15;
+    public static double WRIST_POS_SPECIMAN_BACK = 0.6;
     public static double WRIST_POS_SPECIMAN_PICK = 0.25;
     public static double WRIST_POS_SPECIMAN_FRONT = 0.8;
     public static double WRIST_POS_BUCKET_DROP = 0;
@@ -122,9 +122,10 @@ public class RobotConfig {
     public static double ARM_POS_SPECIMAN_DROP_BACK = 0.1;
     public static double ARM_POS_SPECIMAN_DROP_FRONT = 0.6;
     public static double CLAW_OPEN = 0.15;
-    public static double CLAW_CLOSE = 0.35;
+    public static double CLAW_CLOSE = 0.40;
     public static double ARM_POS_REST = 0.25;
     public static double ARM_POS_RESERVOIR_PICKUP = 0.27;
+    public static String OUTTAKE_STOPPER = "outtakeStopper";
     public static double OUTTAKE_STOPPER_LOCK = 0.1;
     public static double OUTTAKE_STOPPER_UNLOCK = 0.5;
 
@@ -174,7 +175,7 @@ public class RobotConfig {
     public static  int ELEVATOR_SPEC = -500; //80
     public static  int ELEVATOR_MIDDROP = -900;
 
-    public static  int ELEVATOR_SPECDROP = -850; //80
+    public static  int ELEVATOR_SPECDROP = -875; //80
     public static  int ELEVATOR_HIGHDROP = -1250; // -725
     public static  int ELEVATOR_MAXDROP = -1100;
     public static  int ELEVATOR_PIXELSTACKFIFTH = 250; // -40

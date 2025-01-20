@@ -5,6 +5,9 @@ package org.firstinspires.ftc.teamcode.bio;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.CLAW;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.CLAW_CLOSE;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.CLAW_OPEN;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.OUTTAKE_STOPPER;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.OUTTAKE_STOPPER_LOCK;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.OUTTAKE_STOPPER_UNLOCK;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST_POS_BUCKET_DROP;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST_POS_REST;
@@ -22,13 +25,22 @@ import org.firstinspires.ftc.teamcode.configs.OuttakeWristPos;
 public class OuttakeClawSubsystem extends TacoSubsystem {
     private final Servo claw;
     private final Servo wrist;
+    private final Servo stopper;
 
     public OuttakeClawSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
         super(hardwareMap, telemetry);
         claw = hardwareMap.get(Servo.class, CLAW);
         wrist = hardwareMap.get(Servo.class, WRIST);
+        stopper = hardwareMap.get(Servo.class, OUTTAKE_STOPPER);
     }
 
+
+    public void lockSample(){
+        stopper.setPosition(OUTTAKE_STOPPER_LOCK);
+    }
+    public void unlockSample(){
+        stopper.setPosition(OUTTAKE_STOPPER_UNLOCK);
+    }
     public void closeClaw() {
         claw.setPosition(CLAW_CLOSE);
         outtakeClawOpen = false;

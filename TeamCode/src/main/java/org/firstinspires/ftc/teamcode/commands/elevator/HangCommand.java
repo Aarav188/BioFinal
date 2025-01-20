@@ -22,18 +22,18 @@ public class HangCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        hangSubsystem.hang(HANGPOS);
+       hangSubsystem.setElevationMotorTargetPosition(HANGPOS);
 
     }
 
     @Override
     public void execute() {
-        hangSubsystem.updateHangPostion();
+        hangSubsystem.updateElevationPosition();
     }
 
     @Override
     public void end(boolean interrupted) {
-          hangSubsystem.hang(HANGPOS);
+          hangSubsystem.stop();
     }
     public boolean isFinished() {
         if (timer > 42000) {

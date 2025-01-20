@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MOTOR_
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MOTOR_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_LEFT_IN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_RIGHT_IN_POSITION;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.HANG;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_LARGE_ROTATOR_DOWN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_LARGE_ROTATOR_UP_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_STOPPER_DOWN_POSITION;
@@ -63,10 +64,10 @@ public class AllMotorAndServoTester extends OpMode {
     @Override
     public void init() {
 
-        motor1 = hardwareMap.dcMotor.get("intake") ;
+        motor1 = hardwareMap.dcMotor.get(HANG) ;
 
 
-        stopper = hardwareMap.servo.get("stopper");
+        stopper = hardwareMap.servo.get("outtakeStopper");
         intakeRotator = hardwareMap.servo.get("intakeRotator");
         claw = hardwareMap.servo.get("claw");
         wrist = hardwareMap.servo.get("outtakeRotator");
@@ -89,11 +90,13 @@ public class AllMotorAndServoTester extends OpMode {
             intakeRotator.setPosition(INTAKE_LARGE_ROTATOR_UP_POSITION);
         }
         if (gamepad1.y) {
-            new ElevatorIncrementCommand(elevatorSubsystem);
-
+            motor1.setPower(1);
         }
-        if (gamepad1.x) {
-            new ResetElevatorCommand(elevatorSubsystem);
+        else{
+            motor1.setPower(0);
+        }
+        if(gamepad1.x){
+            motor1.setPower(-1);
         }
 
 //        if (gamepad1.y) {
@@ -106,18 +109,10 @@ public class AllMotorAndServoTester extends OpMode {
 //            motor1.setPower(0);
 //        }
         if (gamepad1.dpad_down) {
-            leftClawRotator.setPosition(ARM_POS_SPECIMAN);
-            rightClawRotator.setPosition(1-ARM_POS_SPECIMAN); // reverse right
+
         }
         if (gamepad1.dpad_left) {
             wrist.setPosition(WRIST_POS_REST);
-        }
-
-        if (gamepad2.y) {
-            leftLinkage.setPosition(EXTENDO_LEFT_IN_POSITION);
-        }
-        if (gamepad2.x) {
-            rightLinkage.setPosition(EXTENDO_RIGHT_IN_POSITION);
         }
 
     }

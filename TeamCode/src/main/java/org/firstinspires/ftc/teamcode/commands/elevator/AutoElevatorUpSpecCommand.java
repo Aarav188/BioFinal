@@ -19,7 +19,7 @@ public class AutoElevatorUpSpecCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        elevatorSubsystem.setTargetPosition(ElevatorHeights.SPECDROP);
+        elevatorSubsystem.setTargetPosition(ElevatorHeights.SPEC);
     }
 
     @Override

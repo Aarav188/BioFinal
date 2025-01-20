@@ -22,7 +22,7 @@ public class SpecWristPosPickup implements Action {
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        outtakeClawSubsystem.setWristReset();
+        outtakeClawSubsystem.setWristSpecimanPickup();
         outtakeClawSubsystem.openClaw();
         return false;
     }

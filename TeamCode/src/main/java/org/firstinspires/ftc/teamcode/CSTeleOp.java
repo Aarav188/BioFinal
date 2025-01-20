@@ -14,7 +14,6 @@ import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorSpecDropComm
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpHighCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpMiddleCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorUpSpecCommand;
-import org.firstinspires.ftc.teamcode.commands.elevator.HangKill;
 import org.firstinspires.ftc.teamcode.commands.elevator.MaintainPosition;
 import org.firstinspires.ftc.teamcode.commands.extendo.ExtendoOut;
 import org.firstinspires.ftc.teamcode.commands.extendo.ExtendoReset;
@@ -84,14 +83,15 @@ public class CSTeleOp extends BaseOpMode {
                                         new DepoWristReset(outtakeClawSubsystem).withTimeout(2000),
                                         new DepoArmReset(outtakePivotSubsystem).withTimeout(2000)
                                 ),
+                                new WaitCommand(500),
                                 new AutoElevatorDownCommand(elevatorSubsystem)
 
                         )
                 );
 
-        new GamepadButton(driverPad, GamepadKeys.Button.Y).whenPressed(
-                new HangKill(hangSubsystem)
-        );
+//        new GamepadButton(driverPad, GamepadKeys.Button.Y).whenPressed(
+//                new HangKill(hangSubsystem)
+//        );
 
         new GamepadTrigger(driverPad, GamepadKeys.Trigger.RIGHT_TRIGGER)
                 .whenPressed(
@@ -181,7 +181,7 @@ public class CSTeleOp extends BaseOpMode {
         new GamepadButton(driverPad, GamepadKeys.Button.DPAD_UP).whenPressed(
                 new SequentialCommandGroup(
                         new AutoElevatorUpSpecCommand(elevatorSubsystem),
-                        new SpecDropOffFromFront(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100),
+                        new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100),
                         new MaintainPosition(elevatorSubsystem)
                 )
         );
@@ -189,8 +189,8 @@ public class CSTeleOp extends BaseOpMode {
         // spec drop from back
         new GamepadButton(driverPad, GamepadKeys.Button.DPAD_DOWN).whenPressed(
                 new SequentialCommandGroup(
-                        new AutoElevatorUpHighCommand(elevatorSubsystem).withTimeout(200),
-                        new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem),
+                        new AutoElevatorSpecDropCommand(elevatorSubsystem),
+                        new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100),
                         new MaintainPosition(elevatorSubsystem)
                 )
         );

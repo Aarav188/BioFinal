@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.commands.elevator;
 
 
 
-import static org.firstinspires.ftc.teamcode.configs.RobotConfig.UNHANGPOS;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.HANGPOS;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,28 +12,31 @@ import org.firstinspires.ftc.teamcode.bio.HangSubsystem;
 
 public class HangReset extends CommandBase {
     protected final HangSubsystem hangSubsystem;
-    ElapsedTime timer = new ElapsedTime();
+    double timer;
 
     public HangReset(HangSubsystem hangSubsystem) {
         this.hangSubsystem = hangSubsystem;
+        this.timer = System.currentTimeMillis();
         addRequirements(hangSubsystem);
     }
 
-    public void initialize(){
-        hangSubsystem.hang(UNHANGPOS);
+    @Override
+    public void initialize() {
+        hangSubsystem.setElevationMotorTargetPosition(0);
+
     }
+
     @Override
     public void execute() {
-        timer.reset();
-        hangSubsystem.resetHangPostion();
+        hangSubsystem.updateElevationPosition();
     }
 
     @Override
     public void end(boolean interrupted) {
-        hangSubsystem.killPower();
+        hangSubsystem.stop();
     }
     public boolean isFinished() {
-        if (timer.milliseconds() > 2000) {
+        if (timer > 42000) {
             return true;
         }
         return hangSubsystem.isAtTarget();
