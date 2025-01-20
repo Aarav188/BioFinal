@@ -8,6 +8,8 @@ import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.commands.outtakeRotator.OuttakeLockSample;
+import org.firstinspires.ftc.teamcode.commands.outtakeRotator.OuttakeUnlockSample;
 import org.firstinspires.ftc.teamcode.commands.drivetrain.RobotCentricDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorDownCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorSpecDropCommand;
@@ -52,6 +54,7 @@ public class CSTeleOp extends BaseOpMode {
                                 new ExtendoOut(extendoSubsystem).withTimeout(150),
                                 new IntakeServosToGround(intakeSubsystem).withTimeout(100),
                                 new IntakeStopperDown(intakeSubsystem).withTimeout(100),
+                                new OuttakeUnlockSample(outtakeClawSubsystem).withTimeout(100),
                                 new Intake(intakeSubsystem)
 
                         )
@@ -68,6 +71,7 @@ public class CSTeleOp extends BaseOpMode {
                                 new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
                                 new WaitCommand(400),
                                 new IntakeStopperUp(intakeSubsystem).withTimeout(400),
+                                new OuttakeLockSample(outtakeClawSubsystem).withTimeout(100),
                                 new StopIntake(intakeSubsystem).withTimeout(10)
 
 
@@ -84,6 +88,7 @@ public class CSTeleOp extends BaseOpMode {
                                         new DepoArmReset(outtakePivotSubsystem).withTimeout(2000)
                                 ),
                                 new WaitCommand(500),
+                                new OuttakeUnlockSample(outtakeClawSubsystem).withTimeout(100),
                                 new AutoElevatorDownCommand(elevatorSubsystem)
 
                         )
@@ -128,20 +133,24 @@ public class CSTeleOp extends BaseOpMode {
         // boolean clawOpen = true; //TODO change this depending on what harish wants, itll prob change ill find a better way to do this, or ask if he wants a hold and release for claw
         new GamepadButton(driverPad, GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(
-                        new ParallelCommandGroup(
+                        new SequentialCommandGroup(
                                 new ClawClose(outtakeClawSubsystem).withTimeout(100),
+                        new ParallelCommandGroup(
+                                new OuttakeLockSample(outtakeClawSubsystem).withTimeout(100),
                                 new MaintainPosition(elevatorSubsystem)
-                        )
+                        ))
                 );
         //   clawOpen = false;
 
         // clawOpen = true;
         new GamepadButton(driverPad, GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(
-                        new ParallelCommandGroup(
+                        new SequentialCommandGroup(
                                 new ClawOpen(outtakeClawSubsystem).withTimeout(100),
+                        new ParallelCommandGroup(
+                                new OuttakeUnlockSample(outtakeClawSubsystem).withTimeout(100),
                                 new MaintainPosition(elevatorSubsystem)
-                        )
+                        ))
                 );
 
         new GamepadButton(driverPad, GamepadKeys.Button.RIGHT_STICK_BUTTON)
