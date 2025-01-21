@@ -8,9 +8,11 @@ import org.firstinspires.ftc.teamcode.bio.ElevatorSubsystem;
 public class ElevatorIncrementCommand extends CommandBase{
 
     protected final ElevatorSubsystem elevatorSubsystem;
+    protected final int increment;
 
-    public ElevatorIncrementCommand(ElevatorSubsystem elevatorSubsystem) {
+    public ElevatorIncrementCommand(ElevatorSubsystem elevatorSubsystem, int increment) {
         this.elevatorSubsystem = elevatorSubsystem;
+        this.increment = increment;
         addRequirements(elevatorSubsystem);
     }
 
@@ -18,12 +20,13 @@ public class ElevatorIncrementCommand extends CommandBase{
 
     @Override
     public void initialize() {
-        elevatorSubsystem.specDropOff();
+            elevatorSubsystem.elevatorIncrement(increment);
+
     }
 
     @Override
     public void execute() {
-        elevatorSubsystem.updateElevationPosition();
+        elevatorSubsystem.updateElevationIncrementPosition();
 
     }
 
@@ -34,6 +37,6 @@ public class ElevatorIncrementCommand extends CommandBase{
 
     @Override
     public boolean isFinished() {
-        return elevatorSubsystem.isAtIncrementTarget(elevatorSubsystem.getPosition() - 100);
+        return elevatorSubsystem.isAtIncrementTarget(elevatorSubsystem.getPosition() - increment);
     }
 }

@@ -45,6 +45,9 @@ public class ElevatorSubsystem extends TacoSubsystem {
         resetEncoder();
 
     }
+    public void elevatorIncrement(int increment){
+        elevationMotors.setTargetPosition(rightElevationMotor.encoder.getPosition() + increment);
+    }
 
 
     public void setSlidesPower(){
@@ -76,6 +79,9 @@ public class ElevatorSubsystem extends TacoSubsystem {
     public void updateElevationPosition(){
         elevationMotors.set(ELEVATOR_MOTOR_POWER);
     }
+    public void updateElevationIncrementPosition(){
+        elevationMotors.set(1);
+    }
 
     public void updateElevatorDownPostion(){
         elevationMotors.set(0.4);
@@ -96,6 +102,8 @@ public class ElevatorSubsystem extends TacoSubsystem {
         }
         return false;
     }
+
+
 
     public int getPosition() {
         return rightElevationMotor.getCurrentPosition();

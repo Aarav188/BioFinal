@@ -8,7 +8,9 @@ import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.commands.elevator.ElevatorIncrementCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.HangCommand;
+import org.firstinspires.ftc.teamcode.commands.elevator.HangIncrementCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.HangReset;
 import org.firstinspires.ftc.teamcode.commands.outtakeRotator.OuttakeLockSample;
 import org.firstinspires.ftc.teamcode.commands.outtakeRotator.OuttakeUnlockSample;
@@ -41,7 +43,7 @@ import org.firstinspires.ftc.teamcode.commands.outtakeRotator.SpecWristPosPickup
 
 
 @TeleOp(group = "Competition")
-public class CSTeleOp extends BaseOpMode {
+public class TestingAndTuning extends BaseOpMode {
     @Override
     public void initialize() {
         super.initialize();
@@ -147,10 +149,10 @@ public class CSTeleOp extends BaseOpMode {
                 .whenPressed(
                         new SequentialCommandGroup(
                                 new ClawOpen(outtakeClawSubsystem).withTimeout(100),
-                        new ParallelCommandGroup(
-                                new OuttakeUnlockSample(outtakeClawSubsystem).withTimeout(100),
-                                new MaintainPosition(elevatorSubsystem)
-                        ))
+                                new ParallelCommandGroup(
+                                        new OuttakeUnlockSample(outtakeClawSubsystem).withTimeout(100),
+                                        new MaintainPosition(elevatorSubsystem)
+                                ))
                 );
         new GamepadButton(driverPad, GamepadKeys.Button.RIGHT_STICK_BUTTON)
                 .whenPressed(
@@ -165,43 +167,24 @@ public class CSTeleOp extends BaseOpMode {
         // spec pickup
         new GamepadButton(driverPad, GamepadKeys.Button.DPAD_RIGHT).
                 whenPressed(
-                        new SequentialCommandGroup(
-                                new SpecArmPosPickup(outtakePivotSubsystem).withTimeout(400),
-                                new SpecWristPosPickup(outtakeClawSubsystem).withTimeout(200)
-
-                        )
+                        new ElevatorIncrementCommand(elevatorSubsystem, 100)
                 );
-
-        // sample drop
-        new GamepadButton(driverPad, GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(new SequentialCommandGroup(
-                                new ParallelCommandGroup(
-                                        new AutoElevatorUpHighCommand(elevatorSubsystem),
-                                        new ArmDropHighBucket(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(300)
-                                ),
-                                new MaintainPosition(elevatorSubsystem)
-                        )
+        new GamepadButton(driverPad, GamepadKeys.Button.DPAD_LEFT).
+                whenPressed(
+                        new ElevatorIncrementCommand(elevatorSubsystem, -100)
                 );
-
-
-
-        // spec drop from back
-        new GamepadButton(driverPad, GamepadKeys.Button.DPAD_UP).whenPressed(
-                new SequentialCommandGroup(
-                        new AutoElevatorUpSpecCommand(elevatorSubsystem),
-                        new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100),
-                        new MaintainPosition(elevatorSubsystem)
-                )
-        );
-
-        // spec drop from back
-        new GamepadButton(driverPad, GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                new SequentialCommandGroup(
-                        new AutoElevatorSpecDropCommand(elevatorSubsystem),
-                        new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100),
-                        new MaintainPosition(elevatorSubsystem)
-                )
-        );
+        new GamepadButton(driverPad, GamepadKeys.Button.DPAD_UP).
+                whenPressed(
+                        new HangIncrementCommand(hangSubsystem, 1000)
+                );
+        new GamepadButton(driverPad, GamepadKeys.Button.DPAD_DOWN).
+                whenPressed(
+                        new HangIncrementCommand(hangSubsystem, -1000)
+                );
+        new GamepadButton(driverPad, GamepadKeys.Button.BACK)
+                .whenPressed(
+                        new HangIncrementCommand(hangSubsystem, 5000)
+                );
 
 
 
