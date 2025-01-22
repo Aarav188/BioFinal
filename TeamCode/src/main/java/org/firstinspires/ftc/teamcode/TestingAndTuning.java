@@ -89,14 +89,25 @@ public class TestingAndTuning extends BaseOpMode {
                         new SequentialCommandGroup(
                                 new ParallelCommandGroup(
                                         new DepoWristReset(outtakeClawSubsystem).withTimeout(2000),
-                                        new DepoArmReset(outtakePivotSubsystem).withTimeout(2000),
-                                        new OuttakeUnlockSample(outtakeClawSubsystem).withTimeout(100)
+                                        new DepoArmReset(outtakePivotSubsystem).withTimeout(2000)
+
                                 ),
+                                new OuttakeUnlockSample(outtakeClawSubsystem).withTimeout(100),
                                 new WaitCommand(500),
                                 new AutoElevatorDownCommand(elevatorSubsystem)
 
                         )
                 );
+
+        new GamepadButton(operatorPad, GamepadKeys.Button.B).whenPressed(
+                new OuttakeUnlockSample(outtakeClawSubsystem).withTimeout(100)
+        );
+
+        new GamepadButton(operatorPad, GamepadKeys.Button.A).whenPressed(
+                new OuttakeLockSample(outtakeClawSubsystem).withTimeout(100)
+        );
+
+
 
         new GamepadButton(driverPad, GamepadKeys.Button.Y).toggleWhenPressed(
                 new HangCommand(hangSubsystem), new HangReset(hangSubsystem)

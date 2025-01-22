@@ -91,10 +91,10 @@ public abstract class BaseOpMode extends CommandOpMode {
         register(mecanumDriveSubsystem,  elevatorSubsystem, intakeSubsystem, outtakeDropperSubsystem, outtakePivotSubsystem, outtakeClawSubsystem, extendoSubsystem, hangSubsystem);
 
         intakeSubsystem.depoPosition();
-        outtakePivotSubsystem.resetArm();
-        outtakeClawSubsystem.setWristReset();
-        outtakeClawSubsystem.closeClaw();
-        extendoSubsystem.reset();
-        intakeSubsystem.lockSample();
+//        outtakePivotSubsystem.resetArm();
+//        outtakeClawSubsystem.setWristReset();
+//        outtakeClawSubsystem.closeClaw();
+//        extendoSubsystem.reset();
+        outtakeClawSubsystem.lockSample();
     }
 }

@@ -87,9 +87,9 @@ public class CSTeleOp extends BaseOpMode {
                         new SequentialCommandGroup(
                                 new ParallelCommandGroup(
                                         new DepoWristReset(outtakeClawSubsystem).withTimeout(2000),
-                                        new DepoArmReset(outtakePivotSubsystem).withTimeout(2000),
-                                        new OuttakeUnlockSample(outtakeClawSubsystem).withTimeout(100)
+                                        new DepoArmReset(outtakePivotSubsystem).withTimeout(2000)
                                 ),
+                                new OuttakeUnlockSample(outtakeClawSubsystem).withTimeout(100),
                                 new WaitCommand(500),
                                 new AutoElevatorDownCommand(elevatorSubsystem)
 

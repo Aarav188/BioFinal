@@ -23,9 +23,13 @@ public class AutoElevatorUpHighCommand implements Action {
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        if(elevatorSubsystem.targetPosition() != ElevatorHeights.HIGHDROP)
+        if(elevatorSubsystem.targetPosition() != ElevatorHeights.HIGHDROP){
             elevatorSubsystem.setTargetPosition(ElevatorHeights.HIGHDROP);
+            timer = System.currentTimeMillis();
+        }
         elevatorSubsystem.updateElevationPosition();
-        return !elevatorSubsystem.isAtTarget() || System.currentTimeMillis() - timer > 2000;
+
+
+        return System.currentTimeMillis() - timer < 3000 && !elevatorSubsystem.isAtTarget();
     }
 }
