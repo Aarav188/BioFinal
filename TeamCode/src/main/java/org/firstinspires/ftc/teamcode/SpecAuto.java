@@ -31,6 +31,7 @@ import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.DepoWr
 import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.OuttakeLockSample;
 import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.OuttakeUnlockSample;
 import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.SpecArmPosPickup;
+import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.SpecDropOffFromFront;
 import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.SpecWristPosPickup;
 import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.SpecDropOffFromBack;
 import org.firstinspires.ftc.teamcode.commands.elevator.AutoElevatorSpecDropCommand;
@@ -68,20 +69,17 @@ public class SpecAuto extends BaseOpMode{
                 .splineToLinearHeading(new Pose2d(46, -50, Math.toRadians(-70)), Math.toRadians(70)).afterDisp(5, new SequentialAction(new Intake(intakeSubsystem)))
                 .splineToLinearHeading(new Pose2d(48, -46, Math.toRadians(50)), Math.toRadians(50))
                 .splineToLinearHeading(new Pose2d(54, -50, Math.toRadians(50)), Math.toRadians(50)).afterDisp(5, new ParallelAction(new IntakeServoDeposit(intakeSubsystem), new ExtendoReset(extendoSubsystem), new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem))).afterDisp(15, new SequentialAction(new IntakeStopperUp(intakeSubsystem))).afterDisp(20, new OuttakeLockSample(outtakeClawSubsystem)).afterDisp(23, new SequentialAction(new SpecArmPosPickup(outtakePivotSubsystem))).afterDisp(30, new SpecWristPosPickup(outtakeClawSubsystem))//, new SpecWristPosPickup(outtakeClawSubsystem)))
-                .splineToLinearHeading(new Pose2d(45, -62, Math.toRadians(100)), Math.toRadians(-80))
+                .splineToLinearHeading(new Pose2d(45, -62, Math.toRadians(100)), Math.toRadians(-100)).afterDisp(0, new SequentialAction(new ClawClose(outtakeClawSubsystem), new OuttakeUnlockSample(outtakeClawSubsystem)))
                 .waitSeconds(1)
-                .afterDisp(0, new OuttakeUnlockSample(outtakeClawSubsystem))
-               .splineToLinearHeading(new Pose2d(50, -74, Math.toRadians(100)), Math.toRadians(-80)).afterDisp(0, new ClawClose(outtakeClawSubsystem)).waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(12.5, -35, Math.toRadians(-90)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(12.5, -30, Math.toRadians(-90)), Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(45, -62, Math.toRadians(100)), Math.toRadians(-80))
+                .setTangent(Math.toRadians(90))
+                .afterDisp(0, new SequentialAction(new AutoElevatorDeliverCommand(elevatorSubsystem), new SpecDropOffFromFront(outtakePivotSubsystem, outtakeClawSubsystem)))
+                .splineToLinearHeading(new Pose2d(55, -74, Math.toRadians(100)), Math.toRadians(-100))
+                .splineToLinearHeading(new Pose2d(12.5, -30, Math.toRadians(100)), Math.toRadians(-100))
                 .waitSeconds(1)
+                .setTangent(Math.toRadians(90))
                 .afterDisp(0, new OuttakeUnlockSample(outtakeClawSubsystem))
-                .splineToLinearHeading(new Pose2d(50, -74, Math.toRadians(100)), Math.toRadians(-80)).afterDisp(0, new ClawClose(outtakeClawSubsystem)).waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(12.5, -35, Math.toRadians(-90)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(12.5, -30, Math.toRadians(-90)), Math.toRadians(-90))
-
-                ;
+                .splineToLinearHeading(new Pose2d(55, -74, Math.toRadians(100)), Math.toRadians(-100)).afterDisp(0, new ClawClose(outtakeClawSubsystem)).waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(12.5, -35, Math.toRadians(100)), Math.toRadians(100));
         TrajectoryActionBuilder moveToSecondGroundSpecAndDrop = moveToFirstGroundSpecAndDrop.endTrajectory().fresh();
 
         //actions on init put in here

@@ -70,6 +70,9 @@ public class ElevatorSubsystem extends TacoSubsystem {
         } else {
             elevationMotors.set(ELEVATOR_MOTOR_POWER);
         }
+        dashboardTelemetry.addData("Elevator position: ", getPosition());
+        dashboardTelemetry.addData("Left Elevator position: ", getLeftPosition());
+        dashboardTelemetry.update();
 
 
     }
@@ -78,25 +81,40 @@ public class ElevatorSubsystem extends TacoSubsystem {
     }
     public void updateElevationPosition(){
         elevationMotors.set(ELEVATOR_MOTOR_POWER);
+        dashboardTelemetry.addData("Elevator position Right: ", getPosition());
+        dashboardTelemetry.addData("Elevator position: ", getLeftPosition());
+        dashboardTelemetry.update();
     }
     public void updateElevationIncrementPosition(){
         elevationMotors.set(1);
+        dashboardTelemetry.addData("Elevator position: ", getPosition());
+        dashboardTelemetry.addData("Elevator position Left: ", getLeftPosition());
+        dashboardTelemetry.update();
     }
 
     public void updateElevatorDownPostion(){
         elevationMotors.set(0.4);
+        dashboardTelemetry.addData("Elevator Right position: ", getPosition());
+        dashboardTelemetry.addData("Elevator position: ", getLeftPosition());
+        dashboardTelemetry.update();
     }
 
     /**
      * decrease that 20 if pid is good, increase if bad, essentially the margin of error
      */
     public boolean isAtTarget() {
+        dashboardTelemetry.addData("Elevator position: ", getPosition());
+        dashboardTelemetry.addData("Elevator Left position: ", getLeftPosition());
+        dashboardTelemetry.update();
         if(Math.abs(getPosition() - elevatorHeights.getMotorPosition()) < 50){
             return true;
         }
         return false;
     }
     public boolean isAtIncrementTarget(int target){
+        dashboardTelemetry.addData("Elevator Right position: ", getPosition());
+        dashboardTelemetry.addData("Elevator Left position: ", getLeftPosition());
+        dashboardTelemetry.update();
         if(Math.abs(getPosition() - target) < 50){
             return true;
         }
@@ -107,6 +125,9 @@ public class ElevatorSubsystem extends TacoSubsystem {
 
     public int getPosition() {
         return rightElevationMotor.getCurrentPosition();
+    }
+    public int getLeftPosition(){
+        return leftElevationMotor.getCurrentPosition();
     }
 
     public ElevatorHeights targetPosition(){
@@ -139,14 +160,8 @@ public class ElevatorSubsystem extends TacoSubsystem {
         elevationMotors.set(0.2);
     }
     public void setTargetPosition(ElevatorHeights elevatorHeights) {
-        if(this.elevatorHeights != null & this.elevatorHeights == elevatorHeights){
-            this.elevatorHeights = ElevatorHeights.RESET;
-            targetHeight = ElevatorHeights.RESET;
-        }
-        else {
-            this.elevatorHeights = elevatorHeights;
-            targetHeight = elevatorHeights;
-        }
+        this.elevatorHeights = elevatorHeights;
+        targetHeight = elevatorHeights;
         setElevationMotorTargetPosition(elevatorHeights.getMotorPosition());
 
     }

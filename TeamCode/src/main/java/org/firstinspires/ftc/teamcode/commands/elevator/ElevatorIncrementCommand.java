@@ -20,7 +20,7 @@ public class ElevatorIncrementCommand extends CommandBase{
 
     @Override
     public void initialize() {
-            elevatorSubsystem.elevatorIncrement(increment);
+            elevatorSubsystem.elevatorIncrement(-increment);
 
     }
 

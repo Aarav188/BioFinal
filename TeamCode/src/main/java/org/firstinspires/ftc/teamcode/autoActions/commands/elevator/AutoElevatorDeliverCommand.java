@@ -22,7 +22,7 @@ public class AutoElevatorDeliverCommand implements Action {
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 
-        if(elevatorSubsystem.targetPosition() != ElevatorHeights.SPECDROP){
+        if (elevatorSubsystem.targetPosition() != ElevatorHeights.SPECDROP) {
             elevatorSubsystem.setTargetPosition(ElevatorHeights.SPECDROP);
             timer = System.currentTimeMillis();
         }
@@ -31,4 +31,6 @@ public class AutoElevatorDeliverCommand implements Action {
 
         return System.currentTimeMillis() - timer < 5000 && !elevatorSubsystem.isAtTarget();
     }
+
+
 }

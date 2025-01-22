@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.bio.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.bio.OuttakeArmSubsystem;
 import org.firstinspires.ftc.teamcode.bio.OuttakeClawSubsystem;
 
-public abstract class BaseOpMode extends CommandOpMode {
+public abstract class BaseAutoOpMode extends CommandOpMode {
 
 
     protected FtcDashboard dashboard = FtcDashboard.getInstance();
