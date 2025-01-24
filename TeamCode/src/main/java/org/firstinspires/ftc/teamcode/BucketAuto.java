@@ -50,7 +50,7 @@ public class BucketAuto extends BaseOpMode{
         TrajectoryActionBuilder initialSpecDrop = drive.actionBuilder(startingPose)
                 .afterDisp(10, new ParallelAction(new AutoElevatorUpHighCommand(elevatorSubsystem), new ArmDropHighBucket(outtakePivotSubsystem, outtakeClawSubsystem)))
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-60,-55, Math.toRadians(65)), Math.toRadians(180)) //drop first sample
+                .splineToLinearHeading(new Pose2d(-60,-54, Math.toRadians(65)), Math.toRadians(180)) //drop first sample
                 .stopAndAdd(new OuttakeUnlockSample(outtakeClawSubsystem));
 
         TrajectoryActionBuilder moveToFirstGroundSpecAndDrop = initialSpecDrop.endTrajectory().fresh()
@@ -58,9 +58,9 @@ public class BucketAuto extends BaseOpMode{
                 .afterDisp(3, new ParallelAction(new DepoArmReset(outtakePivotSubsystem), new DepoWristReset(outtakeClawSubsystem), new ExtendoOut(extendoSubsystem)))
                 .afterDisp(10, new ParallelAction(new AutoElevatorDownCommand(elevatorSubsystem), new IntakeServosToGround(intakeSubsystem)))
                 .afterDisp(15, new Intake(intakeSubsystem))
-                .splineToLinearHeading(new Pose2d(-46, -40, Math.toRadians(70)), Math.toRadians(60)) //pickup second sample
+                .splineToLinearHeading(new Pose2d(-46, -53, Math.toRadians(80)), Math.toRadians(80)) //pickup second sample
 
-                .stopAndAdd(new ParallelAction(new ExtendoReset(extendoSubsystem), new IntakeServoDeposit(intakeSubsystem)))
+              .stopAndAdd(new ParallelAction(new ExtendoReset(extendoSubsystem), new IntakeServoDeposit(intakeSubsystem)))
                 .waitSeconds(0.5)
                 .stopAndAdd(new IntakeStopperUp(intakeSubsystem))
                 .waitSeconds(0.5)
@@ -91,11 +91,11 @@ public class BucketAuto extends BaseOpMode{
                 .splineToLinearHeading(new Pose2d(-53,-55, Math.toRadians(65)), Math.toRadians(180)) //drop 4th sample
                 .afterDisp(0, new ParallelAction(new DepoArmReset(outtakePivotSubsystem), new DepoWristReset(outtakeClawSubsystem), new ExtendoOut(extendoSubsystem)))
                 .afterDisp(5, new ParallelAction(new AutoElevatorDownCommand(elevatorSubsystem)))
-
+//
 
 
                 ;
-        TrajectoryActionBuilder moveToSecondGroundSpecAndDrop = moveToFirstGroundSpecAndDrop.endTrajectory().fresh();
+   //     TrajectoryActionBuilder moveToSecondGroundSpecAndDrop = moveToFirstGroundSpecAndDrop.endTrajectory().fresh();
 
         //actions on init put in here
         Actions.runBlocking(
