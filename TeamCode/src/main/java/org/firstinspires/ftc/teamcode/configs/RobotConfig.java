@@ -19,7 +19,7 @@ public class RobotConfig {
     //extendo subsystem
     public static double EXTENDO_LEFT_MAX_OUT_POSITION = 0.03;
     public static double EXTENDO_RIGHT_MAX_OUT_POSITION = 0.95;
-    public static double EXTENDO_LEFT_IN_POSITION = 0.36;
+    public static double EXTENDO_LEFT_IN_POSITION = 0.26;
     public static double EXTENDO_RIGHT_IN_POSITION = 0.50;
 
     // Intake Rotator Subsystem
@@ -115,7 +115,7 @@ public class RobotConfig {
     public static double WRIST_POS_SPECIMAN_FRONT = 0.6;
     public static double WRIST_POS_BUCKET_DROP = 0;
 
-    public static double ARM_POS_SPECIMAN = 0.07;
+    public static double ARM_POS_SPECIMAN = 0.1;
     public static double ARM_POS_BUCKET_DROP = 0;
     public static double ARM_POS_BUCKET_DROP_HIGH = 0;
     public static double WRIST_POS_REST = 0.58;
@@ -164,7 +164,7 @@ public class RobotConfig {
 
     public static  double ELEVATOR_MOTOR_KP = 0.01;
     public static  double ELEVATOR_MOTOR_TOLERANCE = 5;
-    public static  double ELEVATOR_MOTOR_POWER = 0.8;
+    public static  double ELEVATOR_MOTOR_POWER = 1;
     public static double ELEVATOR_MOTOR_POWER_DOWN=0.00005;
 
 
@@ -175,8 +175,8 @@ public class RobotConfig {
     public static  int ELEVATOR_SPEC = -700; //80
     public static  int ELEVATOR_MIDDROP = -900;
 
-    public static  int ELEVATOR_SPECDROP = -600; //80
-    public static  int ELEVATOR_HIGHDROP = -1200; // -725
+    public static  int ELEVATOR_SPECDROP = -850; //80
+    public static  int ELEVATOR_HIGHDROP = -1175; // -725
     public static  int ELEVATOR_MAXDROP = -1100;
     public static  int ELEVATOR_PIXELSTACKFIFTH = 250; // -40
     public static  int ELEVATOR_PIXELSTACKFOURTH = 210;

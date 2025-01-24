@@ -24,7 +24,7 @@ public class ArmDropHighBucket implements Action {
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
         outtakeArmSubsystem.bucketDropHigh();
-        outtakeClawSubsystem.setWristSpecimanBack();
+        outtakeClawSubsystem.bucketDrop();
         return false;
     }
 }

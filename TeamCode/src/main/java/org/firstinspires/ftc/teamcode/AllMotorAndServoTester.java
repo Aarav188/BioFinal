@@ -84,7 +84,8 @@ public class AllMotorAndServoTester extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.a) {
-            stopper.setPosition(INTAKE_STOPPER_DOWN_POSITION);
+            leftLinkage.setPosition(EXTENDO_LEFT_IN_POSITION);
+            rightLinkage.setPosition(EXTENDO_RIGHT_IN_POSITION);
         }
         if (gamepad1.b) { // 0.27 depo reset
             intakeRotator.setPosition(INTAKE_LARGE_ROTATOR_UP_POSITION);

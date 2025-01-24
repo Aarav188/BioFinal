@@ -62,17 +62,6 @@ public class CSTeleOp extends BaseOpMode {
 
                         )
                 );
-        telemetry.addData("Extendo",1);
-        telemetry.update();
-        telemetry.addData("Left Motor Encoder", elevatorSubsystem.getPosition());
-        telemetry.update();
-        schedule(new WaitCommand(100).andThen(() -> {
-            // Replace this with the actual method from your elevator subsystem to get encoder values
-            double elevatorPosition = elevatorSubsystem.getCurrentPosition();
-            telemetry.addData("Elevator Encoder", elevatorPosition);
-            telemetry.update();
-            return java.util.Collections.emptySet();
-        }));
 
         new GamepadButton(driverPad, GamepadKeys.Button.B)
                 .whenPressed(
@@ -89,8 +78,6 @@ public class CSTeleOp extends BaseOpMode {
 
                         )
                 );
-        telemetry.addData("Extendo",0);
-        telemetry.update();
 
         new GamepadButton(driverPad, GamepadKeys.Button.X)
                 .whenPressed(
@@ -110,9 +97,6 @@ public class CSTeleOp extends BaseOpMode {
                 new HangCommand(hangSubsystem), new HangReset(hangSubsystem)
         );
 
-        new GamepadButton(driverPad, GamepadKeys.Button.BACK).whenPressed(
-                new OuttakeUnlockSample(outtakeClawSubsystem).withTimeout(100)
-        );
         new GamepadTrigger(driverPad, GamepadKeys.Trigger.RIGHT_TRIGGER)
                 .whenPressed(
                         new SequentialCommandGroup(
@@ -162,15 +146,7 @@ public class CSTeleOp extends BaseOpMode {
                                 new MaintainPosition(elevatorSubsystem)
                         ))
                 );
-        new GamepadButton(driverPad, GamepadKeys.Button.RIGHT_STICK_BUTTON)
-                .whenPressed(
-                        new SequentialCommandGroup(
-                                new AutoElevatorUpSpecCommand(elevatorSubsystem).withTimeout(100),
-                                new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200),
-                                new MaintainPosition(elevatorSubsystem)
-                        )
 
-                );
 
         // spec pickup
         new GamepadButton(driverPad, GamepadKeys.Button.DPAD_RIGHT).
@@ -198,7 +174,11 @@ public class CSTeleOp extends BaseOpMode {
         // spec drop from back
         new GamepadButton(driverPad, GamepadKeys.Button.DPAD_UP).whenPressed(
                 new SequentialCommandGroup(
-                        new ElevatorIncrementCommand(elevatorSubsystem, -400)
+                        new ParallelCommandGroup(
+                                new ElevatorIncrementCommand(elevatorSubsystem, -400),
+                                new SpecDropOffFromFront(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200)
+                        )
+
                 )
         );
 

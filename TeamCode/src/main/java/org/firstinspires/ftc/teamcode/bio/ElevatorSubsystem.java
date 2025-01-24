@@ -157,7 +157,7 @@ public class ElevatorSubsystem extends TacoSubsystem {
         }
     }
     public void maintainPosition(){
-        elevationMotors.set(0.2);
+        elevationMotors.set(0.5);
     }
     public void setTargetPosition(ElevatorHeights elevatorHeights) {
         this.elevatorHeights = elevatorHeights;

@@ -25,7 +25,7 @@ public class AutoElevatorSpecDropCommand extends CommandBase {
     @Override
     public void execute() {
         timer.reset();
-        elevatorSubsystem.updateElevationPosition();
+        elevatorSubsystem.updateElevationIncrementPosition();
     }
     @Override
     public void end(boolean interrupted) {

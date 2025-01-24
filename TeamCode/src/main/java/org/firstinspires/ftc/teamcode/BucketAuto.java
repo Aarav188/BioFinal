@@ -48,25 +48,53 @@ public class BucketAuto extends BaseOpMode{
         super.initialize();
         MecanumDrive drive = new MecanumDrive(hardwareMap, startingPose);
         TrajectoryActionBuilder initialSpecDrop = drive.actionBuilder(startingPose)
-                .afterDisp(10, new SequentialAction(
-                        new AutoElevatorUpHighCommand(elevatorSubsystem),
-                        new ArmDropHighBucket(outtakePivotSubsystem, outtakeClawSubsystem)))
+                .afterDisp(10, new ParallelAction(new AutoElevatorUpHighCommand(elevatorSubsystem), new ArmDropHighBucket(outtakePivotSubsystem, outtakeClawSubsystem)))
                 .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-63,-55, Math.toRadians(65)), Math.toRadians(180)) //drop first sample
-                .waitSeconds(1.5);
+                .splineToLinearHeading(new Pose2d(-60,-55, Math.toRadians(65)), Math.toRadians(180)) //drop first sample
+                .stopAndAdd(new OuttakeUnlockSample(outtakeClawSubsystem));
 
         TrajectoryActionBuilder moveToFirstGroundSpecAndDrop = initialSpecDrop.endTrajectory().fresh()
                 .setTangent(Math.toRadians(50))
-                .splineToLinearHeading(new Pose2d(-53, -40, Math.toRadians(70)), Math.toRadians(60)) //pickup second sample
+                .afterDisp(3, new ParallelAction(new DepoArmReset(outtakePivotSubsystem), new DepoWristReset(outtakeClawSubsystem), new ExtendoOut(extendoSubsystem)))
+                .afterDisp(10, new ParallelAction(new AutoElevatorDownCommand(elevatorSubsystem), new IntakeServosToGround(intakeSubsystem)))
+                .afterDisp(15, new Intake(intakeSubsystem))
+                .splineToLinearHeading(new Pose2d(-46, -40, Math.toRadians(70)), Math.toRadians(60)) //pickup second sample
+
+                .stopAndAdd(new ParallelAction(new ExtendoReset(extendoSubsystem), new IntakeServoDeposit(intakeSubsystem)))
+                .waitSeconds(0.5)
+                .stopAndAdd(new IntakeStopperUp(intakeSubsystem))
+                .waitSeconds(0.5)
+                .stopAndAdd(new ParallelAction(new OuttakeLockSample(outtakeClawSubsystem), new AutoElevatorUpHighCommand(elevatorSubsystem), new ArmDropHighBucket(outtakePivotSubsystem, outtakeClawSubsystem)))
                 .setTangent(Math.toRadians(-130))
-                .splineToLinearHeading(new Pose2d(-60,-55, Math.toRadians(65)), Math.toRadians(180)) //drop off second sample
+                .splineToLinearHeading(new Pose2d(-53,-55, Math.toRadians(65)), Math.toRadians(180)) //drop off second sample
                 .setTangent(45)
-                .splineToLinearHeading(new Pose2d(-57, -40, Math.toRadians(90)), Math.toRadians(45)) //pickup 3rd sample
+                .afterDisp(3, new ParallelAction(new DepoArmReset(outtakePivotSubsystem), new DepoWristReset(outtakeClawSubsystem), new ExtendoOut(extendoSubsystem)))
+                .afterDisp(10, new ParallelAction(new AutoElevatorDownCommand(elevatorSubsystem), new IntakeServosToGround(intakeSubsystem)))
+                .afterDisp(15, new Intake(intakeSubsystem))
+                .splineToLinearHeading(new Pose2d(-50, -40, Math.toRadians(90)), Math.toRadians(45)) //pickup 3rd sample
+
+                .stopAndAdd(new ParallelAction(new ExtendoReset(extendoSubsystem), new IntakeServoDeposit(intakeSubsystem)))
+                .waitSeconds(0.5)
+                .stopAndAdd(new IntakeStopperUp(intakeSubsystem))
+                .waitSeconds(0.5)
                 .setTangent(-90)
-                .splineToLinearHeading(new Pose2d(-60,-55, Math.toRadians(65)), Math.toRadians(180)) //drop 3rd sample
+                .stopAndAdd(new ParallelAction(new OuttakeLockSample(outtakeClawSubsystem), new AutoElevatorUpHighCommand(elevatorSubsystem), new ArmDropHighBucket(outtakePivotSubsystem, outtakeClawSubsystem)))
                 .setTangent(30)
-                .splineToLinearHeading(new Pose2d(-61, -40, Math.toRadians(90)), Math.toRadians(30)) //pickup 4th sample
-              ;
+                .afterDisp(3, new ParallelAction(new DepoArmReset(outtakePivotSubsystem), new DepoWristReset(outtakeClawSubsystem), new ExtendoOut(extendoSubsystem)))
+                .afterDisp(10, new ParallelAction(new AutoElevatorDownCommand(elevatorSubsystem), new IntakeServosToGround(intakeSubsystem)))
+                .afterDisp(15, new Intake(intakeSubsystem))
+                .splineToLinearHeading(new Pose2d(-54, -40, Math.toRadians(90)), Math.toRadians(30)) //pickup 4th sample
+                .setTangent(-60)
+                .afterDisp(0, new ParallelAction(new ExtendoReset(extendoSubsystem), new IntakeServoDeposit(intakeSubsystem)))
+                .afterDisp(5, new IntakeStopperUp(intakeSubsystem))
+                .afterDisp(6, new ParallelAction(new OuttakeLockSample(outtakeClawSubsystem), new AutoElevatorUpHighCommand(elevatorSubsystem), new ArmDropHighBucket(outtakePivotSubsystem, outtakeClawSubsystem)))
+                .splineToLinearHeading(new Pose2d(-53,-55, Math.toRadians(65)), Math.toRadians(180)) //drop 4th sample
+                .afterDisp(0, new ParallelAction(new DepoArmReset(outtakePivotSubsystem), new DepoWristReset(outtakeClawSubsystem), new ExtendoOut(extendoSubsystem)))
+                .afterDisp(5, new ParallelAction(new AutoElevatorDownCommand(elevatorSubsystem)))
+
+
+
+                ;
         TrajectoryActionBuilder moveToSecondGroundSpecAndDrop = moveToFirstGroundSpecAndDrop.endTrajectory().fresh();
 
         //actions on init put in here
