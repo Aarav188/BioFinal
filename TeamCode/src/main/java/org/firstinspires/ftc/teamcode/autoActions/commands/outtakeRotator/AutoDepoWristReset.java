@@ -10,18 +10,19 @@ import org.firstinspires.ftc.teamcode.bio.OuttakeArmSubsystem;
 import org.firstinspires.ftc.teamcode.bio.OuttakeClawSubsystem;
 
 
-public class DepoArmReset implements Action {
-    private final OuttakeArmSubsystem outtakeArmSubsystem;
+public class AutoDepoWristReset implements Action {
+    private final OuttakeClawSubsystem outtakeClawSubsystem;
 
 
-    public DepoArmReset(OuttakeArmSubsystem outtakeArmSubsystem) {
-        this.outtakeArmSubsystem = outtakeArmSubsystem;
+    public AutoDepoWristReset(OuttakeClawSubsystem outtakeClawSubsystem) {
+        this.outtakeClawSubsystem = outtakeClawSubsystem;
 
     }
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        outtakeArmSubsystem.pickUpPosition();
+        outtakeClawSubsystem.setWristDepoReset();
+        outtakeClawSubsystem.closeClaw();
         return false;
     }
 }

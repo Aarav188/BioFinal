@@ -93,7 +93,7 @@ public class ElevatorSubsystem extends TacoSubsystem {
     }
 
     public void updateElevatorDownPostion(){
-        elevationMotors.set(0.4);
+        elevationMotors.set(0.3);
         dashboardTelemetry.addData("Elevator Right position: ", getPosition());
         dashboardTelemetry.addData("Elevator position: ", getLeftPosition());
         dashboardTelemetry.update();
@@ -106,7 +106,7 @@ public class ElevatorSubsystem extends TacoSubsystem {
         dashboardTelemetry.addData("Elevator position: ", getPosition());
         dashboardTelemetry.addData("Elevator Left position: ", getLeftPosition());
         dashboardTelemetry.update();
-        if(Math.abs(getPosition() - elevatorHeights.getMotorPosition()) < 50){
+        if(Math.abs(getPosition() - elevatorHeights.getMotorPosition()) < 50 || Math.abs(getLeftPosition() - elevatorHeights.getMotorPosition()) < 50){
             return true;
         }
         return false;

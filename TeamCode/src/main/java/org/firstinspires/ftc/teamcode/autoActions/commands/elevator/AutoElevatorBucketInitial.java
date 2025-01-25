@@ -10,12 +10,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.bio.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.configs.ElevatorHeights;
 
-
-public class AutoElevatorUpHighCommand implements Action {
+public class AutoElevatorBucketInitial implements Action {
     protected final ElevatorSubsystem elevatorSubsystem;
     double timer;
 
-    public AutoElevatorUpHighCommand(ElevatorSubsystem elevatorSubsystem) {
+    public AutoElevatorBucketInitial(ElevatorSubsystem elevatorSubsystem) {
         this.elevatorSubsystem = elevatorSubsystem;
         this.timer = System.currentTimeMillis();
     }
@@ -30,6 +29,6 @@ public class AutoElevatorUpHighCommand implements Action {
         elevatorSubsystem.updateElevationPosition();
 
 
-        return System.currentTimeMillis() - timer < 2000 && !elevatorSubsystem.isAtTarget();
+        return System.currentTimeMillis() - timer < 3000 && !elevatorSubsystem.isAtTarget();
     }
 }

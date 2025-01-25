@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_BUCKET_DROP_HIGH;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_SPECIMAN;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MOTOR_KP;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MOTOR_LEFT;
@@ -12,6 +13,7 @@ import static org.firstinspires.ftc.teamcode.configs.RobotConfig.HANG;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_LARGE_ROTATOR_DOWN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_LARGE_ROTATOR_UP_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_STOPPER_DOWN_POSITION;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_STOPPER_UP_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.WRIST_POS_REST;
 import static org.firstinspires.ftc.teamcode.configs.RobotState.targetHeight;
 
@@ -67,12 +69,13 @@ public class AllMotorAndServoTester extends OpMode {
         motor1 = hardwareMap.dcMotor.get(HANG) ;
 
 
-        stopper = hardwareMap.servo.get("outtakeStopper");
+        stopper = hardwareMap.servo.get("stopper");
         intakeRotator = hardwareMap.servo.get("intakeRotator");
         claw = hardwareMap.servo.get("claw");
         wrist = hardwareMap.servo.get("outtakeRotator");
         leftClawRotator = hardwareMap.servo.get("leftArmRotator");
         rightClawRotator = hardwareMap.servo.get("rightArmRotator");
+        rightClawRotator.setDirection(Servo.Direction.REVERSE);
         leftLinkage = hardwareMap.servo.get("leftLinkage");
         rightLinkage = hardwareMap.servo.get("rightLinkage");
         FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -84,11 +87,10 @@ public class AllMotorAndServoTester extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.a) {
-            leftLinkage.setPosition(EXTENDO_LEFT_IN_POSITION);
-            rightLinkage.setPosition(EXTENDO_RIGHT_IN_POSITION);
+            stopper.setPosition(INTAKE_STOPPER_DOWN_POSITION);
         }
         if (gamepad1.b) { // 0.27 depo reset
-            intakeRotator.setPosition(INTAKE_LARGE_ROTATOR_UP_POSITION);
+            stopper.setPosition(INTAKE_STOPPER_UP_POSITION);
         }
         if (gamepad1.y) {
             motor1.setPower(1);

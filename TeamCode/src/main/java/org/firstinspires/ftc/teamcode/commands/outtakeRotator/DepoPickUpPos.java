@@ -22,7 +22,7 @@ public class DepoPickUpPos extends CommandBase {
     public void execute() {
 
         outtakeArmSubsystem.pickUpPosition();
-        outtakeClawSubsystem.setWristReset();
+        outtakeClawSubsystem.setWristDepoReset();
         outtakeClawSubsystem.closeClaw();
     }
 

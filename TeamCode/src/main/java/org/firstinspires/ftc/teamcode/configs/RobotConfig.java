@@ -14,7 +14,7 @@ public class RobotConfig {
     public static double INTAKE_SMALL_ROTATOR_UP_POSITION = 0.03;
     public static double INTAKE_SMALL_ROTATOR_DOWN_POSITION = 0.79;
     public static double INTAKE_STOPPER_UP_POSITION = 0.9;
-    public static double INTAKE_STOPPER_DOWN_POSITION = 0.65;
+    public static double INTAKE_STOPPER_DOWN_POSITION = 0.61;
 
     //extendo subsystem
     public static double EXTENDO_LEFT_MAX_OUT_POSITION = 0.03;
@@ -114,7 +114,7 @@ public class RobotConfig {
     public static double WRIST_POS_SPECIMAN_PICK = 0.25;
     public static double WRIST_POS_SPECIMAN_FRONT = 0.6;
     public static double WRIST_POS_BUCKET_DROP = 0;
-
+    public static double WRIST_POS_DEPO_RESET = 0.65;
     public static double ARM_POS_SPECIMAN = 0.1;
     public static double ARM_POS_BUCKET_DROP = 0;
     public static double ARM_POS_BUCKET_DROP_HIGH = 0;
@@ -124,9 +124,9 @@ public class RobotConfig {
     public static double CLAW_OPEN = 0.15;
     public static double CLAW_CLOSE = 0.40;
     public static double ARM_POS_REST = 0.25;
-    public static double ARM_POS_RESERVOIR_PICKUP = 0.27;
+    public static double ARM_POS_RESERVOIR_PICKUP = 0.28;
     public static String OUTTAKE_STOPPER = "outtakeStopper";
-    public static double OUTTAKE_STOPPER_LOCK = 0.1;
+    public static double OUTTAKE_STOPPER_LOCK = 0.18;
     public static double OUTTAKE_STOPPER_UNLOCK = 0.5;
 
     public static String LEFT_LINKAGE = "leftLinkage";
@@ -176,7 +176,7 @@ public class RobotConfig {
     public static  int ELEVATOR_MIDDROP = -900;
 
     public static  int ELEVATOR_SPECDROP = -850; //80
-    public static  int ELEVATOR_HIGHDROP = -1275; // -725
+    public static  int ELEVATOR_HIGHDROP = -1250; // -725
     public static  int ELEVATOR_MAXDROP = -1100;
     public static  int ELEVATOR_PIXELSTACKFIFTH = 250; // -40
     public static  int ELEVATOR_PIXELSTACKFOURTH = 210;

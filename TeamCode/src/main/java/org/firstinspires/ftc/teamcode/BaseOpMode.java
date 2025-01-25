@@ -95,6 +95,5 @@ public abstract class BaseOpMode extends CommandOpMode {
         outtakeClawSubsystem.setWristReset();
         outtakeClawSubsystem.closeClaw();
         extendoSubsystem.reset();
-        outtakeClawSubsystem.unlockSample();
     }
 }
