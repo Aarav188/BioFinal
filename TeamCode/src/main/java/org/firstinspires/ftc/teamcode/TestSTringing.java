@@ -91,28 +91,28 @@ public class TestSTringing extends BaseOpMode {
 
 
         new GamepadButton(operatorPad, GamepadKeys.Button.A).whenPressed(
-                new HangIncrementCommand(hangSubsystem, 1000)
+                new HangIncrementCommand(hangSubsystem, 21000)
         );
         new GamepadButton(operatorPad, GamepadKeys.Button.B).whenPressed(
-                new HangIncrementCommand(hangSubsystem, 2000)
+                new HangIncrementCommand(hangSubsystem, 22000)
         );
         new GamepadButton(operatorPad, GamepadKeys.Button.X).whenPressed(
-                new HangIncrementCommand(hangSubsystem, 3000)
+                new HangIncrementCommand(hangSubsystem, 23000)
         );
         new GamepadButton(operatorPad, GamepadKeys.Button.Y).whenPressed(
-                new HangIncrementCommand(hangSubsystem, 4000)
+                new HangIncrementCommand(hangSubsystem, 24000)
         );
         new GamepadButton(operatorPad, GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-                new HangIncrementCommand(hangSubsystem, 5000)
+                new HangIncrementCommand(hangSubsystem, 25000)
         );
         new GamepadButton(operatorPad, GamepadKeys.Button.LEFT_BUMPER).whenPressed(
-                new HangIncrementCommand(hangSubsystem, 6000)
+                new HangIncrementCommand(hangSubsystem, 26000)
         );
         new GamepadTrigger(operatorPad, GamepadKeys.Trigger.RIGHT_TRIGGER).whenPressed(
-                new HangIncrementCommand(hangSubsystem, 7000)
+                new HangIncrementCommand(hangSubsystem, 27000)
         );
         new GamepadTrigger(operatorPad, GamepadKeys.Trigger.LEFT_TRIGGER).whenPressed(
-                new HangIncrementCommand(hangSubsystem, 8000)
+                new HangIncrementCommand(hangSubsystem, 20000)
         );
         new GamepadButton(operatorPad, GamepadKeys.Button.DPAD_DOWN).whenPressed(
                 new HangIncrementCommand(hangSubsystem, 9000)

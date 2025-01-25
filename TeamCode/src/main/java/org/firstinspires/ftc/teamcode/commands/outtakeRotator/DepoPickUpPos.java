@@ -21,8 +21,8 @@ public class DepoPickUpPos extends CommandBase {
     @Override
     public void execute() {
 
-        outtakeArmSubsystem.pickUpPosition();
-        outtakeClawSubsystem.setWristDepoReset();
+        outtakeArmSubsystem.pickUpPositionTele();
+        outtakeClawSubsystem.setWristDepoResetTele();
         outtakeClawSubsystem.closeClaw();
     }
 

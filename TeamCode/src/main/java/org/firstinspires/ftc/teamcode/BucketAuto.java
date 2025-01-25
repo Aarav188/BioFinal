@@ -59,16 +59,16 @@ public class BucketAuto extends BaseOpMode{
         TrajectoryActionBuilder moveToFirstGroundSpecAndDrop = initialSpecDrop.endTrajectory().fresh()
                 .setTangent(Math.toRadians(50))
                 .afterDisp(0, new ParallelAction(new IntakeServosToGround(intakeSubsystem), new Intake(intakeSubsystem)))
-                .afterDisp(3, new ParallelAction(new DepoArmReset(outtakePivotSubsystem), new AutoDepoWristReset(outtakeClawSubsystem)))
-                .afterDisp(10, new ParallelAction(new AutoElevatorDownCommand(elevatorSubsystem)))
-                .splineToLinearHeading(new Pose2d(-48, -41, Math.toRadians(80)), Math.toRadians(80)) //pickup second sample
+                .afterDisp(3, new ParallelAction(new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem), new AutoDepoWristReset(outtakeClawSubsystem)))
+                .afterDisp(13, new ParallelAction(new AutoElevatorDownCommand(elevatorSubsystem)))
+                .splineToLinearHeading(new Pose2d(-47, -41, Math.toRadians(80)), Math.toRadians(80)) //pickup second sample
 
 
 
                 .stopAndAdd(new ParallelAction(new ExtendoReset(extendoSubsystem), new IntakeServoDeposit(intakeSubsystem), new DepoPickUpPos(outtakePivotSubsystem,outtakeClawSubsystem)))
                 .waitSeconds(0.5)
                 .stopAndAdd(new IntakeStopperUp(intakeSubsystem))
-                .waitSeconds(1)
+                .waitSeconds(1.25)
                 .stopAndAdd(new OuttakeLockSample(outtakeClawSubsystem))
                 .waitSeconds(0.2)
                 .stopAndAdd(new ParallelAction(new StopIntake(intakeSubsystem), new AutoElevatorUpHighCommand(elevatorSubsystem), new ArmDropHighBucket(outtakePivotSubsystem, outtakeClawSubsystem)))
@@ -81,8 +81,8 @@ public class BucketAuto extends BaseOpMode{
 
                 .setTangent(45)
                 .afterDisp(0, new ParallelAction(new IntakeServosToGround(intakeSubsystem), new Intake(intakeSubsystem)))
-                .afterDisp(3, new ParallelAction(new DepoArmReset(outtakePivotSubsystem), new AutoDepoWristReset(outtakeClawSubsystem)))
-                .afterDisp(10, new AutoElevatorDownCommand(elevatorSubsystem))
+                .afterDisp(3, new ParallelAction(new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem), new AutoDepoWristReset(outtakeClawSubsystem)))
+                .afterDisp(13, new AutoElevatorDownCommand(elevatorSubsystem))
                 //.lineToY(-45)
                 .splineToLinearHeading(new Pose2d(-53, -41, Math.toRadians(80)), Math.toRadians(80)) //pickup 3rd sample
 
@@ -90,28 +90,28 @@ public class BucketAuto extends BaseOpMode{
                 .stopAndAdd(new ParallelAction(new ExtendoReset(extendoSubsystem), new IntakeServoDeposit(intakeSubsystem), new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem)))
                 .waitSeconds(0.5)
                 .stopAndAdd(new IntakeStopperUp(intakeSubsystem))
-                .waitSeconds(1)
+                .waitSeconds(1.25)
                 .stopAndAdd(new OuttakeLockSample(outtakeClawSubsystem))
                 .waitSeconds(0.2)
                 .stopAndAdd(new SequentialAction(new ParallelAction(new StopIntake(intakeSubsystem), new AutoElevatorUpHighCommand(elevatorSubsystem), new ArmDropHighBucket(outtakePivotSubsystem, outtakeClawSubsystem))))
                 .afterDisp(5, new ParallelAction(new ExtendoOut(extendoSubsystem), new IntakeStopperDown(intakeSubsystem)))
                 .setTangent(-90)
-                .splineToLinearHeading(new Pose2d(-62,-56, Math.toRadians(100)), Math.toRadians(135)) //drop off third sample
+                .splineToLinearHeading(new Pose2d(-63,-56, Math.toRadians(100)), Math.toRadians(135)) //drop off third sample
                 .stopAndAdd(new OuttakeUnlockSample(outtakeClawSubsystem))
                 .waitSeconds(1)
 
 
                 .afterDisp(0, new ParallelAction(new IntakeServosToGround(intakeSubsystem), new Intake(intakeSubsystem)))
-                .afterDisp(3, new ParallelAction(new DepoArmReset(outtakePivotSubsystem), new AutoDepoWristReset(outtakeClawSubsystem)))
-                .afterDisp(10, new AutoElevatorDownCommand(elevatorSubsystem))
-                .splineToLinearHeading(new Pose2d(-57, -44, Math.toRadians(110)), Math.toRadians(110)) //pickup 4th sample
+                .afterDisp(4, new ParallelAction(new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem), new AutoDepoWristReset(outtakeClawSubsystem)))
+                .afterDisp(12, new AutoElevatorDownCommand(elevatorSubsystem))
+                .splineToLinearHeading(new Pose2d(-59, -39, Math.toRadians(110)), Math.toRadians(110)) //pickup 4th sample
 
 
 
                 .stopAndAdd(new ParallelAction(new ExtendoReset(extendoSubsystem), new IntakeServoDeposit(intakeSubsystem), new DepoPickUpPos(outtakePivotSubsystem, outtakeClawSubsystem)))
                 .waitSeconds(0.5)
                 .stopAndAdd(new IntakeStopperUp(intakeSubsystem))
-                .waitSeconds(1)
+                .waitSeconds(1.25)
                 .stopAndAdd(new OuttakeLockSample(outtakeClawSubsystem))
                 .waitSeconds(0.2)
                 .stopAndAdd(new SequentialAction(new ParallelAction(new StopIntake(intakeSubsystem), new AutoElevatorUpHighCommand(elevatorSubsystem), new ArmDropHighBucket(outtakePivotSubsystem, outtakeClawSubsystem))))
@@ -123,9 +123,9 @@ public class BucketAuto extends BaseOpMode{
 
 
                 .setTangent(45)
-                .afterDisp(3, new ParallelAction(new DepoArmReset(outtakePivotSubsystem), new DepoWristReset(outtakeClawSubsystem)))
-                .afterDisp(6, new AutoElevatorDownCommand(elevatorSubsystem))
                 .splineToLinearHeading(new Pose2d(-45, -44, Math.toRadians(90)), Math.toRadians(30))
+                .stopAndAdd(new SequentialAction(new ParallelAction(new DepoArmReset(outtakePivotSubsystem), new DepoWristReset(outtakeClawSubsystem)),new AutoElevatorDownCommand(elevatorSubsystem)))
+
 //
 
 

@@ -5,6 +5,8 @@ package org.firstinspires.ftc.teamcode.bio;
 import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.BUCKDROP;
 import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.BUCKDROPHIGH;
 import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.DEPOPICK;
+
+import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.DEPOPICKTELE;
 import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.RESET;
 import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.SPECDROPBACK;
 import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.SPECDROPFRONT;
@@ -65,6 +67,12 @@ public class OuttakeArmSubsystem extends TacoSubsystem {
             leftArmServo.setPosition(DEPOPICK.getPosition());
             rightArmServo.setPosition(DEPOPICK.getPosition());
             armPos = DEPOPICK;
+    }
+
+    public void pickUpPositionTele(){
+        leftArmServo.setPosition(DEPOPICKTELE.getPosition());
+        rightArmServo.setPosition(DEPOPICKTELE.getPosition());
+        armPos = DEPOPICK;
     }
 
 

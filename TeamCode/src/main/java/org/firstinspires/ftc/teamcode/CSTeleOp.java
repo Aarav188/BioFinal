@@ -175,7 +175,7 @@ public class CSTeleOp extends BaseOpMode {
         new GamepadButton(driverPad, GamepadKeys.Button.DPAD_UP).whenPressed(
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
-                                new ElevatorIncrementCommand(elevatorSubsystem, -400),
+                                new ElevatorIncrementCommand(elevatorSubsystem, 500),
                                 new SpecDropOffFromFront(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200)
                         )
 
