@@ -179,7 +179,7 @@ public class RobotConfig {
     public static  int ELEVATOR_SPEC = -700; //80
     public static  int ELEVATOR_MIDDROP = -900;
 
-    public static  int ELEVATOR_SPECDROP = -1000; //80
+    public static  int ELEVATOR_SPECDROP = -850; //80
     public static  int ELEVATOR_HIGHDROP = -1250; // -725
     public static  int ELEVATOR_MAXDROP = -1100;
     public static  int ELEVATOR_PIXELSTACKFIFTH = 250; // -40

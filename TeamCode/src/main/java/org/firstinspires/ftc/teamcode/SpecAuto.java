@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.autoActions.commands.elevator.AutoElevatorDownCommand;
 import org.firstinspires.ftc.teamcode.autoActions.commands.elevator.AutoElevatorDeliverCommand;
 import org.firstinspires.ftc.teamcode.autoActions.commands.elevator.AutoElevatorUpSpecCommand;
+import org.firstinspires.ftc.teamcode.autoActions.commands.elevator.ElevatorIncrementCommand;
 import org.firstinspires.ftc.teamcode.autoActions.commands.extendo.ExtendoOut;
 import org.firstinspires.ftc.teamcode.autoActions.commands.extendo.ExtendoReset;
 import org.firstinspires.ftc.teamcode.autoActions.commands.intake.Intake;
@@ -24,7 +25,9 @@ import org.firstinspires.ftc.teamcode.autoActions.commands.intake.IntakeStopperD
 import org.firstinspires.ftc.teamcode.autoActions.commands.intake.IntakeStopperUp;
 import org.firstinspires.ftc.teamcode.autoActions.commands.intake.Outtake;
 import org.firstinspires.ftc.teamcode.autoActions.commands.intake.StopIntake;
+import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.AutoDepoWristReset;
 import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.ClawClose;
+import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.ClawOpen;
 import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.DepoArmReset;
 import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.DepoPickUpPos;
 import org.firstinspires.ftc.teamcode.autoActions.commands.outtakeRotator.DepoWristReset;
@@ -48,15 +51,17 @@ public class SpecAuto extends BaseOpMode{
         MecanumDrive drive = new MecanumDrive(hardwareMap, startingPose);
         TrajectoryActionBuilder initialSpecDrop = drive.actionBuilder(startingPose)
                // .afterDisp(10, new ParallelAction(new AutoElevatorUpSpecCommand(elevatorSubsystem), new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem)))
-                .afterDisp(20, new SequentialAction(
+                .afterDisp(0, new SequentialAction(
                         new AutoElevatorDeliverCommand(elevatorSubsystem),
                         new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem),
                         new MaintainPosition(elevatorSubsystem)
                 ))
                 .lineToYLinearHeading(-35, Math.toRadians(-90))
+                .stopAndAdd(new SequentialAction(new ElevatorIncrementCommand(elevatorSubsystem, -500), new ClawOpen(outtakeClawSubsystem)))
                 .waitSeconds(1);
 
         TrajectoryActionBuilder moveToFirstGroundSpecAndDrop = initialSpecDrop.endTrajectory().fresh()
+                .afterDisp(0, new ParallelAction(new DepoArmReset(outtakePivotSubsystem), new AutoDepoWristReset(outtakeClawSubsystem)))
                 .afterDisp(5, new SequentialAction(new AutoElevatorDownCommand(elevatorSubsystem)))
                 .afterDisp(10, new SequentialAction(new ExtendoOut(extendoSubsystem)) )
                 .afterDisp(15, new ParallelAction(new IntakeServosToGround(intakeSubsystem), new Intake(intakeSubsystem)))

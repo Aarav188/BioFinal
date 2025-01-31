@@ -13,18 +13,21 @@ import org.firstinspires.ftc.teamcode.configs.ElevatorHeights;
 
 public class ElevatorIncrementCommand implements Action {
     protected final ElevatorSubsystem elevatorSubsystem;
-    ElapsedTime timer = new ElapsedTime();
+    double timer;
     boolean firstTime = true;
-    public ElevatorIncrementCommand(ElevatorSubsystem elevatorSubsystem) {
+    protected final int increment;
+    public ElevatorIncrementCommand(ElevatorSubsystem elevatorSubsystem, int increment) {
         this.elevatorSubsystem = elevatorSubsystem;
+        this.increment = increment;
     }
 
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        if(firstTime)
-            elevatorSubsystem.specDropOff();
-        elevatorSubsystem.updateElevationPosition();
-        return !elevatorSubsystem.isAtIncrementTarget(elevatorSubsystem.getPosition() - 100);
+        if(firstTime) {
+            elevatorSubsystem.elevatorIncrement(-increment);
+        }
+        elevatorSubsystem.updateElevationIncrementPosition();
+        return !elevatorSubsystem.isAtIncrementTarget(elevatorSubsystem.getPosition() - increment) || System.currentTimeMillis() - timer < 2000;
     }
 }

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.elevator.ElevatorIncrementCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.HangCommand;
+import org.firstinspires.ftc.teamcode.commands.elevator.HangIncrementCommand;
 import org.firstinspires.ftc.teamcode.commands.elevator.HangReset;
 import org.firstinspires.ftc.teamcode.commands.outtakeRotator.OuttakeLockSample;
 import org.firstinspires.ftc.teamcode.commands.outtakeRotator.OuttakeUnlockSample;
@@ -54,7 +55,7 @@ public class CSTeleOp extends BaseOpMode {
                 .whenPressed(
                         new SequentialCommandGroup(
                                 new IntakeStopperDown(intakeSubsystem).withTimeout(10),
-                                new ExtendoOut(extendoSubsystem).withTimeout(150),
+                                new ExtendoOut(extendoSubsystem).withTimeout(600),
                                 new IntakeServosToGround(intakeSubsystem).withTimeout(100),
                                 new IntakeStopperDown(intakeSubsystem).withTimeout(100),
                                 new OuttakeUnlockSample(outtakeClawSubsystem).withTimeout(100),
@@ -94,7 +95,7 @@ public class CSTeleOp extends BaseOpMode {
                 );
 
         new GamepadButton(driverPad, GamepadKeys.Button.Y).toggleWhenPressed(
-                new HangCommand(hangSubsystem), new HangReset(hangSubsystem)
+                new HangIncrementCommand(hangSubsystem, 31000), new HangIncrementCommand(hangSubsystem, -10000)
         );
 
         new GamepadTrigger(driverPad, GamepadKeys.Trigger.RIGHT_TRIGGER)
@@ -140,7 +141,7 @@ public class CSTeleOp extends BaseOpMode {
         new GamepadButton(driverPad, GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(
                         new SequentialCommandGroup(
-                                new ClawOpen(outtakeClawSubsystem).withTimeout(100),
+                                //new ClawOpen(outtakeClawSubsystem).withTimeout(100),
                         new ParallelCommandGroup(
                                 new OuttakeUnlockSample(outtakeClawSubsystem).withTimeout(100),
                                 new MaintainPosition(elevatorSubsystem)
@@ -175,8 +176,8 @@ public class CSTeleOp extends BaseOpMode {
         new GamepadButton(driverPad, GamepadKeys.Button.DPAD_UP).whenPressed(
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
-                                new ElevatorIncrementCommand(elevatorSubsystem, 500),
-                                new SpecDropOffFromFront(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200)
+                                new ElevatorIncrementCommand(elevatorSubsystem, -500),
+                                new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(200)
                         )
 
                 )
@@ -186,7 +187,7 @@ public class CSTeleOp extends BaseOpMode {
         new GamepadButton(driverPad, GamepadKeys.Button.DPAD_DOWN).whenPressed(
                 new SequentialCommandGroup(
                         new AutoElevatorSpecDropCommand(elevatorSubsystem),
-                        new SpecDropOffFromFront(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100),
+                        new SpecDropOffFromBack(outtakePivotSubsystem, outtakeClawSubsystem).withTimeout(100),
                         new MaintainPosition(elevatorSubsystem)
                 )
         );
