@@ -6,7 +6,6 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.bio.BackIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.bio.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.bio.ExtendoSubsystem;
 import org.firstinspires.ftc.teamcode.bio.HangSubsystem;
@@ -31,7 +30,6 @@ public abstract class BaseOpMode extends CommandOpMode {
     //protected OuttakeRotatorSubsystem outtakeRotatorSubsystem;
     protected ElevatorSubsystem elevatorSubsystem;
     protected OuttakeClawSubsystem outtakeDropperSubsystem;
-    protected BackIntakeSubsystem airplaneSubsystem;
     protected OuttakeArmSubsystem outtakePivotSubsystem;
     protected OuttakeClawSubsystem outtakeClawSubsystem;
     protected ExtendoSubsystem extendoSubsystem;

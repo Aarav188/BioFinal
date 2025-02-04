@@ -1,4 +1,4 @@
-//package org.firstinspires.ftc.teamcode.bio;
+package org.firstinspires.ftc.teamcode.AutoSubsystems;//package org.firstinspires.ftc.teamcode.bio;
 //
 //import com.qualcomm.robotcore.hardware.HardwareMap;
 //
@@ -6,33 +6,34 @@
 //import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.tacobots.centerstage.configs.RobotConfig;
 //import org.tacobots.centerstage.configs.RobotState;
-//import org.tacobots.centerstage.subsystems.core.NewCamera;
+//import org.tacobots.centerstage.subsystems.core.OpenCVCamera;
 //import org.tacobots.centerstage.subsystems.core.PeriodicTelemetry;
 //import org.tacobots.centerstage.subsystems.core.TacoSubsystem;
 //
 //import java.util.HashMap;
 //import java.util.Map;
 //
-//public class NewCameraSubsystem extends TacoSubsystem {
+//public class CameraSubsystem extends TacoSubsystem {
 //
 //    private final WebcamName webCam;
 //    private final SpikeMarkDetectionPipeline spikeMarkDetectionPipeline;
-//    private NewCamera camera;
+//    private OpenCVCamera camera;
 //
-//    public NewCameraSubsystem(HardwareMap hardwareMap, Telemetry dashboardTelemetry) {
+//    public CameraSubsystem(HardwareMap hardwareMap, Telemetry dashboardTelemetry) {
 //        super(hardwareMap, dashboardTelemetry);
 //        webCam = hardwareMap.get(WebcamName.class, RobotConfig.WEBCAM);
 //        spikeMarkDetectionPipeline = new SpikeMarkDetectionPipeline(dashboardTelemetry);
-//        camera = new NewCamera(hardwareMap,RobotConfig.WEBCAM, spikeMarkDetectionPipeline);
+//        camera = new OpenCVCamera(webCam, spikeMarkDetectionPipeline);
+//        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 //
 //    }
 //
 //    public void enableCamera() {
-//        camera.init();
+//        camera.enableCamera(webCam);
 //    }
 //
 //    public void disableCamera() {
-//        camera.close();
+//        camera.disableCamera();
 //    }
 //
 //    public PeriodicTelemetry.Callback telemetryCallback() {
