@@ -1,78 +1,83 @@
 package org.firstinspires.ftc.teamcode.AutoSubsystems;
 
-
-import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.BUCKDROP;
-import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.BUCKDROPHIGH;
-import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.DEPOPICK;
-import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.DEPOPICKTELE;
-import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.RESET;
-import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.SPECDROPBACK;
-import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.SPECDROPFRONT;
-import static org.firstinspires.ftc.teamcode.configs.OuttakeArmPos.SPECPICK;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.LEFT_CLAW_ROTATE;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.RIGHT_CLAW_ROTATE;
-import static org.firstinspires.ftc.teamcode.configs.RobotState.armPos;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.R;
+import org.firstinspires.ftc.teamcode.commands.intake.Outtake;
+import org.firstinspires.ftc.teamcode.configs.OuttakeArmPos;
 
-public class OuttakeArmSubsystem extends TacoSubsystem {
+public class OuttakeArmSubsystem{
+    public Servo leftArmServo, rightArmServo;
+    public OuttakeArmPos state;
 
-    private final Servo leftArmServo;
-    private final Servo rightArmServo;
+    public RunAction specPickUp, bucketDrop, frontSpecDrop, backSpecDrop, reset, transfer;
 
-    public OuttakeArmSubsystem(HardwareMap hardwareMap, Telemetry dashboardTelemetry) {
-        super(hardwareMap, dashboardTelemetry);
+    public OuttakeArmSubsystem(HardwareMap hardwareMap, OuttakeArmPos state){
         leftArmServo = hardwareMap.get(Servo.class, LEFT_CLAW_ROTATE);
         rightArmServo = hardwareMap.get(Servo.class, RIGHT_CLAW_ROTATE);
-        rightArmServo.setDirection(Servo.Direction.REVERSE);
+        this.state = state;
+
+        reset = new RunAction(this::reset);
+        transfer = new RunAction(this::transfer);
+        specPickUp = new RunAction(this::specPickUp);
+        bucketDrop = new RunAction(this::bucketDrop);
+        frontSpecDrop = new RunAction(this::frontSpecDrop);
+        backSpecDrop = new RunAction(this::backSpecDrop);
     }
 
-    public void specimanPickUp(){
-            leftArmServo.setPosition(SPECPICK.getPosition());
-            rightArmServo.setPosition(SPECPICK.getPosition());
-            armPos = SPECPICK;
-
+    public void reset(){
+        setState(OuttakeArmPos.RESET);
+    }
+    public void transfer(){
+        setState(OuttakeArmPos.DEPOPICK);
+    }
+    public void specPickUp(){
+        setState(OuttakeArmPos.SPECPICK);
     }
     public void bucketDrop(){
-        leftArmServo.setPosition(BUCKDROP.getPosition());
-        rightArmServo.setPosition(BUCKDROP.getPosition());
-        armPos = BUCKDROP;
-    }
-    public void bucketDropHigh(){
-        leftArmServo.setPosition(BUCKDROPHIGH.getPosition());
-        rightArmServo.setPosition(BUCKDROPHIGH.getPosition());
-        armPos = BUCKDROPHIGH;
-    }
-    public void specimanDropBack(){
-            leftArmServo.setPosition(SPECDROPBACK.getPosition());
-            rightArmServo.setPosition(SPECDROPBACK.getPosition());
-            armPos = SPECDROPBACK;
-    }
-    public void specimanDropFront(){
-        leftArmServo.setPosition(SPECDROPFRONT.getPosition());
-        rightArmServo.setPosition(SPECDROPFRONT.getPosition());
-        armPos = SPECDROPFRONT;
-    }
-    public void resetArm(){
-        leftArmServo.setPosition(RESET.getPosition());
-        rightArmServo.setPosition(RESET.getPosition());
-        armPos = RESET;
-    }
-    public void pickUpPosition(){
-            leftArmServo.setPosition(DEPOPICK.getPosition());
-            rightArmServo.setPosition(DEPOPICK.getPosition());
-            armPos = DEPOPICK;
+        setState(OuttakeArmPos.BUCKDROPHIGH);
     }
 
-    public void pickUpPositionTele(){
-        leftArmServo.setPosition(DEPOPICKTELE.getPosition());
-        rightArmServo.setPosition(DEPOPICKTELE.getPosition());
-        armPos = DEPOPICK;
+    public void frontSpecDrop(){
+        setState(OuttakeArmPos.SPECDROPFRONT);
     }
-
-
-
+    public void backSpecDrop(){
+        setState(OuttakeArmPos.SPECDROPBACK);
+    }
+    public void setState(OuttakeArmPos state){
+        if(state == OuttakeArmPos.DEPOPICK){
+            leftArmServo.setPosition(OuttakeArmPos.DEPOPICK.getPosition());
+            rightArmServo.setPosition(OuttakeArmPos.DEPOPICK.getPosition());
+        }
+        else if(state == OuttakeArmPos.RESET){
+            leftArmServo.setPosition(OuttakeArmPos.RESET.getPosition());
+            rightArmServo.setPosition(OuttakeArmPos.RESET.getPosition());
+        }
+        else if(state == OuttakeArmPos.BUCKDROPHIGH){
+            leftArmServo.setPosition(OuttakeArmPos.BUCKDROPHIGH.getPosition());
+            rightArmServo.setPosition(OuttakeArmPos.BUCKDROPHIGH.getPosition());
+        }
+        else if(state == OuttakeArmPos.SPECDROPBACK){
+            leftArmServo.setPosition(OuttakeArmPos.SPECDROPBACK.getPosition());
+            rightArmServo.setPosition(OuttakeArmPos.SPECDROPBACK.getPosition());
+        }
+        else if(state == OuttakeArmPos.SPECDROPFRONT){
+            leftArmServo.setPosition(OuttakeArmPos.SPECDROPFRONT.getPosition());
+            rightArmServo.setPosition(OuttakeArmPos.SPECDROPFRONT.getPosition());
+        }
+        else if(state == OuttakeArmPos.SPECPICK){
+            leftArmServo.setPosition(OuttakeArmPos.SPECPICK.getPosition());
+            rightArmServo.setPosition(OuttakeArmPos.SPECPICK.getPosition());
+        }
+    }
+    public void init(){
+        reset();
+    }
+    public void start(){
+        transfer();
+    }
 }
