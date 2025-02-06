@@ -56,7 +56,9 @@ public class ElevatorSubsystem{
         liftPID.setPID(p,i,d);
         bottom = getPos();
     }
-
+    public void start() {
+        target = 0;
+    }
     public void updatePIDF(){
         if (!manual) {
             liftPID.setPID(p,i,d);
