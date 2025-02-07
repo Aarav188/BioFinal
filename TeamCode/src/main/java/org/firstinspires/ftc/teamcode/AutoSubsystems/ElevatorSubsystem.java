@@ -123,4 +123,7 @@ public class ElevatorSubsystem{
         manual = false;
         setTarget(ELEVATOR_SPEC);
     }
+    public void updateTelem(){
+        telemetry.addData("curPos", rightElevationMotor.getCurrentPosition());
+    }
 }

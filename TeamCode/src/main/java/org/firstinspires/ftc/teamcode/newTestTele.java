@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import static org.firstinspires.ftc.teamcode.configs.FieldConstants.blueObservationParkPose;
+
+import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -13,7 +16,7 @@ public class newTestTele extends OpMode {
 
     @Override
     public void init() {
-        teleop = new Teleop(hardwareMap, telemetry, new Follower(hardwareMap), blueObservationParkPose, false, gamepad1, gamepad2);
+        teleop = new Teleop(hardwareMap, telemetry, new Follower(hardwareMap), blueObservationParkPose, gamepad1, gamepad2);
         teleop.init();
     }
 
@@ -26,3 +29,4 @@ public class newTestTele extends OpMode {
     public void loop() {
         teleop.update();
     }
+}

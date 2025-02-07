@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
+import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.PathChain;
+import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -11,12 +13,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.ExtendoSubsystem;
+import org.firstinspires.ftc.teamcode.AutoSubsystems.HangSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.OuttakeArmSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.OuttakeClawSubsystem;
 
 public class Teleop {
-
+    public HangSubsystem hang;
     public OuttakeClawSubsystem claw;
     public OuttakeClawSubsystem.ClawGrabState clawGrabState;
     public OuttakeClawSubsystem.WristState wristState;
@@ -45,21 +48,22 @@ public class Teleop {
 
     private int flip = 1, autoBucketState = -1;
 
-    public double speed = 0.75;
+    public double speed = 1;
 
     private boolean fieldCentric, actionBusy;
 
     private PathChain autoBucketTo, autoBucketBack;
     private Pose autoBucketToEndPose, autoBucketBackEndPose;
+    private boolean intakeActive;
 
 
-    public Teleop(HardwareMap hardwareMap, Telemetry telemetry, Follower follower, Pose startPose, boolean fieldCentric, Gamepad gamepad1, Gamepad gamepad2) {
+    public Teleop(HardwareMap hardwareMap, Telemetry telemetry, Follower follower, Pose startPose, Gamepad gamepad1, Gamepad gamepad2) {
         claw = new OuttakeClawSubsystem(hardwareMap, wristState, sampleGrabState, clawGrabState);
         elevatorSubsystem = new ElevatorSubsystem(hardwareMap, telemetry);
         extend = new ExtendoSubsystem(hardwareMap, telemetry);
         intake = new IntakeSubsystem(hardwareMap, intakeSpinState, rotatorState, stopperState);
         arm = new OuttakeArmSubsystem(hardwareMap, armState);
-
+        hang = new HangSubsystem(hardwareMap, telemetry);
         this.follower = follower;
         this.telemetry = telemetry;
 
@@ -69,6 +73,7 @@ public class Teleop {
         this.telemetry = telemetry;
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
+        this.intakeActive = false;
     }
 
     public void init() {}
@@ -91,77 +96,60 @@ public class Teleop {
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
 
-            if (gamepad1.right_bumper)
-                speed = 1;
-            else if (gamepad1.left_bumper)
-                speed = 0.25;
-            else
-                speed = 0.75;
-
-            elevatorSubsystem.manual(gamepad2.right_trigger - gamepad2.left_trigger);
-
-            if (gamepad2.b)
-                intake.setSpinState(IntakeSubsystem.SpinState.INTAKE, false);
-            else if (gamepad2.dpad_down)
-                intake.setSpinState(IntakeSubsystem.SpinState.OUTTAKE, false);
-            else
-                intake.setSpinState(IntakeSubsystem.SpinState.STOP, false);
-
-            if (currentGamepad1.a && !previousGamepad1.a)
-                intake.pickup();
-
-            if(gamepad1.dpad_left)
-                startAutoBucket();
-
-            if (gamepad1.x) {
-                flip = -1;
+            boolean intakeActive = gamepad1.a || gamepad1.b || gamepad1.right_trigger > 0 || gamepad1.left_trigger > 0;
+            if(!intakeActive){
+                stopIntake();
             }
 
-            if (gamepad1.b) {
-                flip = 1;
+            if(gamepad1.a){
+                extendAndIntake();
+            }
+            if(gamepad1.b){
+                transfer();
+            }
+            if(gamepad1.x){
+                reset();
+            }
+            if(gamepad1.y){
+                hang.hang();
             }
 
-            if (gamepad2.right_bumper)
-                extend.manual(1);
-            else if (gamepad2.left_bumper)
-                extend.manual(-1);
-            else
-                extend.manual(0);
-
-            if (currentGamepad2.a && !previousGamepad2.a)
-                claw.switchGrabState();
-
-            if (currentGamepad2.y && !previousGamepad2.y)
-                transferPos();
-
-            if (currentGamepad2.x && !previousGamepad2.x)
-                scoringPos();
-
-            if (currentGamepad2.dpad_left && !previousGamepad2.dpad_left)
-                specimenGrabPos();
-
-            if (currentGamepad2.dpad_right && !previousGamepad2.dpad_right)
-                specimenScorePos();
-
-            if (currentGamepad1.b && !previousGamepad1.b)
-                intake.setPivotState(IntakeSubsystem.IntakePivotState.TRANSFER);
-
-            if (gamepad2.left_stick_button) {
-                lift.hang = true;
+            if(gamepad1.right_trigger > 0){
+                outtake();
+            }
+            else if(gamepad1.left_trigger > 0){
+                intake();
             }
 
-            if (gamepad2.right_stick_button) {
-                lift.hang = false;
+            if(gamepad1.left_bumper){
+                fullLock();
+            }
+            if(gamepad1.right_bumper){
+                fullUnlock();
             }
 
-            follower.setTeleOpMovementVectors(flip * -gamepad1.left_stick_y * speed, flip * -gamepad1.left_stick_x * speed, -gamepad1.right_stick_x * speed * 0.5, !fieldCentric);
+            if(gamepad1.dpad_right){
+                specPick();
+            }
+            if(gamepad1.dpad_left){
+                highSampleDrop();
+            }
+            if(gamepad1.dpad_up){
+                elevatorIncrement();
+            }
+            if(gamepad1.dpad_down){
+                specDrop();
+            }
+
+
+            follower.setTeleOpMovementVectors(flip * -gamepad1.left_stick_y * speed, flip * -gamepad1.left_stick_x * speed, -gamepad1.right_stick_x * speed * 0.5, true);
         } else {
-            if(gamepad1.dpad_right) {
+            if(gamepad2.dpad_right) {
                 stopActions();
             }
         }
 
-        lift.updatePIDF();
+        elevatorSubsystem.updatePIDF();
 
         autoBucket();
 
@@ -171,56 +159,104 @@ public class Teleop {
         telemetry.addData("Y", follower.getPose().getY());
         telemetry.addData("Heading", Math.toDegrees(follower.getPose().getHeading()));
 
-        telemetry.addData("Lift Pos", lift.getPos());
+        telemetry.addData("Lift Pos", elevatorSubsystem.getPos());
         telemetry.addData("Extend Pos", extend.leftExtend.getPosition());
-        telemetry.addData("Extend Limit", extend.extendLimit);
-        telemetry.addData("Claw Grab State", claw.grabState);
-        telemetry.addData("Claw Pivot State", claw.pivotState);
+        telemetry.addData("Claw Grab State", claw.clawGrabState);
+        telemetry.addData("Claw Pivot State", claw.wristState);
+        telemetry.addData("Claw Sample Stopper State", claw.sampleGrabState);
         telemetry.addData("Intake Spin State", intakeSpinState);
-        telemetry.addData("Intake Pivot State", intakePivotState);
+        telemetry.addData("Intake Pivot State", rotatorState);
         telemetry.addData("Arm State", arm.state);
         telemetry.addData("Action Busy", actionBusy);
         telemetry.addData("Auto Bucket State", autoBucketState);
         telemetry.update();
     }
 
-    private void scoringPos() {
-        extend.setLimitToSample();
-        claw.score();
-        claw.close();
-        arm.score();
-    }
+    private void extendAndIntake(){
+        extend.fullExtend();
+        intake.lockSample();
+        Timer extendAndIntakeTimer = new Timer();
+        if (extendAndIntakeTimer.getElapsedTimeSeconds() >= 0.30) {
+            intake.pickup();
+            intake.intake();
+        }
 
-    private void transferPos() {
-        extend.setLimitToSample();
-        claw.transfer();
-        claw.open();
+    }
+    public void transfer(){
+        intake.stop();
+        intake.transfer();
         arm.transfer();
+        claw.transfer();
+        Timer transferTimer = new Timer();
+        if(transferTimer.getElapsedTimeSeconds() >= 0.2){
+            extend.reset();
+        }
+        intake.intake();
+
+        if(transferTimer.getElapsedTimeSeconds() >= 0.6) {
+            intake.unlockSample();
+        }
+        if(transferTimer.getElapsedTimeSeconds() >= 0.75){
+            claw.lockSample();
+        }
+    }
+    public void reset(){
+        arm.reset();
+        claw.reset();
+        claw.unlockSample();
+        Timer resetTimer = new Timer();
+        if(resetTimer.getElapsedTimeSeconds() > 2){
+            elevatorSubsystem.toReset();
+        }
     }
 
-    private void specimenGrabPos() {
-        extend.setLimitToSpecimen();
-        claw.specimenGrab();
-        claw.open();
-        arm.specimenGrab();
+    public void outtake(){
+        intake.outtake();
+    }
+    public void intake(){
+        intake.intake();
+    }
+    public void stopIntake(){
+        intake.stop();
     }
 
-    private void specimenScorePos() {
-        extend.setLimitToSpecimen();
-        claw.specimenScore();
-        claw.close();
-        arm.specimenScore();
+    public void fullLock(){
+        claw.closeClaw();
+        claw.lockSample();
+    }
+    public void fullUnlock(){
+        claw.openClaw();
+        claw.unlockSample();
+    }
+
+    public void specPick(){
+        arm.specPickUp();
+        claw.pickup();
+        claw.openClaw();
+    }
+    public void specDrop(){
+        elevatorSubsystem.toHighChamber();
+        arm.frontSpecDrop();
+        claw.specFront();
+    }
+    public void highSampleDrop(){
+        elevatorSubsystem.toHighBucket();
+        arm.bucketDrop();
+        claw.bucketDrop();
+    }
+    public void elevatorIncrement(){
+        elevatorSubsystem.setTarget(elevatorSubsystem.getPos() - 200);
     }
 
     private void autoBucket() {
         switch (autoBucketState) {
             case 1:
                 actionBusy = true;
-                intake.pivotTransfer();
-                intake.spinInBackAlways();
-                claw.open();
+                intake.transfer();
+                intake.intake();
+                claw.openClaw();
                 claw.transfer();
-                extend.toZero();
+                extend.reset();
                 arm.transfer();
 
                 follower.breakFollowing();
@@ -239,27 +275,27 @@ public class Teleop {
                 break;
             case 2:
                 if (autoBucketTimer.getElapsedTimeSeconds() > 2) {
-                    claw.close();
+                    claw.openClaw();
                     setAutoBucketState(3);
                 }
                 break;
             case 3:
                 if (autoBucketTimer.getElapsedTimeSeconds() > 0.5) {
-                    lift.toHighBucket();
+                    elevatorSubsystem.toHighBucket();
                     setAutoBucketState(4);
                 }
                 break;
             case 4:
                 if (autoBucketTimer.getElapsedTimeSeconds() > 0.5) {
-                    arm.score();
-                    claw.score();
-                    intake.spinStop();
+                    arm.bucketDrop();
+                    claw.openClaw();
+                    intake.stop();
                     setAutoBucketState(5);
                 }
                 break;
             case 5:
-                if (((follower.getPose().getX() <  autoBucketToEndPose.getX() + 0.5) && (follower.getPose().getY() > autoBucketToEndPose.getY() - 0.5)) && (lift.getPos() > RobotConstants.liftToHighBucket - 50) && autoBucketTimer.getElapsedTimeSeconds() > 1) {
-                    claw.open();
+                if (((follower.getPose().getX() <  autoBucketToEndPose.getX() + 0.5) && (follower.getPose().getY() > autoBucketToEndPose.getY() - 0.5)) && (elevatorSubsystem.getPos() > 50) && autoBucketTimer.getElapsedTimeSeconds() > 1) {
+                    claw.openClaw();
                     setAutoBucketState(9);
                     //setAutoBucketState(6);
                 }
@@ -275,7 +311,7 @@ public class Teleop {
 
                     follower.followPath(autoBucketBack, true);
 
-                    claw.open();
+                    claw.openClaw();
                     claw.transfer();
                     arm.transfer();
                     setAutoBucketState(7);
@@ -283,14 +319,14 @@ public class Teleop {
                 break;
             case 7:
                 if(autoBucketTimer.getElapsedTimeSeconds() > 0.5) {
-                    lift.toZero();
-                    extend.toFull();
+                    elevatorSubsystem.toReset();
+                    extend.fullExtend();
                     setAutoBucketState(8);
                 }
                 break;
             case 8:
                 if((follower.getPose().getX() >  autoBucketBackEndPose.getX() - 0.5) && (follower.getPose().getY() < autoBucketBackEndPose.getY() + 0.5)) {
-                    intake.pivotGround();
+                    intake.pickup();
                     setAutoBucketState(9);
                 }
                 break;

@@ -76,13 +76,18 @@ public class Auto {
     }
 
     public void init() {
-        claw.closeClaw();
+        if(startLocation == RobotStart.BLUE_BUCKET || startLocation == RobotStart.RED_BUCKET){
+            claw.openClaw();
+        }
+        else{
+            claw.closeClaw();
+        }
         claw.reset();
         claw.lockSample();
         elevatorSubsystem.init();
         extend.init();
         intake.transfer();
-        arm.init();
+        arm.frontSpecDrop();
         telemetryUpdate();
 
         follower.setStartingPose(startPose);
@@ -101,10 +106,7 @@ public class Auto {
     public void update() {
         follower.update();
 
-        if(!liftPIDF)
-            elevatorSubsystem.manual(liftManual);
-        else
-            elevatorSubsystem.updatePIDF();
+        elevatorSubsystem.updatePIDF();
 
         transfer();
         bucket();
