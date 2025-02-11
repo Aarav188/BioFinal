@@ -12,6 +12,7 @@ import static org.firstinspires.ftc.teamcode.configs.RobotConfig.INTAKE_STOPPER_
 
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -20,6 +21,7 @@ public class IntakeSubsystem{
     private final MotorEx rotationMotor;
     private final Servo intakeStopper;
     private final Servo intakeRotator;
+    private final ColorSensor colorSensor;
     public enum SpinState{
         INTAKE, OUTTAKE, STOP
     }
@@ -40,6 +42,8 @@ public class IntakeSubsystem{
         intakeRotator = hardwareMap.get(Servo.class, INTAKE_ROTATOR);
 
         intakeStopper = hardwareMap.get(Servo.class, INTAKE_STOPPER);
+
+        colorSensor = hardwareMap.get(ColorSensor.class, "color sensor");
 
         rotationMotor = new MotorEx(hardwareMap, INTAKE_ROTATION_MOTOR, Motor.GoBILDA.RPM_1150); //TODO check with harish the rpm of this motor
         rotationMotor.setRunMode(Motor.RunMode.RawPower);
