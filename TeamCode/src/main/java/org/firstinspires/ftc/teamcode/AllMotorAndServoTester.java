@@ -2,6 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_BUCKET_DROP_HIGH;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ARM_POS_SPECIMAN;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.DT_LEFT_FRONT;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.DT_LEFT_REAR;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.DT_RIGHT_FRONT;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.DT_RIGHT_REAR;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MOTOR_KP;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MOTOR_LEFT;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.ELEVATOR_MOTOR_POWER;
@@ -86,8 +90,10 @@ public class AllMotorAndServoTester extends OpMode {
     @Override
     public void init() {
 
-        motor1 = hardwareMap.dcMotor.get(ELEVATOR_MOTOR_LEFT) ;
-        motor2 = hardwareMap.dcMotor.get(ELEVATOR_MOTOR_RIGHT);
+        motor1 = hardwareMap.dcMotor.get(DT_LEFT_FRONT);
+        motor2 = hardwareMap.dcMotor.get(DT_LEFT_REAR);
+        motor3 = hardwareMap.dcMotor.get(DT_RIGHT_FRONT);
+        motor4 = hardwareMap.dcMotor.get(DT_RIGHT_REAR);
 
 
         stopper = hardwareMap.servo.get("stopper");
@@ -122,8 +128,32 @@ public class AllMotorAndServoTester extends OpMode {
 
     @Override
     public void loop() {
-        elevatorSubsystem.updateTelem();
+        //elevatorSubsystem.updateTelem();
         //intakeSubsystem.updateTelem();
+        if(gamepad2.a){
+            motor1.setPower(1);
+        }
+        else{
+            motor1.setPower(0);
+        }
+        if(gamepad2.b){
+            motor2.setPower(-1);
+        }
+        else{
+            motor2.setPower(0);
+        }
+        if(gamepad2.x){
+            motor3.setPower(1);
+        }
+        else{
+            motor3.setPower(0);
+        }
+        if(gamepad2.y){
+            motor4.setPower(1);
+        }
+        else{
+            motor4.setPower(0);
+        }
         if(gamepad1.a){
             extendoSubsystem.fullExtend();
         }
@@ -147,6 +177,7 @@ public class AllMotorAndServoTester extends OpMode {
         }
         if(gamepad1.dpad_up){
             outtakeArmSubsystem.reset();
+            outtakeClawSubsystem.reset();
         }
         if(gamepad1.dpad_left){
             outtakeArmSubsystem.transfer();

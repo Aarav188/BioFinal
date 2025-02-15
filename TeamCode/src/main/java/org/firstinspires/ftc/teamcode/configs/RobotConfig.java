@@ -119,7 +119,7 @@ public class RobotConfig {
     public static double ARM_POS_SPECIMAN = 0.1;
     public static double ARM_POS_BUCKET_DROP = 0;
     public static double ARM_POS_BUCKET_DROP_HIGH = 0;
-    public static double WRIST_POS_REST = 0.7;
+    public static double WRIST_POS_REST = 0.65;
     public static double ARM_POS_SPECIMAN_DROP_BACK = 0.1;
     public static double ARM_POS_SPECIMAN_DROP_FRONT = 0.7;
     public static double  WRIST_POS_DEPO_RESET_TELEOP = 0.58;

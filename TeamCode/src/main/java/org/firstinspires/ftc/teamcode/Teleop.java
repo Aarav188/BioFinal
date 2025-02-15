@@ -97,16 +97,17 @@ public class Teleop {
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
 
-            intakeActive = gamepad1.a || gamepad1.b || gamepad1.right_trigger > 0 || gamepad1.left_trigger > 0;
             if(!intakeActive){
                 stopIntake();
             }
 
             if(gamepad1.a){
+                intakeActive = true;
                 extendAndIntake();
             }
             if(gamepad1.b){
                 transfer();
+                intakeActive = false;
             }
             if(gamepad1.x){
                 reset();
@@ -116,10 +117,15 @@ public class Teleop {
             }
 
             if(gamepad1.right_trigger > 0){
+                intakeActive = true;
                 outtake();
             }
             else if(gamepad1.left_trigger > 0){
+                intakeActive = true;
                 intake();
+            }
+            else if(gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
+                intakeActive = false;
             }
 
             if(gamepad1.left_bumper){

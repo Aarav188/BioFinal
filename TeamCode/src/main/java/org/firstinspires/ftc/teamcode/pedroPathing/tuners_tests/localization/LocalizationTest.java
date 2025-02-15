@@ -9,6 +9,11 @@ import static com.pedropathing.follower.FollowerConstants.rightFrontMotorName;
 import static com.pedropathing.follower.FollowerConstants.rightRearMotorDirection;
 import static com.pedropathing.follower.FollowerConstants.rightRearMotorName;
 
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.DT_LEFT_FRONT;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.DT_LEFT_REAR;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.DT_RIGHT_FRONT;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.DT_RIGHT_REAR;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -60,10 +65,10 @@ public class LocalizationTest extends OpMode {
 
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
-        rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
+        leftFront = hardwareMap.get(DcMotorEx.class, DT_LEFT_FRONT);
+        leftRear = hardwareMap.get(DcMotorEx.class, DT_LEFT_REAR);
+        rightRear = hardwareMap.get(DcMotorEx.class, DT_RIGHT_REAR);
+        rightFront = hardwareMap.get(DcMotorEx.class, DT_RIGHT_FRONT);
         leftFront.setDirection(leftFrontMotorDirection);
         leftRear.setDirection(leftRearMotorDirection);
         rightFront.setDirection(rightFrontMotorDirection);
@@ -112,10 +117,10 @@ public class LocalizationTest extends OpMode {
         double rightFrontPower = (y - x - rx) / denominator;
         double rightRearPower = (y + x - rx) / denominator;
 
-        leftFront.setPower(leftFrontPower);
-        leftRear.setPower(leftRearPower);
-        rightFront.setPower(rightFrontPower);
-        rightRear.setPower(rightRearPower);
+        leftFront.setPower(leftFrontPower/3);
+        leftRear.setPower(leftRearPower/3);
+        rightFront.setPower(rightFrontPower/3);
+        rightRear.setPower(rightRearPower/3);
 
         telemetryA.addData("x", poseUpdater.getPose().getX());
         telemetryA.addData("y", poseUpdater.getPose().getY());
