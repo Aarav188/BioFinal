@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.AutoSubsystems;
 
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_LEFT_IN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_LEFT_MAX_OUT_POSITION;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_RIGHT_IN_POSITION;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_RIGHT_MAX_OUT_POSITION;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -32,22 +34,22 @@ public class ExtendoSubsystem{
 
     //TODO solve these positions and map the displacement. try to 0 them so 0 and 1 are perfectly equal then reverse one of them
     //TODO right one normal set to 0, left one reveresed set to 1
-    public void setTarget(double b){
+    public void setTarget(double b, double x){
         leftExtend.setPosition(b);
         rightExtend.setPosition(b);
         pos = b;
     }
 
     public void reset(){
-        setTarget(EXTENDO_LEFT_IN_POSITION);
+        setTarget(EXTENDO_LEFT_IN_POSITION, EXTENDO_RIGHT_IN_POSITION);
     }
 
     public void halfExtend(){
-        setTarget(EXTENDO_LEFT_MAX_OUT_POSITION/2);
+        setTarget(EXTENDO_LEFT_MAX_OUT_POSITION/2, EXTENDO_RIGHT_MAX_OUT_POSITION / 2);
     }
 
     public void fullExtend(){
-        setTarget(EXTENDO_LEFT_MAX_OUT_POSITION);
+        setTarget(EXTENDO_LEFT_MAX_OUT_POSITION, EXTENDO_RIGHT_MAX_OUT_POSITION);
     }
 
     public double getPos(){

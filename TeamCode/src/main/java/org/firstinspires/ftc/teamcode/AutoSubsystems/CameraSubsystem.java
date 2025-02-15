@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.AutoSubsystems;
 
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_LEFT_MAX_OUT_POSITION;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_RIGHT_MAX_OUT_POSITION;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.limelightvision.LLResult;
@@ -99,7 +100,7 @@ public class CameraSubsystem {
         angleToTarget = Math.toRadians(result.getTy());
 
         double distance = (1-limelightHeight) / Math.tan(angleToTarget);
-        extendoSubsystem.setTarget(EXTENDO_LEFT_MAX_OUT_POSITION - distance * 0.01); //TODO tune this position
+        extendoSubsystem.setTarget(EXTENDO_LEFT_MAX_OUT_POSITION - distance * 0.01, EXTENDO_RIGHT_MAX_OUT_POSITION - distance * 0.01); //TODO tune this position
     }
 
     public void driveAlign(double error) {
