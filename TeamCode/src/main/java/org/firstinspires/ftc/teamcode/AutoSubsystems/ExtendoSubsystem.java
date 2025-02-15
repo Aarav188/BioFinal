@@ -21,8 +21,8 @@ public class ExtendoSubsystem{
         this.telemetry = telemetry;
         this.telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        leftExtend = hardwareMap.get(Servo.class, "leftExtend");
-        rightExtend = hardwareMap.get(Servo.class, "rightExtend");
+        leftExtend = hardwareMap.get(Servo.class, "leftLinkage");
+        rightExtend = hardwareMap.get(Servo.class, "rightLinkage");
         rightExtend.setDirection(Servo.Direction.REVERSE);
 
         reset = new RunAction(this::reset);

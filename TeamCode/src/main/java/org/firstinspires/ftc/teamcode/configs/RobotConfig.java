@@ -11,7 +11,7 @@ public class RobotConfig {
     public static String INTAKE_STOPPER = "stopper";
     public static double INTAKE_LARGE_ROTATOR_UP_POSITION = 0.83;
 
-    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.67; //0
+    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.65; //0
     public static double INTAKE_SMALL_ROTATOR_UP_POSITION = 0.03;
     public static double INTAKE_SMALL_ROTATOR_DOWN_POSITION = 0.79;
     public static double INTAKE_STOPPER_UP_POSITION = 0.9;
@@ -108,9 +108,9 @@ public class RobotConfig {
     public static  String LEFT_ROTATOR_SERVO = "leftOuttakeRotator";
     public static  String RIGHT_ROTATOR_SERVO = "rightOuttakeRotator";
     public static  String CLAW = "claw";
-    public static  String WRIST = "outtakeRotator";
-    public static  String LEFT_CLAW_ROTATE = "leftArmRotator";
-    public static  String RIGHT_CLAW_ROTATE = "rightArmRotator";
+    public static  String WRIST = "wrist";
+    public static  String LEFT_CLAW_ROTATE = "leftClawRotator";
+    public static  String RIGHT_CLAW_ROTATE = "rightClawRotator";
     public static double WRIST_POS_SPECIMAN_BACK = 0.4;
     public static double WRIST_POS_SPECIMAN_PICK = 0.25;
     public static double WRIST_POS_SPECIMAN_FRONT = 0.6;
@@ -127,8 +127,8 @@ public class RobotConfig {
 
     public static double CLAW_OPEN = 0.15;
     public static double CLAW_CLOSE = 0.40;
-    public static double ARM_POS_REST = 0.25;
-    public static double ARM_POS_RESERVOIR_PICKUP = 0.32;
+    public static double ARM_POS_REST = 0.82;
+    public static double ARM_POS_RESERVOIR_PICKUP = 0.78;
     public static String OUTTAKE_STOPPER = "outtakeStopper";
     public static double OUTTAKE_STOPPER_LOCK = 0.18;
     public static double OUTTAKE_STOPPER_UNLOCK = 0.5;

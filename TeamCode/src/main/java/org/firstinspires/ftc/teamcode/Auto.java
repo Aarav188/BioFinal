@@ -1,11 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.configs.FieldConstants.blueBucketLeftSampleControlPose;
-import static org.firstinspires.ftc.teamcode.configs.FieldConstants.blueBucketRightSampleControlPose;
-import static org.firstinspires.ftc.teamcode.configs.FieldConstants.blueBucketRightSamplePose;
-import static org.firstinspires.ftc.teamcode.configs.FieldConstants.blueBucketScorePose;
-import static org.firstinspires.ftc.teamcode.configs.FieldConstants.blueBucketStartPose;
-
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierCurve;
@@ -14,7 +8,6 @@ import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Timer;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.ElevatorSubsystem;
@@ -22,7 +15,6 @@ import org.firstinspires.ftc.teamcode.AutoSubsystems.ExtendoSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.OuttakeArmSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.OuttakeClawSubsystem;
-import org.firstinspires.ftc.teamcode.commands.intake.Intake;
 import org.firstinspires.ftc.teamcode.configs.FieldConstants.RobotStart;
 import org.firstinspires.ftc.teamcode.configs.FieldConstants;
 
@@ -61,7 +53,7 @@ public class Auto {
         claw = new OuttakeClawSubsystem(hardwareMap, wristState, sampleGrabState, clawGrabState);
         elevatorSubsystem = new ElevatorSubsystem(hardwareMap, telemetry);
         extend = new ExtendoSubsystem(hardwareMap, telemetry);
-        intake = new IntakeSubsystem(hardwareMap, intakeSpinState, rotatorState, stopperState);
+        intake = new IntakeSubsystem(hardwareMap, intakeSpinState, rotatorState, stopperState, telemetry);
         arm = new OuttakeArmSubsystem(hardwareMap, armState);
 
         this.follower = follower;

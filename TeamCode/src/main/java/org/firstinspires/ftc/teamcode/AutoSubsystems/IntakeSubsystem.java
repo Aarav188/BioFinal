@@ -16,12 +16,14 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 
 public class IntakeSubsystem{
     private final MotorEx rotationMotor;
     private final Servo intakeStopper;
     private final Servo intakeRotator;
-    private final ColorSensor colorSensor;
+    private ColorSensor colorSensor;
     public enum SpinState{
         INTAKE, OUTTAKE, STOP
     }
@@ -36,14 +38,16 @@ public class IntakeSubsystem{
     private StopperState stopperState;
 
     public RunAction intake, outtake, stop, transfer, pickup, lock, unlock;
+    Telemetry telemetry;
 
-    public IntakeSubsystem(HardwareMap hardwareMap, SpinState spinState, RotatorState rotatorState, StopperState stopperState) {
+    public IntakeSubsystem(HardwareMap hardwareMap, SpinState spinState, RotatorState rotatorState, StopperState stopperState, Telemetry telemetry) {
 
+        this.telemetry = telemetry;
         intakeRotator = hardwareMap.get(Servo.class, INTAKE_ROTATOR);
 
         intakeStopper = hardwareMap.get(Servo.class, INTAKE_STOPPER);
 
-        colorSensor = hardwareMap.get(ColorSensor.class, "color sensor");
+        //colorSensor = hardwareMap.get(ColorSensor.class, "color sensor");
 
         rotationMotor = new MotorEx(hardwareMap, INTAKE_ROTATION_MOTOR, Motor.GoBILDA.RPM_1150); //TODO check with harish the rpm of this motor
         rotationMotor.setRunMode(Motor.RunMode.RawPower);
@@ -124,7 +128,24 @@ public class IntakeSubsystem{
     }
 
 
+//    public int getRed(){
+//        return colorSensor.red();
+//    }
+//    public int getBlue(){
+//        return colorSensor.blue();
+//    }
+//    public int getGreen(){
+//        return colorSensor.green();
+//    }
+//    public int getIsThere(){
+//        return colorSensor.alpha();
+//    }
 
-
+//    public void updateTelem(){
+//        telemetry.addData("RED: ", getRed());
+//        telemetry.addData("BLUE: ", getBlue());
+//        telemetry.addData("GREEN: ", getGreen());
+//        telemetry.addData("The other one: ",getIsThere());
+//    }
 
 }

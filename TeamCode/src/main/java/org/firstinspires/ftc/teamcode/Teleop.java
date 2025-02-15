@@ -61,7 +61,7 @@ public class Teleop {
         claw = new OuttakeClawSubsystem(hardwareMap, wristState, sampleGrabState, clawGrabState);
         elevatorSubsystem = new ElevatorSubsystem(hardwareMap, telemetry);
         extend = new ExtendoSubsystem(hardwareMap, telemetry);
-        intake = new IntakeSubsystem(hardwareMap, intakeSpinState, rotatorState, stopperState);
+        intake = new IntakeSubsystem(hardwareMap, intakeSpinState, rotatorState, stopperState, telemetry);
         arm = new OuttakeArmSubsystem(hardwareMap, armState);
         hang = new HangSubsystem(hardwareMap, telemetry);
         this.follower = follower;
@@ -96,7 +96,7 @@ public class Teleop {
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
 
-            boolean intakeActive = gamepad1.a || gamepad1.b || gamepad1.right_trigger > 0 || gamepad1.left_trigger > 0;
+            intakeActive = gamepad1.a || gamepad1.b || gamepad1.right_trigger > 0 || gamepad1.left_trigger > 0;
             if(!intakeActive){
                 stopIntake();
             }
@@ -151,7 +151,7 @@ public class Teleop {
 
         elevatorSubsystem.updatePIDF();
 
-        autoBucket();
+       // autoBucket();
 
         follower.update();
 
@@ -203,7 +203,7 @@ public class Teleop {
     public void reset(){
         arm.reset();
         claw.reset();
-        claw.unlockSample();
+        fullUnlock();
         Timer resetTimer = new Timer();
         if(resetTimer.getElapsedTimeSeconds() > 2){
             elevatorSubsystem.toReset();

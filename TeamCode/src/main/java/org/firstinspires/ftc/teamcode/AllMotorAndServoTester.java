@@ -59,6 +59,10 @@ public class AllMotorAndServoTester extends OpMode {
     private Servo leftLinkage;
 
     private Servo rightLinkage;
+    private Servo temp1;
+    private Servo temp2;
+    private Servo temp3;
+    private Servo temp4;
 
     private MotorEx leftElevationMotor;
     private MotorEx rightElevationMotor;
@@ -86,36 +90,70 @@ public class AllMotorAndServoTester extends OpMode {
         motor2 = hardwareMap.dcMotor.get(ELEVATOR_MOTOR_RIGHT);
 
 
-//        stopper = hardwareMap.servo.get("stopper");
-//        intakeRotator = hardwareMap.servo.get("intakeRotator");
-//        claw = hardwareMap.servo.get("claw");
-//        wrist = hardwareMap.servo.get("outtakeRotator");
-//        leftClawRotator = hardwareMap.servo.get("leftArmRotator");
-//        rightClawRotator = hardwareMap.servo.get("rightArmRotator");
-//        rightClawRotator.setDirection(Servo.Direction.REVERSE);
-//        leftLinkage = hardwareMap.servo.get("leftLinkage");
-//        rightLinkage = hardwareMap.servo.get("rightLinkage");
+        stopper = hardwareMap.servo.get("stopper");
+        intakeRotator = hardwareMap.servo.get("intakeRotator");
+        claw = hardwareMap.servo.get("claw");
+        wrist = hardwareMap.servo.get("wrist"); //correct
+        leftClawRotator = hardwareMap.servo.get("leftClawRotator");
+        rightClawRotator = hardwareMap.servo.get("rightClawRotator");
+        rightClawRotator.setDirection(Servo.Direction.REVERSE);
+        leftLinkage = hardwareMap.servo.get("leftLinkage");
+        rightLinkage = hardwareMap.servo.get("rightLinkage");//
+//        temp1 = hardwareMap.servo.get("00");
+//        temp2 = hardwareMap.servo.get("11");// rine
+//        temp3 = hardwareMap.servo.get("22");// fine
+        temp4 = hardwareMap.servo.get("outtakeStopper");//
         FtcDashboard dashboard = FtcDashboard.getInstance();
         Telemetry dashboardTelemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         elevatorSubsystem = new ElevatorSubsystem(hardwareMap, dashboardTelemetry);
-        elevatorSubsystem.init();
-//        intakeSubsystem = new IntakeSubsystem(hardwareMap, spinState, rotatorState, stopperState);
-//        outtakeArmSubsystem = new OuttakeArmSubsystem(hardwareMap, outtakeArmPos);
-//        outtakeClawSubsystem = new OuttakeClawSubsystem(hardwareMap, wristState, sampleGrabState, clawGrabState);
-//        extendoSubsystem = new ExtendoSubsystem(hardwareMap, telemetry);
+        //elevatorSubsystem.init();
+        intakeSubsystem = new IntakeSubsystem(hardwareMap, spinState, rotatorState, stopperState, telemetry);
+        outtakeArmSubsystem = new OuttakeArmSubsystem(hardwareMap, outtakeArmPos);
+        outtakeClawSubsystem = new OuttakeClawSubsystem(hardwareMap, wristState, sampleGrabState, clawGrabState);
+        extendoSubsystem = new ExtendoSubsystem(hardwareMap, telemetry);
 
         position = 0;
     }
 
     @Override
     public void start(){
-        elevatorSubsystem.start();
+        //elevatorSubsystem.start();
     }
 
     @Override
     public void loop() {
         elevatorSubsystem.updateTelem();
-        elevatorSubsystem.updatePIDF();
+        //intakeSubsystem.updateTelem();
+        if(gamepad1.a){
+            extendoSubsystem.fullExtend();
+        }
+        if(gamepad1.b){
+            extendoSubsystem.reset();
+        }
+        if(gamepad1.y){
+            rightLinkage.setPosition(0.1);
+        }
+        if(gamepad1.x){
+            rightLinkage.setPosition(0.5);
+
+        }
+        if(gamepad1.dpad_down){
+            intakeSubsystem.pickup();
+            intakeSubsystem.intake();
+        }
+        if(gamepad1.dpad_right){
+            intakeSubsystem.transfer();
+            intakeSubsystem.stop();
+        }
+        if(gamepad1.dpad_up){
+            outtakeArmSubsystem.reset();
+        }
+        if(gamepad1.dpad_left){
+            outtakeArmSubsystem.transfer();
+        }
+
+
+//        elevatorSubsystem.updatePIDF();
 //        if (gamepad1.x) {
 //            motor2.setPower(-0.5);
 //        }
@@ -140,12 +178,12 @@ public class AllMotorAndServoTester extends OpMode {
 //        if(gamepad1.dpad_up){
 //            extendoSubsystem.fullExtend();
 //        }
-        if(gamepad2.x){
-            elevatorSubsystem.toHighBucket();
-        }
-        if(gamepad2.y){
-            elevatorSubsystem.toReset();
-        }
+//        if(gamepad2.x){
+//            elevatorSubsystem.toHighBucket();
+//        }
+//        if(gamepad2.y){
+//            elevatorSubsystem.toReset();
+//        }
 //        if(gamepad2.y){
 //            outtakeArmSubsystem.backSpecDrop();
 //            outtakeClawSubsystem.specBack();
