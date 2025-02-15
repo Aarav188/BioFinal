@@ -130,13 +130,13 @@ public class AllMotorAndServoTester extends OpMode {
         if(gamepad1.b){
             extendoSubsystem.reset();
         }
-        if(gamepad1.y){
-            rightLinkage.setPosition(0.1);
-        }
-        if(gamepad1.x){
-            rightLinkage.setPosition(0.5);
-
-        }
+//        if(gamepad1.y){
+//            rightLinkage.setPosition(0.1);
+//        }
+//        if(gamepad1.x){
+//            rightLinkage.setPosition(0.5);
+//
+//        }
         if(gamepad1.dpad_down){
             intakeSubsystem.pickup();
             intakeSubsystem.intake();
@@ -150,10 +150,17 @@ public class AllMotorAndServoTester extends OpMode {
         }
         if(gamepad1.dpad_left){
             outtakeArmSubsystem.transfer();
+            outtakeClawSubsystem.transfer();
         }
+        if(gamepad1.x){
+            elevatorSubsystem.toHighBucket();
+        }
+        if(gamepad1.y){
+            elevatorSubsystem.toReset();
+        }
+        elevatorSubsystem.updatePIDF();
 
 
-//        elevatorSubsystem.updatePIDF();
 //        if (gamepad1.x) {
 //            motor2.setPower(-0.5);
 //        }
@@ -178,9 +185,7 @@ public class AllMotorAndServoTester extends OpMode {
 //        if(gamepad1.dpad_up){
 //            extendoSubsystem.fullExtend();
 //        }
-//        if(gamepad2.x){
-//            elevatorSubsystem.toHighBucket();
-//        }
+
 //        if(gamepad2.y){
 //            elevatorSubsystem.toReset();
 //        }

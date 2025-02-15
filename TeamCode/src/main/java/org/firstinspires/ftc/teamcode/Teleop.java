@@ -7,6 +7,7 @@ import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Timer;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -84,8 +85,8 @@ public class Teleop {
         extend.init();
         intake.transfer();
         claw.closeClaw();
-        follower.setPose(startPose);
-        follower.startTeleopDrive();
+//        follower.setPose(startPose);
+//        follower.startTeleopDrive();
     }
 
     public void update() {
@@ -142,7 +143,7 @@ public class Teleop {
             }
 
 
-            follower.setTeleOpMovementVectors(flip * -gamepad1.left_stick_y * speed, flip * -gamepad1.left_stick_x * speed, -gamepad1.right_stick_x * speed * 0.5, true);
+//            follower.setTeleOpMovementVectors(flip * -gamepad1.left_stick_y * speed, flip * -gamepad1.left_stick_x * speed, -gamepad1.right_stick_x * speed * 0.5, true);
         } else {
             if(gamepad2.dpad_right) {
                 stopActions();
@@ -176,10 +177,16 @@ public class Teleop {
         extend.fullExtend();
         intake.lockSample();
         Timer extendAndIntakeTimer = new Timer();
-        if (extendAndIntakeTimer.getElapsedTimeSeconds() >= 0.30) {
-            intake.pickup();
-            intake.intake();
-        }
+
+        long currentExtendTimer = System.currentTimeMillis();
+        while(System.currentTimeMillis()<300+currentExtendTimer){}
+        intake.pickup();
+        intake.intake();
+//        if (extendAndIntakeTimer.getElapsedTimeSeconds() >= 0.30) {
+//            telemetry.addData("time",1);
+//            telemetry.update();
+//
+//        }
 
     }
     public void transfer(){
@@ -188,26 +195,40 @@ public class Teleop {
         arm.transfer();
         claw.transfer();
         Timer transferTimer = new Timer();
-        if(transferTimer.getElapsedTimeSeconds() >= 0.2){
+        long currentTransferTimer = System.currentTimeMillis();
+        while(System.currentTimeMillis()<200+currentTransferTimer){}
             extend.reset();
-        }
+
         intake.intake();
 
-        if(transferTimer.getElapsedTimeSeconds() >= 0.6) {
-            intake.unlockSample();
-        }
-        if(transferTimer.getElapsedTimeSeconds() >= 0.75){
-            claw.lockSample();
-        }
+//        if(transferTimer.getElapsedTimeSeconds() >= 0.6) {
+//            intake.unlockSample();
+//        }
+//        if(transferTimer.getElapsedTimeSeconds() >= 0.75){
+//            claw.lockSample();
+//        }
+
+        while(System.currentTimeMillis()<600+currentTransferTimer){}
+        intake.unlockSample();
+        while(System.currentTimeMillis()<600+currentTransferTimer){}
+        claw.lockSample();
+
+
     }
     public void reset(){
         arm.reset();
         claw.reset();
         fullUnlock();
-        Timer resetTimer = new Timer();
-        if(resetTimer.getElapsedTimeSeconds() > 2){
-            elevatorSubsystem.toReset();
-        }
+//        Timer resetTimer = new Timer();
+//        if(resetTimer.getElapsedTimeSeconds() > 2){
+//            elevatorSubsystem.toReset();
+//        }
+
+        long currentResetTimer = System.currentTimeMillis();
+        while(System.currentTimeMillis()<2000+currentResetTimer){}
+        elevatorSubsystem.toReset();
+
+
     }
 
     public void outtake(){

@@ -11,7 +11,7 @@ public class RobotConfig {
     public static String INTAKE_STOPPER = "stopper";
     public static double INTAKE_LARGE_ROTATOR_UP_POSITION = 0.83;
 
-    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.65; //0
+    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.68; //0
     public static double INTAKE_SMALL_ROTATOR_UP_POSITION = 0.03;
     public static double INTAKE_SMALL_ROTATOR_DOWN_POSITION = 0.79;
     public static double INTAKE_STOPPER_UP_POSITION = 0.9;
@@ -20,8 +20,8 @@ public class RobotConfig {
     //extendo subsystem
     public static double EXTENDO_LEFT_MAX_OUT_POSITION = 0.03;
     public static double EXTENDO_RIGHT_MAX_OUT_POSITION = 0.95;
-    public static double EXTENDO_LEFT_IN_POSITION = 0.26;
-    public static double EXTENDO_RIGHT_IN_POSITION = 0.50;
+    public static double EXTENDO_LEFT_IN_POSITION = 0.41;
+    public static double EXTENDO_RIGHT_IN_POSITION = 0.35;
 
     // Intake Rotator Subsystem
     public static  String CAPTURE_COLOR_SENSOR = "captureColor";
@@ -35,8 +35,8 @@ public class RobotConfig {
     //Drivetrain subsystem
     public static  String DT_LEFT_FRONT = "leftFront";
     public static  String DT_RIGHT_FRONT = "rightFront";
-    public static  String DT_LEFT_REAR = "leftBack";
-    public static  String DT_RIGHT_REAR = "rightBack";
+    public static  String DT_LEFT_REAR = "leftRear";
+    public static  String DT_RIGHT_REAR = "rightRear";
     public static  boolean DT_SQUARE_INPUT = false;
 
     //Camera subsystem
@@ -119,7 +119,7 @@ public class RobotConfig {
     public static double ARM_POS_SPECIMAN = 0.1;
     public static double ARM_POS_BUCKET_DROP = 0;
     public static double ARM_POS_BUCKET_DROP_HIGH = 0;
-    public static double WRIST_POS_REST = 0.58;
+    public static double WRIST_POS_REST = 0.7;
     public static double ARM_POS_SPECIMAN_DROP_BACK = 0.1;
     public static double ARM_POS_SPECIMAN_DROP_FRONT = 0.7;
     public static double  WRIST_POS_DEPO_RESET_TELEOP = 0.58;
@@ -128,7 +128,7 @@ public class RobotConfig {
     public static double CLAW_OPEN = 0.15;
     public static double CLAW_CLOSE = 0.40;
     public static double ARM_POS_REST = 0.82;
-    public static double ARM_POS_RESERVOIR_PICKUP = 0.78;
+    public static double ARM_POS_RESERVOIR_PICKUP = 0.75;
     public static String OUTTAKE_STOPPER = "outtakeStopper";
     public static double OUTTAKE_STOPPER_LOCK = 0.18;
     public static double OUTTAKE_STOPPER_UNLOCK = 0.5;

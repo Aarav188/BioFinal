@@ -32,6 +32,7 @@ public class HangSubsystem {
 
         hangMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         hangMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        hangMotor.setTargetPosition(0);
         hangMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
