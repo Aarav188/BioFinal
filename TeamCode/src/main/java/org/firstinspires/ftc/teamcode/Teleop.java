@@ -149,7 +149,8 @@ public class Teleop {
             }
 
 
-//            follower.setTeleOpMovementVectors(flip * -gamepad1.left_stick_y * speed, flip * -gamepad1.left_stick_x * speed, -gamepad1.right_stick_x * speed * 0.5, true);
+            follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, true);
+            //follower.update();
         } else {
             if(gamepad2.dpad_right) {
                 stopActions();
