@@ -11,14 +11,14 @@ public class RobotConfig {
     public static String INTAKE_STOPPER = "stopper";
     public static double INTAKE_LARGE_ROTATOR_UP_POSITION = 0.83;
 
-    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.68; //0
+    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.67; //0
     public static double INTAKE_SMALL_ROTATOR_UP_POSITION = 0.03;
     public static double INTAKE_SMALL_ROTATOR_DOWN_POSITION = 0.79;
     public static double INTAKE_STOPPER_UP_POSITION = 0.9;
     public static double INTAKE_STOPPER_DOWN_POSITION = 0.61;
 
     //extendo subsystem
-    public static double EXTENDO_LEFT_MAX_OUT_POSITION = 0.03;
+    public static double EXTENDO_LEFT_MAX_OUT_POSITION = 0.1;
     public static double EXTENDO_RIGHT_MAX_OUT_POSITION = 0.95;
     public static double EXTENDO_LEFT_IN_POSITION = 0.41;
     public static double EXTENDO_RIGHT_IN_POSITION = 0.35;
@@ -114,12 +114,12 @@ public class RobotConfig {
     public static double WRIST_POS_SPECIMAN_BACK = 0.4;
     public static double WRIST_POS_SPECIMAN_PICK = 0.25;
     public static double WRIST_POS_SPECIMAN_FRONT = 0.6;
-    public static double WRIST_POS_BUCKET_DROP = 0;
+    public static double WRIST_POS_BUCKET_DROP = 0.1;
     public static double WRIST_POS_DEPO_RESET = 0.7;
     public static double ARM_POS_SPECIMAN = 0.1;
-    public static double ARM_POS_BUCKET_DROP = 0;
+    public static double ARM_POS_BUCKET_DROP = 1;
     public static double ARM_POS_BUCKET_DROP_HIGH = 0;
-    public static double WRIST_POS_REST = 0.65;
+    public static double WRIST_POS_REST = 0.73;
     public static double ARM_POS_SPECIMAN_DROP_BACK = 0.1;
     public static double ARM_POS_SPECIMAN_DROP_FRONT = 0.7;
     public static double  WRIST_POS_DEPO_RESET_TELEOP = 0.58;

@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.ExtendoSubsystem;
+import org.firstinspires.ftc.teamcode.AutoSubsystems.HangSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.OuttakeArmSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.OuttakeClawSubsystem;
@@ -85,6 +86,8 @@ public class AllMotorAndServoTester extends OpMode {
     private OuttakeClawSubsystem.ClawGrabState clawGrabState;
     private OuttakeClawSubsystem.SampleGrabState sampleGrabState;
     private OuttakeClawSubsystem.WristState wristState;
+
+    private HangSubsystem hang;
     private int position;
 
     @Override
@@ -118,6 +121,7 @@ public class AllMotorAndServoTester extends OpMode {
         outtakeClawSubsystem = new OuttakeClawSubsystem(hardwareMap, wristState, sampleGrabState, clawGrabState);
         extendoSubsystem = new ExtendoSubsystem(hardwareMap, telemetry);
 
+        hang = new HangSubsystem(hardwareMap,telemetry);
         position = 0;
     }
 
@@ -158,7 +162,8 @@ public class AllMotorAndServoTester extends OpMode {
             extendoSubsystem.fullExtend();
         }
         if(gamepad1.b){
-            extendoSubsystem.reset();
+//            extendoSubsystem.reset();
+            hang.lower();
         }
 //        if(gamepad1.y){
 //            rightLinkage.setPosition(0.1);

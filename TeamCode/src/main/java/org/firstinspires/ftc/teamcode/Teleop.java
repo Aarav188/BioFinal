@@ -57,6 +57,10 @@ public class Teleop {
     private Pose autoBucketToEndPose, autoBucketBackEndPose;
     private boolean intakeActive;
 
+    private float starting_left_stick_y;
+    private float starting_left_stick_x;
+    private float starting_right_stick_x;
+
 
     public Teleop(HardwareMap hardwareMap, Telemetry telemetry, Follower follower, Pose startPose, Gamepad gamepad1, Gamepad gamepad2) {
         claw = new OuttakeClawSubsystem(hardwareMap, wristState, sampleGrabState, clawGrabState);
@@ -77,7 +81,15 @@ public class Teleop {
         this.intakeActive = false;
     }
 
-    public void init() {}
+    public void init() {
+        follower.setPose(startPose);
+        starting_left_stick_y = gamepad1.left_stick_y;
+        starting_left_stick_x = gamepad1.left_stick_x;
+        starting_right_stick_x = gamepad1.right_stick_y;
+        telemetry.addData("",starting_left_stick_x);
+        telemetry.addData("", starting_left_stick_y);
+        telemetry.addData("", starting_right_stick_x);
+    }
 
     public void start() {
         elevatorSubsystem.start();
@@ -85,8 +97,8 @@ public class Teleop {
         extend.init();
         intake.transfer();
         claw.closeClaw();
-//        follower.setPose(startPose);
-//        follower.startTeleopDrive();
+
+        follower.startTeleopDrive();
     }
 
     public void update() {
@@ -149,8 +161,8 @@ public class Teleop {
             }
 
 
-            follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, true);
-            //follower.update();
+            follower.setTeleOpMovementVectors(-gamepad1.left_stick_y + starting_left_stick_y, -gamepad1.left_stick_x + starting_left_stick_x, -gamepad1.right_stick_x + starting_right_stick_x, true);
+
         } else {
             if(gamepad2.dpad_right) {
                 stopActions();
@@ -158,10 +170,10 @@ public class Teleop {
         }
 
         elevatorSubsystem.updatePIDF();
-
+        follower.update();
        // autoBucket();
 
-        follower.update();
+//        follower.update();
 
         telemetry.addData("X", follower.getPose().getX());
         telemetry.addData("Y", follower.getPose().getY());
@@ -184,6 +196,9 @@ public class Teleop {
         extend.fullExtend();
         intake.lockSample();
         Timer extendAndIntakeTimer = new Timer();
+        if (intakeActive){
+            intake.intake();
+        }
 
         long currentExtendTimer = System.currentTimeMillis();
         while(System.currentTimeMillis()<300+currentExtendTimer){}
@@ -217,8 +232,9 @@ public class Teleop {
 
         while(System.currentTimeMillis()<600+currentTransferTimer){}
         intake.unlockSample();
-        while(System.currentTimeMillis()<600+currentTransferTimer){}
+        while(System.currentTimeMillis()<1000+currentTransferTimer){}
         claw.lockSample();
+
 
 
     }
