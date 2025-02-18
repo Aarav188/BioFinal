@@ -50,7 +50,7 @@ public class HangSubsystem {
         }
     }
     public void lower() {
-        hangMotor.setTargetPosition(hangMotor.getCurrentPosition()+3000);
+        hangMotor.setTargetPosition(hangMotor.getCurrentPosition()+1000);
         hangMotor.setPower(1);
     }
 

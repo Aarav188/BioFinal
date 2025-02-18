@@ -1,14 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.pedropathing.follower.Follower;
+import com.pedropathing.util.Constants;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
+@Autonomous(name="BlueBucket", group="A")
 public class newBucketAuto extends OpMode {
     public int pathState;
     public Auto auto;
 
     @Override
     public void init() {
+        Constants.setConstants(FConstants.class, LConstants.class);
         auto = new Auto(hardwareMap, telemetry, new Follower(hardwareMap), true, true);
 
         telemetry.addData("state", pathState);
@@ -42,25 +49,30 @@ public class newBucketAuto extends OpMode {
         switch (pathState) {
             case 0:
                 auto.follower.setMaxPower(0.7);
-                // auto.startChamber();
+//                auto.startChamber();
+                auto.startBucket();
                 auto.follower.followPath(auto.preload);
                 setPathState(1);
                 break;
             case 1:
                 if(!auto.follower.isBusy() && auto.actionNotBusy()) {
                     auto.follower.followPath(auto.element1);
-                    setPathState(-1);
+                    setPathState(2);
                 }
                 break;
             case 2:
                 if(!auto.follower.isBusy()) {
                     //auto.startIntake();
+                    auto.follower.setMaxPower(0.5);
+                    auto.follower.followPath(auto.score1);
                     setPathState(3);
                 }
                 break;
             case 3:
                 if(/*auto.actionNotBusy() && */!auto.follower.isBusy()) {
                     //auto.startTransfer();
+                    auto.follower.setMaxPower(0.5);
+                    auto.follower.followPath(auto.element2);
                     setPathState(4);
                 }
                 break;
@@ -76,13 +88,15 @@ public class newBucketAuto extends OpMode {
                 if(!auto.follower.isBusy() && auto.actionNotBusy()) {
                     //auto.startIntake();
                     auto.follower.setMaxPower(0.5);
-                    auto.follower.followPath(auto.element2);
+                    auto.follower.followPath(auto.element3);
                     setPathState(6);
                 }
                 break;
             case 6:
                 if(auto.actionNotBusy() && !auto.follower.isBusy()) {
                     //auto.startTransfer();
+                    auto.follower.setMaxPower(0.5);
+                    auto.follower.followPath(auto.score1);
                     setPathState(7);
                 }
                 break;
@@ -90,8 +104,8 @@ public class newBucketAuto extends OpMode {
                 if(auto.actionNotBusy() && !auto.follower.isBusy()) {
                     //auto.startBucket();
                     auto.follower.setMaxPower(0.5);
-                    auto.follower.followPath(auto.score2);
-                    setPathState(8);
+                    auto.follower.followPath(auto.park);
+                    setPathState(-1);
                 }
                 break;
             case 8:

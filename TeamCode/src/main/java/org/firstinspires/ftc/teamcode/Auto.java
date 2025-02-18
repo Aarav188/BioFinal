@@ -162,15 +162,28 @@ public class Auto {
                     .addPath(new BezierLine(new Point(startPose), new Point(preloadPose)))
                     .setLinearHeadingInterpolation(startPose.getHeading(), preloadPose.getHeading())
                     .build();
+            //
+            long currentTransferTimer = System.currentTimeMillis();
+            while(System.currentTimeMillis()<2000+currentTransferTimer){}
+            //
 
             element1 = new Path(new BezierCurve(new Point(preloadPose), new Point(sample1ControlPose), new Point(sample1Pose)));
             element1.setLinearHeadingInterpolation(preloadPose.getHeading(), sample1Pose.getHeading());
-
+//
+            currentTransferTimer = System.currentTimeMillis();
+            while(System.currentTimeMillis()<1000+currentTransferTimer){}
+            //
             score1 = new Path(new BezierLine(new Point(sample1Pose), new Point(sampleScorePose)));
             score1.setLinearHeadingInterpolation(sample1Pose.getHeading(), sampleScorePose.getHeading());
 
+            currentTransferTimer = System.currentTimeMillis();
+            while(System.currentTimeMillis()<1000+currentTransferTimer){}
+
             element2 = new Path(new BezierCurve(new Point(sampleScorePose), new Point(sample2ControlPose), new Point(sample2Pose)));
             element2.setLinearHeadingInterpolation(sampleScorePose.getHeading(), sample2Pose.getHeading());
+
+            currentTransferTimer = System.currentTimeMillis();
+            while(System.currentTimeMillis()<1000+currentTransferTimer){}
 
             score2 = new Path(new BezierLine(new Point(sample2Pose), new Point(sampleScorePose)));
             score2.setLinearHeadingInterpolation(sample2Pose.getHeading(), sampleScorePose.getHeading());
@@ -181,10 +194,10 @@ public class Auto {
             score3 = new Path(new BezierLine(new Point(sample3Pose), new Point(sampleScorePose)));
             score3.setLinearHeadingInterpolation(sample3Pose.getHeading(), sampleScorePose.getHeading());
 
-            park = follower.pathBuilder()
-                    .addPath(new BezierCurve(new Point(sampleScorePose), new Point(parkControlPose), new Point(parkPose)))
-                    .setLinearHeadingInterpolation(sampleScorePose.getHeading(), parkPose.getHeading())
-                    .build();
+//            park = follower.pathBuilder()
+//                    .addPath(new BezierCurve(new Point(sampleScorePose), new Point(parkControlPose), new Point(parkPose)))
+//                    .setLinearHeadingInterpolation(sampleScorePose.getHeading(), parkPose.getHeading())
+//                    .build();
         }
 
         if (startLocation == RobotStart.BLUE_OBSERVATION || startLocation == RobotStart.RED_OBSERVATION) {
@@ -336,10 +349,24 @@ public class Auto {
                 }
                 break;
             case 3:
-                if (bucketTimer.getElapsedTimeSeconds() > 1) {
+                if (bucketTimer.getElapsedTimeSeconds() > 1.2) {
+                    claw.unlockSample();
+                    setBucketState(4);
+                }
+            case 4:
+                if (bucketTimer.getElapsedTimeSeconds() > 1.7) {
+                    arm.reset();
+                    claw.reset();
+                    elevatorSubsystem.toReset();
+                    setBucketState(5);
+                }
+            case 5:
+                if (bucketTimer.getElapsedTimeSeconds() > 2.3) {
+                    elevatorSubsystem.toReset();
                     actionBusy = false;
                     setBucketState(-1);
                 }
+
 
         }
     }

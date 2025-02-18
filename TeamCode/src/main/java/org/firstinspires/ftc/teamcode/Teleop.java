@@ -6,6 +6,7 @@ import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
+import com.pedropathing.util.Constants;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -18,6 +19,8 @@ import org.firstinspires.ftc.teamcode.AutoSubsystems.HangSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.OuttakeArmSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.OuttakeClawSubsystem;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 public class Teleop {
     public HangSubsystem hang;
@@ -57,12 +60,15 @@ public class Teleop {
     private Pose autoBucketToEndPose, autoBucketBackEndPose;
     private boolean intakeActive;
 
+    private boolean hangActive;
+
     private float starting_left_stick_y;
     private float starting_left_stick_x;
     private float starting_right_stick_x;
 
 
     public Teleop(HardwareMap hardwareMap, Telemetry telemetry, Follower follower, Pose startPose, Gamepad gamepad1, Gamepad gamepad2) {
+
         claw = new OuttakeClawSubsystem(hardwareMap, wristState, sampleGrabState, clawGrabState);
         elevatorSubsystem = new ElevatorSubsystem(hardwareMap, telemetry);
         extend = new ExtendoSubsystem(hardwareMap, telemetry);
@@ -79,6 +85,7 @@ public class Teleop {
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
         this.intakeActive = false;
+        this.hangActive = false;
     }
 
     public void init() {
@@ -97,6 +104,7 @@ public class Teleop {
         extend.init();
         intake.transfer();
         claw.closeClaw();
+        reset();
 
         follower.startTeleopDrive();
     }
@@ -113,26 +121,26 @@ public class Teleop {
                 stopIntake();
             }
 
-            if(gamepad1.a){
+            if(gamepad1.a){ //done
                 intakeActive = true;
                 extendAndIntake();
             }
-            if(gamepad1.b){
+            if(gamepad1.b){ //done
                 transfer();
                 intakeActive = false;
             }
-            if(gamepad1.x){
+            if(gamepad1.x){ //done
                 reset();
             }
             if(gamepad1.y){
-                hang.hang();
+                gameHang();
             }
 
-            if(gamepad1.right_trigger > 0){
+            if(gamepad1.right_trigger > 0){ //done
                 intakeActive = true;
                 outtake();
             }
-            else if(gamepad1.left_trigger > 0){
+            else if(gamepad1.left_trigger > 0){ //done
                 intakeActive = true;
                 intake();
             }
@@ -140,20 +148,20 @@ public class Teleop {
                 intakeActive = false;
             }
 
-            if(gamepad1.left_bumper){
+            if(gamepad1.left_bumper){ //done
                 fullLock();
             }
-            if(gamepad1.right_bumper){
+            if(gamepad1.right_bumper){ //done
                 fullUnlock();
             }
 
-            if(gamepad1.dpad_right){
+            if(gamepad1.dpad_right){ //tuned
                 specPick();
             }
-            if(gamepad1.dpad_left){
+            if(gamepad1.dpad_left){ //done
                 highSampleDrop();
             }
-            if(gamepad1.dpad_up){
+            if(gamepad1.dpad_up){ //done
                 elevatorIncrement();
             }
             if(gamepad1.dpad_down){
@@ -161,7 +169,7 @@ public class Teleop {
             }
 
 
-            follower.setTeleOpMovementVectors(-gamepad1.left_stick_y + starting_left_stick_y, -gamepad1.left_stick_x + starting_left_stick_x, -gamepad1.right_stick_x + starting_right_stick_x, true);
+            follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, true);
 
         } else {
             if(gamepad2.dpad_right) {
@@ -194,14 +202,15 @@ public class Teleop {
 
     private void extendAndIntake(){
         extend.fullExtend();
-        intake.lockSample();
+
         Timer extendAndIntakeTimer = new Timer();
         if (intakeActive){
             intake.intake();
         }
 
         long currentExtendTimer = System.currentTimeMillis();
-        while(System.currentTimeMillis()<300+currentExtendTimer){}
+        while(System.currentTimeMillis()<600+currentExtendTimer){}
+        intake.lockSample();
         intake.pickup();
         intake.intake();
 //        if (extendAndIntakeTimer.getElapsedTimeSeconds() >= 0.30) {
@@ -210,6 +219,17 @@ public class Teleop {
 //
 //        }
 
+    }
+
+    public void gameHang(){
+        if (!hangActive){
+            hang.hang();
+            hangActive = true;
+        }
+        else{
+            hang.lower();
+            hangActive = false;
+        }
     }
     public void transfer(){
         intake.stop();
@@ -232,8 +252,10 @@ public class Teleop {
 
         while(System.currentTimeMillis()<600+currentTransferTimer){}
         intake.unlockSample();
-        while(System.currentTimeMillis()<1000+currentTransferTimer){}
+        while(System.currentTimeMillis()<1400+currentTransferTimer){}
         claw.lockSample();
+        arm.reset();
+        claw.reset();
 
 
 
@@ -248,7 +270,7 @@ public class Teleop {
 //        }
 
         long currentResetTimer = System.currentTimeMillis();
-        while(System.currentTimeMillis()<2000+currentResetTimer){}
+        while(System.currentTimeMillis()<1000+currentResetTimer){}
         elevatorSubsystem.toReset();
 
 
@@ -275,6 +297,8 @@ public class Teleop {
 
     public void specPick(){
         arm.specPickUp();
+        long specPickTimer = System.currentTimeMillis();
+        while(System.currentTimeMillis()<1000+specPickTimer){}
         claw.pickup();
         claw.openClaw();
     }

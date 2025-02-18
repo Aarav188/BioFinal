@@ -18,7 +18,7 @@ public class RobotConfig {
     public static double INTAKE_STOPPER_DOWN_POSITION = 0.61;
 
     //extendo subsystem
-    public static double EXTENDO_LEFT_MAX_OUT_POSITION = 0.1;
+    public static double EXTENDO_LEFT_MAX_OUT_POSITION = 0.08;
     public static double EXTENDO_RIGHT_MAX_OUT_POSITION = 0.95;
     public static double EXTENDO_LEFT_IN_POSITION = 0.41;
     public static double EXTENDO_RIGHT_IN_POSITION = 0.35;
@@ -112,14 +112,14 @@ public class RobotConfig {
     public static  String LEFT_CLAW_ROTATE = "leftClawRotator";
     public static  String RIGHT_CLAW_ROTATE = "rightClawRotator";
     public static double WRIST_POS_SPECIMAN_BACK = 0.4;
-    public static double WRIST_POS_SPECIMAN_PICK = 0.25;
+    public static double WRIST_POS_SPECIMAN_PICK = 0.49;
     public static double WRIST_POS_SPECIMAN_FRONT = 0.6;
     public static double WRIST_POS_BUCKET_DROP = 0.1;
     public static double WRIST_POS_DEPO_RESET = 0.7;
-    public static double ARM_POS_SPECIMAN = 0.1;
+    public static double ARM_POS_SPECIMAN = 1;
     public static double ARM_POS_BUCKET_DROP = 1;
     public static double ARM_POS_BUCKET_DROP_HIGH = 0;
-    public static double WRIST_POS_REST = 0.73;
+    public static double WRIST_POS_REST = 0.75;
     public static double ARM_POS_SPECIMAN_DROP_BACK = 0.1;
     public static double ARM_POS_SPECIMAN_DROP_FRONT = 0.7;
     public static double  WRIST_POS_DEPO_RESET_TELEOP = 0.58;

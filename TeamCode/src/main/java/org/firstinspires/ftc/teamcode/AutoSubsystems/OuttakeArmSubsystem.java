@@ -34,6 +34,7 @@ public class OuttakeArmSubsystem{
     public OuttakeArmSubsystem(HardwareMap hardwareMap, OuttakeArmPos state){
         leftArmServo = hardwareMap.get(Servo.class, LEFT_CLAW_ROTATE);
         rightArmServo = hardwareMap.get(Servo.class, RIGHT_CLAW_ROTATE);
+        rightArmServo.setDirection(Servo.Direction.REVERSE);
         this.state = state;
 
         reset = new RunAction(this::reset);
