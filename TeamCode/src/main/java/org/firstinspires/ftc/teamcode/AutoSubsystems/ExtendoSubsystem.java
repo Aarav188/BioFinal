@@ -36,7 +36,7 @@ public class ExtendoSubsystem{
     //TODO right one normal set to 0, left one reveresed set to 1
     public void setTarget(double b, double x){
         leftExtend.setPosition(b);
-        rightExtend.setPosition(b);
+        rightExtend.setPosition(x);
         pos = b;
     }
 
@@ -45,7 +45,7 @@ public class ExtendoSubsystem{
     }
 
     public void halfExtend(){
-        setTarget(EXTENDO_LEFT_MAX_OUT_POSITION/2, EXTENDO_RIGHT_MAX_OUT_POSITION / 2);
+        setTarget(EXTENDO_LEFT_MAX_OUT_POSITION/2, EXTENDO_RIGHT_MAX_OUT_POSITION/2 );
     }
 
     public void fullExtend(){

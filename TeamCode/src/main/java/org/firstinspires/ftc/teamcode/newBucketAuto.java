@@ -56,7 +56,6 @@ public class newBucketAuto extends OpMode {
                 break;
             case 1:
                 if(!auto.follower.isBusy() && auto.actionNotBusy()) {
-                    auto.extend.fullExtend();
                     auto.setIntakeState(3);
                     auto.follower.followPath(auto.element1);
                     setPathState(2);

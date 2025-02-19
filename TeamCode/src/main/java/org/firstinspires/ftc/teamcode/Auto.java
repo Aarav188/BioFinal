@@ -464,7 +464,7 @@ public class Auto {
                     intake.outtake();
                     claw.openClaw();
                     extend.halfExtend();
-                    intakeTimer.resetTimer();
+                    //intakeTimer.resetTimer();
                     setTransferState(3);
                 }
                 break;
@@ -472,6 +472,7 @@ public class Auto {
                 if (intakeTimer.getElapsedTimeSeconds() > 1) {
                     intake.transfer();
                     extend.halfExtend();
+                    intakeTimer.getElapsedTimeSeconds();
                     intake.pickup();
                     intake.intake();
                     intakeTimer.resetTimer();
