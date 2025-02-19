@@ -236,10 +236,12 @@ public class Teleop {
         intake.transfer();
         arm.transfer();
         claw.transfer();
+        claw.unlockSample();
         Timer transferTimer = new Timer();
         long currentTransferTimer = System.currentTimeMillis();
         while(System.currentTimeMillis()<200+currentTransferTimer){}
-            extend.reset();
+
+        extend.reset();
 
         intake.intake();
 
@@ -252,8 +254,9 @@ public class Teleop {
 
         while(System.currentTimeMillis()<600+currentTransferTimer){}
         intake.unlockSample();
-        while(System.currentTimeMillis()<1400+currentTransferTimer){}
+        while(System.currentTimeMillis()<1300+currentTransferTimer){}
         claw.lockSample();
+        while(System.currentTimeMillis()<1600+currentTransferTimer){}
         arm.reset();
         claw.reset();
 

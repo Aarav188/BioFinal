@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.AutoSubsystems;
 
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_LEFT_HALF_OUT_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_LEFT_IN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_LEFT_MAX_OUT_POSITION;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_RIGHT_HALF_OUT_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_RIGHT_IN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_RIGHT_MAX_OUT_POSITION;
 
@@ -25,7 +27,7 @@ public class ExtendoSubsystem{
 
         leftExtend = hardwareMap.get(Servo.class, "leftLinkage");
         rightExtend = hardwareMap.get(Servo.class, "rightLinkage");
-        rightExtend.setDirection(Servo.Direction.REVERSE);
+        //rightExtend.setDirection(Servo.Direction.REVERSE);
 
         reset = new RunAction(this::reset);
         halfExtend = new RunAction(this::halfExtend);
@@ -45,7 +47,7 @@ public class ExtendoSubsystem{
     }
 
     public void halfExtend(){
-        setTarget(EXTENDO_LEFT_MAX_OUT_POSITION/2, EXTENDO_RIGHT_MAX_OUT_POSITION/2 );
+        setTarget(EXTENDO_LEFT_HALF_OUT_POSITION, EXTENDO_RIGHT_HALF_OUT_POSITION );
     }
 
     public void fullExtend(){

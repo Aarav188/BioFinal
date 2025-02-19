@@ -79,7 +79,7 @@ public class Auto {
         elevatorSubsystem.init();
         extend.init();
         intake.transfer();
-        arm.frontSpecDrop();
+        arm.reset();
         telemetryUpdate();
 
         follower.setStartingPose(startPose);
@@ -91,7 +91,7 @@ public class Auto {
         extend.init();
         intake.transfer();
         claw.closeClaw();
-
+        claw.lockSample();
         follower.setStartingPose(startPose);
     }
 
@@ -163,27 +163,15 @@ public class Auto {
                     .setLinearHeadingInterpolation(startPose.getHeading(), preloadPose.getHeading())
                     .build();
             //
-            long currentTransferTimer = System.currentTimeMillis();
-            while(System.currentTimeMillis()<2000+currentTransferTimer){}
-            //
 
             element1 = new Path(new BezierCurve(new Point(preloadPose), new Point(sample1ControlPose), new Point(sample1Pose)));
             element1.setLinearHeadingInterpolation(preloadPose.getHeading(), sample1Pose.getHeading());
-//
-            currentTransferTimer = System.currentTimeMillis();
-            while(System.currentTimeMillis()<1000+currentTransferTimer){}
-            //
+
             score1 = new Path(new BezierLine(new Point(sample1Pose), new Point(sampleScorePose)));
             score1.setLinearHeadingInterpolation(sample1Pose.getHeading(), sampleScorePose.getHeading());
 
-            currentTransferTimer = System.currentTimeMillis();
-            while(System.currentTimeMillis()<1000+currentTransferTimer){}
-
             element2 = new Path(new BezierCurve(new Point(sampleScorePose), new Point(sample2ControlPose), new Point(sample2Pose)));
             element2.setLinearHeadingInterpolation(sampleScorePose.getHeading(), sample2Pose.getHeading());
-
-            currentTransferTimer = System.currentTimeMillis();
-            while(System.currentTimeMillis()<1000+currentTransferTimer){}
 
             score2 = new Path(new BezierLine(new Point(sample2Pose), new Point(sampleScorePose)));
             score2.setLinearHeadingInterpolation(sample2Pose.getHeading(), sampleScorePose.getHeading());
@@ -284,12 +272,15 @@ public class Auto {
         switch (transferState) {
             case 1:
                 actionBusy = true;
+                intake.lockSample();
                 intake.transfer();
-                intake.intake();
-                elevatorSubsystem.toReset();
+                intake.stop();
+//                elevatorSubsystem.toReset();
                 arm.transfer();
                 claw.transfer();
-                claw.openClaw();
+                intake.lockSample();
+                claw.unlockSample();
+                intake.lockSample();
                 extend.reset();
                 transferTimer.resetTimer();
                 setTransferState(2);
@@ -297,6 +288,7 @@ public class Auto {
             case 2:
                 if (transferTimer.getElapsedTimeSeconds() > 1.5) {
                     intake.stop();
+                    intake.unlockSample();
                     transferTimer.resetTimer();
                     setTransferState(3);
                 }
@@ -352,16 +344,21 @@ public class Auto {
                 if (bucketTimer.getElapsedTimeSeconds() > 1.2) {
                     claw.unlockSample();
                     setBucketState(4);
+                    bucketTimer.resetTimer();
                 }
+                break;
             case 4:
-                if (bucketTimer.getElapsedTimeSeconds() > 1.7) {
+                if (bucketTimer.getElapsedTimeSeconds() > 1.4) {
+//                    long currentElevatorTimer = System.currentTimeMillis();
+//                    while(System.currentTimeMillis()<800+currentElevatorTimer){}
                     arm.reset();
                     claw.reset();
                     elevatorSubsystem.toReset();
-                    setBucketState(5);
+                    actionBusy = false;
+                    setBucketState(-1);
                 }
             case 5:
-                if (bucketTimer.getElapsedTimeSeconds() > 2.3) {
+                if (bucketTimer.getElapsedTimeSeconds() > 2) {
                     elevatorSubsystem.toReset();
                     actionBusy = false;
                     setBucketState(-1);
@@ -452,39 +449,34 @@ public class Auto {
         switch (intakeState) {
             case 1:
                 actionBusy = true;
-                claw.openClaw();
                 intakeTimer.resetTimer();
-                setTransferState(2);
+                intake.transfer();
+//                elevatorSubsystem.toReset();
+                setIntakeState(2);
                 break;
             case 2:
-                if(intakeTimer.getElapsedTimeSeconds() > 0.5) {
-                    arm.transfer();
-                    claw.transfer();
-                    intake.transfer();
-                    intake.outtake();
-                    claw.openClaw();
+                if(intakeTimer.getElapsedTimeSeconds() > 0.4) {
                     extend.halfExtend();
-                    //intakeTimer.resetTimer();
-                    setTransferState(3);
+                    setIntakeState(3);
+                    intakeTimer.resetTimer();
                 }
                 break;
             case 3:
-                if (intakeTimer.getElapsedTimeSeconds() > 1) {
-                    intake.transfer();
-                    extend.halfExtend();
-                    intakeTimer.getElapsedTimeSeconds();
-                    intake.pickup();
-                    intake.intake();
-                    intakeTimer.resetTimer();
-                    setTransferState(4);
-                }
+                if (intakeTimer.getElapsedTimeSeconds() > 0.5) {
+                intake.pickup();
+                intake.intake();
+                setIntakeState(4);
+                intakeTimer.resetTimer();
+            }
                 break;
             case 4:
-                if (intakeTimer.getElapsedTimeSeconds() > 1.5) {
-                    intake.outtake();
+                if (intakeTimer.getElapsedTimeSeconds() > 2) {
+                    intake.lockSample();
+                    intakeTimer.resetTimer();
                     intakeTimer.resetTimer();
                     actionBusy = false;
-                    setTransferState(-1);
+                    setIntakeState(-1);
+                    startTransfer();
                 }
                 break;
         }
@@ -495,9 +487,9 @@ public class Auto {
     }
 
     public void startIntake() {
-        if (actionNotBusy()) {
+//        if (actionNotBusy()) {
             setIntakeState(1);
-        }
+//        }
     }
 
     public void park() {

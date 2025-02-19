@@ -18,13 +18,13 @@ public class FieldConstants {
     public static final Pose redObservationStartPose = new Pose(144-blueObservationStartPose.getX(), blueObservationStartPose.getY(), 0);
 
     // Preload Poses
-    public static final Pose blueBucketPreloadPose = new Pose(12, 120 , Math.toRadians(-70));
+    public static final Pose blueBucketPreloadPose = new Pose(12, 123.5 , Math.toRadians(-70));
     public static final Pose blueObservationPreloadPose = new Pose(38.5, 66, Math.toRadians(180));
     public static final Pose redBucketPreloadPose = new Pose(144-blueBucketPreloadPose.getX(), blueBucketPreloadPose.getY(), 0);
     public static final Pose redObservationPreloadPose = new Pose(144-blueObservationPreloadPose.getX(), blueObservationPreloadPose.getY(), 0);
 
     // Blue Bucket Sample Poses
-    public static final Pose blueBucketLeftSamplePose = new Pose(30, 125, -120);
+    public static final Pose blueBucketLeftSamplePose = new Pose(32, 131, -120);
     public static final Pose blueBucketLeftSampleControlPose = new Pose(23, 133);
     public static final Pose blueBucketMidSamplePose = new Pose(31, 131, 0);
     public static final Pose blueBucketMidSampleControlPose = new Pose(21, 137);
