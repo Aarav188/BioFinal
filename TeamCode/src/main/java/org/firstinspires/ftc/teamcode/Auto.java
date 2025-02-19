@@ -470,6 +470,8 @@ public class Auto {
                 break;
             case 3:
                 if (intakeTimer.getElapsedTimeSeconds() > 1) {
+                    intake.transfer();
+                    extend.halfExtend();
                     intake.pickup();
                     intake.intake();
                     intakeTimer.resetTimer();
