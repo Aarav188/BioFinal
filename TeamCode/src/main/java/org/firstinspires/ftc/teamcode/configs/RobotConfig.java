@@ -19,9 +19,9 @@ public class RobotConfig {
 
     //extendo subsystem
     public static double EXTENDO_LEFT_MAX_OUT_POSITION = 0.08; //0.08
-    public static double EXTENDO_LEFT_HALF_OUT_POSITION = 0.15;
-    public static double EXTENDO_RIGHT_HALF_OUT_POSITION = 0.9;
-    public static double EXTENDO_RIGHT_MAX_OUT_POSITION = 0.94;
+    public static double EXTENDO_LEFT_HALF_OUT_POSITION = 0.1;
+    public static double EXTENDO_RIGHT_HALF_OUT_POSITION = 0.87;
+    public static double EXTENDO_RIGHT_MAX_OUT_POSITION = 0.92;
     public static double EXTENDO_LEFT_IN_POSITION = 0.41;
     public static double EXTENDO_RIGHT_IN_POSITION = 0.35;
 

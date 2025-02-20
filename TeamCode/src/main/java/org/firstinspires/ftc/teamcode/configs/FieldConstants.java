@@ -24,13 +24,13 @@ public class FieldConstants {
     public static final Pose redObservationPreloadPose = new Pose(144-blueObservationPreloadPose.getX(), blueObservationPreloadPose.getY(), 0);
 
     // Blue Bucket Sample Poses
-    public static final Pose blueBucketLeftSamplePose = new Pose(32, 131, -120);
-    public static final Pose blueBucketLeftSampleControlPose = new Pose(23, 133);
-    public static final Pose blueBucketMidSamplePose = new Pose(31, 131, 0);
-    public static final Pose blueBucketMidSampleControlPose = new Pose(21, 137);
-    public static final Pose blueBucketRightSamplePose = new Pose(32, 135, 10);
-    public static final Pose blueBucketRightSampleControlPose = new Pose(23, 135);
-    public static final Pose blueBucketScorePose = new Pose(19, 130, Math.toRadians(-45));
+    public static final Pose blueBucketLeftSamplePose = new Pose(28.5, 128.6, -120);
+    public static final Pose blueBucketLeftSampleControlPose = new Pose(19, 119);
+    public static final Pose blueBucketMidSamplePose = new Pose(29, 130.5, 0);
+    public static final Pose blueBucketMidSampleControlPose = new Pose(21, 136);
+    public static final Pose blueBucketRightSamplePose = new Pose(32, 126, 0.7);
+    public static final Pose blueBucketRightSampleControlPose = new Pose(25, 123);
+    public static final Pose blueBucketScorePose = new Pose(18, 125, Math.toRadians(-45));
 
     // Blue Observation Specimen Poses
     public static final Pose blueObservationSpecimenSetPose = new Pose(12, 35, Math.toRadians(180));
@@ -44,7 +44,7 @@ public class FieldConstants {
     public static final Pose blueObservationSpecimen4Pose = new Pose(38, 84.25, Math.toRadians(180));
 
 
-    public static final Pose blueBucketParkPose = new Pose(62, 97.75, Math.toRadians(90));
+    public static final Pose blueBucketParkPose = new Pose(39, 120, Math.toRadians(90));
     public static final Pose blueBucketParkControlPose = new Pose(60.25, 123.5);
     public static final Pose blueObservationParkPose = new Pose(12, 32, Math.toRadians(180));
 

@@ -39,7 +39,8 @@ public class Auto {
     public Follower follower;
     public Telemetry telemetry;
 
-    public boolean actionBusy, liftPIDF = true;
+    public boolean actionBusy = false;
+    public boolean liftPIDF = true;
     public double liftManual = 0;
 
     public Timer transferTimer = new Timer(), bucketTimer = new Timer(), chamberTimer = new Timer(), intakeTimer = new Timer(), parkTimer = new Timer(), specimenTimer = new Timer(), chamberTimer2 = new Timer();
@@ -58,6 +59,7 @@ public class Auto {
 
         this.follower = follower;
         this.telemetry = telemetry;
+        this.actionBusy = false;
 
         startLocation = isBlue ? (isBucket ? RobotStart.BLUE_BUCKET : RobotStart.BLUE_OBSERVATION) : (isBucket ? RobotStart.RED_BUCKET : RobotStart.RED_OBSERVATION);
 
@@ -79,6 +81,7 @@ public class Auto {
         elevatorSubsystem.init();
         extend.init();
         intake.transfer();
+        intake.lockSample();
         arm.reset();
         telemetryUpdate();
 
@@ -271,11 +274,11 @@ public class Auto {
     public void transfer() {
         switch (transferState) {
             case 1:
-                actionBusy = true;
+                this.actionBusy = true;
                 intake.lockSample();
                 intake.transfer();
-                intake.stop();
-//                elevatorSubsystem.toReset();
+
+                elevatorSubsystem.toReset();
                 arm.transfer();
                 claw.transfer();
                 intake.lockSample();
@@ -286,8 +289,7 @@ public class Auto {
                 setTransferState(2);
                 break;
             case 2:
-                if (transferTimer.getElapsedTimeSeconds() > 1.5) {
-                    intake.stop();
+                if (transferTimer.getElapsedTimeSeconds() > 1) {
                     intake.unlockSample();
                     transferTimer.resetTimer();
                     setTransferState(3);
@@ -295,16 +297,13 @@ public class Auto {
                 break;
             case 3:
                 if (transferTimer.getElapsedTimeSeconds() > 1) {
-                    elevatorSubsystem.toReset();
+//                    elevatorSubsystem.toReset();
+
                     transferTimer.resetTimer();
+                    claw.lockSample();
+                    intake.stop();
+                    this.actionBusy = false;
                     setTransferState(4);
-                }
-                break;
-            case 4:
-                if (transferTimer.getElapsedTimeSeconds() > 0.5) {
-                    claw.closeClaw();
-                    actionBusy = false;
-                    setTransferState(-1);
                 }
                 break;
         }
@@ -315,9 +314,8 @@ public class Auto {
     }
 
     public void startTransfer() {
-        if (actionNotBusy()) {
+
             setTransferState(1);
-        }
     }
 
     public void bucket() {
@@ -348,7 +346,7 @@ public class Auto {
                 }
                 break;
             case 4:
-                if (bucketTimer.getElapsedTimeSeconds() > 1.4) {
+                if (bucketTimer.getElapsedTimeSeconds() > 1.6) {
 //                    long currentElevatorTimer = System.currentTimeMillis();
 //                    while(System.currentTimeMillis()<800+currentElevatorTimer){}
                     arm.reset();
@@ -381,7 +379,7 @@ public class Auto {
     public void chamber() {
         switch (chamberState) {
             case 1:
-                actionBusy = true;
+                this.actionBusy = true;
                 arm.frontSpecDrop();
                 claw.closeClaw();
                 claw.specFront();
@@ -419,7 +417,7 @@ public class Auto {
     public void specimen() {
         switch (specimenState) {
             case 1:
-                actionBusy = true;
+                this.actionBusy = true;
                 claw.openClaw();
                 extend.reset();
                 arm.specPickUp();
@@ -448,14 +446,16 @@ public class Auto {
     public void intake() {
         switch (intakeState) {
             case 1:
-                actionBusy = true;
+                this.actionBusy = true;
+                setTransferState(-1);
                 intakeTimer.resetTimer();
+                intake.lockSample();
                 intake.transfer();
 //                elevatorSubsystem.toReset();
                 setIntakeState(2);
                 break;
             case 2:
-                if(intakeTimer.getElapsedTimeSeconds() > 0.4) {
+                if(intakeTimer.getElapsedTimeSeconds() > 0.6) {
                     extend.halfExtend();
                     setIntakeState(3);
                     intakeTimer.resetTimer();
@@ -470,13 +470,12 @@ public class Auto {
             }
                 break;
             case 4:
-                if (intakeTimer.getElapsedTimeSeconds() > 2) {
+                if (intakeTimer.getElapsedTimeSeconds() > 1) {
                     intake.lockSample();
                     intakeTimer.resetTimer();
-                    intakeTimer.resetTimer();
-                    actionBusy = false;
                     setIntakeState(-1);
                     startTransfer();
+                    this.actionBusy = true;
                 }
                 break;
         }
@@ -487,6 +486,7 @@ public class Auto {
     }
 
     public void startIntake() {
+        this.actionBusy = true;
 //        if (actionNotBusy()) {
             setIntakeState(1);
 //        }
@@ -528,7 +528,7 @@ public class Auto {
     }
 
     public boolean actionNotBusy() {
-        return !actionBusy;
+        return !this.actionBusy;
     }
 
     public boolean notBusy() {
