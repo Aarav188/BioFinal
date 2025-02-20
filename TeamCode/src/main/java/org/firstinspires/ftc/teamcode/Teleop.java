@@ -213,11 +213,7 @@ public class Teleop {
         intake.lockSample();
         intake.pickup();
         intake.intake();
-//        if (extendAndIntakeTimer.getElapsedTimeSeconds() >= 0.30) {
-//            telemetry.addData("time",1);
-//            telemetry.update();
-//
-//        }
+        intake.stop();
 
     }
 
