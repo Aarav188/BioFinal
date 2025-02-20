@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.AutoSubsystems;
 
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_LEFT_IN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_LEFT_MAX_OUT_POSITION;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_RIGHT_IN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_RIGHT_MAX_OUT_POSITION;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.pedropathing.pathgen.Point;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -35,8 +38,8 @@ public class CameraSubsystem {
     private double x = 0;
     private double y = 0;
 
-    public static double extendMultipler = 0.0045;
-
+    public static double extendMultipler = 0.0045; //replace with (maxExtendoDistance in inches from the base of chassis to the roller) / (EXTENDO_LEFT_MAX_OUT_POSITION - EXTENDO_LEFT_IN_POSITION)
+    public double maxExtendoLengthInInches = 0; //replace with maxExtendoDistance in inches from the base of chassis to the roller
     private DcMotor lf,rf,lb,rb;
 
     private double limelightHeight;
@@ -98,14 +101,17 @@ public class CameraSubsystem {
 
     public void extendAlign() {
         angleToTarget = Math.toRadians(result.getTy());
+        double limelightCameraHeight = 0; //change
 
-        double distance = (1-limelightHeight) / Math.tan(angleToTarget);
-        extendoSubsystem.setTarget(EXTENDO_LEFT_MAX_OUT_POSITION - distance * 0.01, EXTENDO_RIGHT_MAX_OUT_POSITION - distance * 0.01); //TODO tune this position
+        double yDistance = Math.abs(limelightCameraHeight / Math.tan(Math.toRadians(ty)));
+
+        extendoSubsystem.setTarget(EXTENDO_LEFT_IN_POSITION - Math.abs(maxExtendoLengthInInches / (EXTENDO_RIGHT_MAX_OUT_POSITION - EXTENDO_RIGHT_IN_POSITION)) * yDistance, EXTENDO_RIGHT_IN_POSITION + Math.abs(maxExtendoLengthInInches / (EXTENDO_RIGHT_MAX_OUT_POSITION - EXTENDO_RIGHT_IN_POSITION)) * yDistance); //TODO tune this position
     }
 
-    public void driveAlign(double error) {
-
-
+    public double driveAlign() {
+        double limelightCameraHeight = 0; //change
+        double xDistance = Math.abs(limelightCameraHeight / Math.tan(Math.toRadians(tx)));
+        return xDistance;
     }
 
     public void update() {

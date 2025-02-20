@@ -47,7 +47,7 @@ public class IntakeSubsystem{
 
         intakeStopper = hardwareMap.get(Servo.class, INTAKE_STOPPER);
 
-        //colorSensor = hardwareMap.get(ColorSensor.class, "color sensor");
+        colorSensor = hardwareMap.get(ColorSensor.class, "color sensor");
 
         rotationMotor = new MotorEx(hardwareMap, INTAKE_ROTATION_MOTOR, Motor.GoBILDA.RPM_1150); //TODO check with harish the rpm of this motor
         rotationMotor.setRunMode(Motor.RunMode.RawPower);
@@ -86,9 +86,32 @@ public class IntakeSubsystem{
         this.spinState = SpinState.OUTTAKE;
     }
 
+
     public void stop(){
-        rotationMotor.set(0);
-        this.spinState = SpinState.STOP;
+        while (true) {
+            if (colorSensor.red() > 2500 && colorSensor.red() < 4000 && colorSensor.green() > 4000 && colorSensor.green() < 6000 && colorSensor.blue() > 800 && colorSensor.green() < 1700) {
+                rotationMotor.set(0);
+                this.spinState = SpinState.STOP;
+                telemetry.addData("Color: ", "yellow");
+                break;
+            }
+            else if (colorSensor.red() > 2000 && colorSensor.red() < 3000 && colorSensor.green() > 800 && colorSensor.green() < 1600 && colorSensor.blue() > 500 && colorSensor.blue() < 1000) {
+                rotationMotor.set(0);
+                this.spinState = SpinState.STOP;
+                telemetry.addData("Color: ", "red");
+                break;
+            }
+            else if (colorSensor.red() > 200 && colorSensor.red() < 900 && colorSensor.green() > 800 && colorSensor.green() < 1600 && colorSensor.blue() > 2500 && colorSensor.blue() < 5000) {
+                rotationMotor.set(0);
+                this.spinState = SpinState.STOP;
+                telemetry.addData("Color: ", "blue");
+                break;
+            }
+            else{
+                telemetry.addData("Color: ", "none");
+            }
+            telemetry.update();
+        }
     }
 
     //Stopper//
