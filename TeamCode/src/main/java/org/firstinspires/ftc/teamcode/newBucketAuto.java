@@ -59,13 +59,15 @@ public class newBucketAuto extends OpMode {
                     auto.follower.setMaxPower(0.8);
                     auto.follower.followPath(auto.element1);
                     auto.startIntake();
+                    auto.actionBusy = true;
                     setPathState(2);
                 }
                 break;
             case 2:
-                if(auto.actionNotBusy() && !auto.follower.isBusy()) {
+                if(auto.transferState == 4 && auto.actionNotBusy() && !auto.follower.isBusy()) {
                     //auto.startIntake();
-                    auto.follower.setMaxPower(0.5);
+                    auto.transferState = -1;
+                    auto.follower.setMaxPower(0.45);
                     auto.follower.followPath(auto.score1);
                     auto.startBucket();
                     setPathState(3);
@@ -74,39 +76,44 @@ public class newBucketAuto extends OpMode {
             case 3:
                 if(!auto.follower.isBusy()) {
 //                    auto.startTransfer();
-                    auto.follower.setMaxPower(0.5);
+                    auto.follower.setMaxPower(0.75);
                     auto.follower.followPath(auto.element2);
+                    auto.startIntake();
                     setPathState(4);
                 }
                 break;
             case 4:
-                if(auto.actionNotBusy() && !auto.follower.isBusy()) {
-                    ///auto.startBucket();
+                if(auto.transferState == 4 && auto.actionNotBusy() && !auto.follower.isBusy()) {
+                    auto.transferState = -1;
                     auto.follower.setMaxPower(0.5);
-                    auto.follower.followPath(auto.score1);
+                    auto.follower.followPath(auto.score2);
+                    auto.startBucket();
                     setPathState(5);
                 }
                 break;
             case 5:
-                if(!auto.follower.isBusy() && auto.actionNotBusy()) {
+                if(!auto.follower.isBusy()) {
                     //auto.startIntake();
-                    auto.follower.setMaxPower(0.5);
+                    auto.follower.setMaxPower(0.7);
                     auto.follower.followPath(auto.element3);
+                    auto.startIntake();
                     setPathState(6);
                 }
                 break;
             case 6:
-                if(auto.actionNotBusy() && !auto.follower.isBusy()) {
+                if(auto.transferState == 4 && auto.actionNotBusy() && !auto.follower.isBusy()) {
                     //auto.startTransfer();
-                    auto.follower.setMaxPower(0.5);
-                    auto.follower.followPath(auto.score1);
+                    auto.transferState = -1;
+                    auto.follower.setMaxPower(0.45);
+                    auto.follower.followPath(auto.score3);
+                    auto.startBucket();
                     setPathState(7);
                 }
                 break;
             case 7:
-                if(auto.actionNotBusy() && !auto.follower.isBusy()) {
+                if(!auto.follower.isBusy()) {
                     //auto.startBucket();
-                    auto.follower.setMaxPower(0.5);
+                    auto.follower.setMaxPower(0.8);
                     auto.follower.followPath(auto.park);
                     setPathState(-1);
                 }
