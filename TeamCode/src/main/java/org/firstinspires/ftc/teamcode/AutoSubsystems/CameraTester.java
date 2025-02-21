@@ -28,6 +28,7 @@ public class CameraTester extends OpMode {
         Constants.setConstants(FConstants.class, LConstants.class);
         extendoSubsystem = new ExtendoSubsystem(hardwareMap, telemetry);
         camera = new CameraSubsystem(hardwareMap, telemetry, extendoSubsystem);
+        camera.start();
         telemetry.update();
         follower.setStartingPose(startPose);
     }

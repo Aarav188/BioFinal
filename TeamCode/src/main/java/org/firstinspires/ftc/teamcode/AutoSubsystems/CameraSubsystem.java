@@ -54,7 +54,8 @@ public class CameraSubsystem {
         this.telemetry = telemetry;
         this.extendoSubsystem = extendoSubsystem;
         limelight = hardwareMap.get(Limelight3A.class,"limelight");
-        limelight.setPollRateHz(100); // per sec
+        limelight.setPollRateHz(11); // per sec
+        limelight.pipelineSwitch(0);
 
         lf = hardwareMap.dcMotor.get(DT_LEFT_FRONT);
         lb = hardwareMap.dcMotor.get(DT_LEFT_REAR);
@@ -67,7 +68,6 @@ public class CameraSubsystem {
 
     public void start() {
         limelight.start();
-        limelight.pipelineSwitch(pipeline);
     }
 
     public void switchPipeline(limelightState state) {
