@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 @TeleOp(name="CameraTester", group="A")
 public class CameraTester extends OpMode {
 
-    Follower follower = new Follower(hardwareMap);
+    Follower follower;
 
     Pose startPose = new Pose(0,0,0);
     public CameraSubsystem camera;
@@ -26,6 +26,7 @@ public class CameraTester extends OpMode {
     @Override
     public void init() {
         Constants.setConstants(FConstants.class, LConstants.class);
+        follower = new Follower(hardwareMap);
         extendoSubsystem = new ExtendoSubsystem(hardwareMap, telemetry);
         camera = new CameraSubsystem(hardwareMap, telemetry, extendoSubsystem);
         camera.start();

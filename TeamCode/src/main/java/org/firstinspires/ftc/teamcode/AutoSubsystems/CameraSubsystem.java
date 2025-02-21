@@ -44,7 +44,10 @@ public class CameraSubsystem {
 
     public static double extendMultipler = 8.5/(EXTENDO_LEFT_MAX_OUT_POSITION - EXTENDO_LEFT_IN_POSITION); //replace with (maxExtendoDistance in inches from the base of chassis to the roller) / (EXTENDO_LEFT_MAX_OUT_POSITION - EXTENDO_LEFT_IN_POSITION)
     public double maxExtendoLengthInInches = 8.5; //replace with maxExtendoDistance in inches from the base of chassis to the roller
-    private DcMotor lf,rf,lb,rb;
+    private DcMotor lf = null;
+    private DcMotor rf = null;
+    private DcMotor lb = null;
+    private DcMotor rb = null;
 
     private double limelightHeight;
     private double limelightAngle;
@@ -57,10 +60,15 @@ public class CameraSubsystem {
         limelight.setPollRateHz(11); // per sec
         limelight.pipelineSwitch(0);
 
-        lf = hardwareMap.dcMotor.get(DT_LEFT_FRONT);
-        lb = hardwareMap.dcMotor.get(DT_LEFT_REAR);
-        rf = hardwareMap.dcMotor.get(DT_RIGHT_FRONT);
-        rb = hardwareMap.dcMotor.get(DT_RIGHT_REAR);
+        if (limelight == null){
+            telemetry.addData("error", "Limelight is null!");
+            telemetry.update();
+        }
+
+        lf  = hardwareMap.get(DcMotor.class, DT_LEFT_FRONT);
+        rf = hardwareMap.get(DcMotor.class, DT_RIGHT_FRONT);
+        lb  = hardwareMap.get(DcMotor.class, DT_LEFT_REAR);
+        rb = hardwareMap.get(DcMotor.class, DT_RIGHT_REAR);
         limelightHeight = 6;
         limelightAngle = 0.0;
 
@@ -99,8 +107,8 @@ public class CameraSubsystem {
     public void updateColor() {
         update();
         if (result != null) {
-            telemetry.addData("tx", result.getTx());
-            telemetry.addData("ty", result.getTy());
+            telemetry.addData("forward distance",  Math.abs(this.limelightHeight / Math.tan(Math.toRadians(tx))));
+            telemetry.addData("horizontal distance", Math.abs(this.limelightHeight / Math.tan(Math.toRadians(ty))));
         }
     }
 
@@ -126,9 +134,11 @@ public class CameraSubsystem {
             tx = result.getTx(); // How far left or right the target is (degrees)
             ty = result.getTy(); // How far up or down the target is (degrees)
             ta = result.getTa(); // How big the target looks (0%-100% of the image)
+            double xDistance = Math.abs(limelightHeight / Math.tan(Math.toRadians(tx)));
+            double yDistance = Math.abs(limelightHeight / Math.tan(Math.toRadians(ty)));
 
-            telemetry.addData("Target X", tx);
-            telemetry.addData("Target Y", ty);
+            telemetry.addData("Target X", xDistance);
+            telemetry.addData("Target Y", yDistance);
             telemetry.addData("Target Area", ta);
         } else {
             telemetry.addData("Limelight", "No Targets");
