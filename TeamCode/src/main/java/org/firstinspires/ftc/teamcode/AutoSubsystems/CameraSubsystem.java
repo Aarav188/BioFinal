@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.AutoSubsystems;
 
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.DT_LEFT_FRONT;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.DT_LEFT_REAR;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.DT_RIGHT_FRONT;
+import static org.firstinspires.ftc.teamcode.configs.RobotConfig.DT_RIGHT_REAR;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_LEFT_IN_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_LEFT_MAX_OUT_POSITION;
 import static org.firstinspires.ftc.teamcode.configs.RobotConfig.EXTENDO_RIGHT_IN_POSITION;
@@ -38,24 +42,25 @@ public class CameraSubsystem {
     private double x = 0;
     private double y = 0;
 
-    public static double extendMultipler = 0.0045; //replace with (maxExtendoDistance in inches from the base of chassis to the roller) / (EXTENDO_LEFT_MAX_OUT_POSITION - EXTENDO_LEFT_IN_POSITION)
-    public double maxExtendoLengthInInches = 0; //replace with maxExtendoDistance in inches from the base of chassis to the roller
+    public static double extendMultipler = 8.5/(EXTENDO_LEFT_MAX_OUT_POSITION - EXTENDO_LEFT_IN_POSITION); //replace with (maxExtendoDistance in inches from the base of chassis to the roller) / (EXTENDO_LEFT_MAX_OUT_POSITION - EXTENDO_LEFT_IN_POSITION)
+    public double maxExtendoLengthInInches = 8.5; //replace with maxExtendoDistance in inches from the base of chassis to the roller
     private DcMotor lf,rf,lb,rb;
 
     private double limelightHeight;
     private double limelightAngle;
+
     private double angleToTarget;
     public CameraSubsystem(HardwareMap hardwareMap, Telemetry telemetry, ExtendoSubsystem extendoSubsystem) {
         this.telemetry = telemetry;
         this.extendoSubsystem = extendoSubsystem;
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        limelight = hardwareMap.get(Limelight3A.class,"limelight");
         limelight.setPollRateHz(100); // per sec
 
-        lf = hardwareMap.get(DcMotor.class, "leftFront");
-        rf = hardwareMap.get(DcMotor.class, "rightFront");
-        lb = hardwareMap.get(DcMotor.class, "leftRear");
-        rb = hardwareMap.get(DcMotor.class, "rightRear");
-        limelightHeight = 0.0;
+        lf = hardwareMap.dcMotor.get(DT_LEFT_FRONT);
+        lb = hardwareMap.dcMotor.get(DT_LEFT_REAR);
+        rf = hardwareMap.dcMotor.get(DT_RIGHT_FRONT);
+        rb = hardwareMap.dcMotor.get(DT_RIGHT_REAR);
+        limelightHeight = 6;
         limelightAngle = 0.0;
 
     }
@@ -101,7 +106,7 @@ public class CameraSubsystem {
 
     public void extendAlign() {
         angleToTarget = Math.toRadians(result.getTy());
-        double limelightCameraHeight = 0; //change
+        double limelightCameraHeight = limelightHeight;
 
         double yDistance = Math.abs(limelightCameraHeight / Math.tan(Math.toRadians(ty)));
 
@@ -109,7 +114,7 @@ public class CameraSubsystem {
     }
 
     public double driveAlign() {
-        double limelightCameraHeight = 0; //change
+        double limelightCameraHeight = limelightHeight;
         double xDistance = Math.abs(limelightCameraHeight / Math.tan(Math.toRadians(tx)));
         return xDistance;
     }

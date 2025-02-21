@@ -10,6 +10,7 @@ import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.AutoSubsystems.CameraSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.ExtendoSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.IntakeSubsystem;
@@ -35,6 +36,8 @@ public class Auto {
     public OuttakeArmSubsystem arm;
     public OuttakeArmSubsystem.OuttakeArmPos armState;
 
+    public CameraSubsystem camera;
+
 
     public Follower follower;
     public Telemetry telemetry;
@@ -43,8 +46,8 @@ public class Auto {
     public boolean liftPIDF = true;
     public double liftManual = 0;
 
-    public Timer transferTimer = new Timer(), bucketTimer = new Timer(), chamberTimer = new Timer(), intakeTimer = new Timer(), parkTimer = new Timer(), specimenTimer = new Timer(), chamberTimer2 = new Timer();
-    public int transferState = -1, bucketState = -1, chamberState = -1, intakeState = -1, parkState = -1, specimenState = -1;
+    public Timer transferTimer = new Timer(), bucketTimer = new Timer(), chamberTimer = new Timer(), intakeTimer = new Timer(), parkTimer = new Timer(), specimenTimer = new Timer(), chamberTimer2 = new Timer(), cameraTimer = new Timer();
+    public int transferState = -1, bucketState = -1, chamberState = -1, intakeState = -1, parkState = -1, specimenState = -1, cameraState = -1;
 
     public Path element1, score1, element2, score2, element3, score3;
     public PathChain pushSamples, preload,specimen1, specimen2, specimen3, specimen4, grab1, grab2, grab3, grab4, park;
@@ -56,6 +59,7 @@ public class Auto {
         extend = new ExtendoSubsystem(hardwareMap, telemetry);
         intake = new IntakeSubsystem(hardwareMap, intakeSpinState, rotatorState, stopperState, telemetry);
         arm = new OuttakeArmSubsystem(hardwareMap, armState);
+        camera = new CameraSubsystem(hardwareMap, telemetry, extend);
 
         this.follower = follower;
         this.telemetry = telemetry;
@@ -95,6 +99,7 @@ public class Auto {
         intake.transfer();
         claw.closeClaw();
         claw.lockSample();
+        camera.updateColor();
         follower.setStartingPose(startPose);
     }
 
@@ -102,7 +107,7 @@ public class Auto {
         follower.update();
 
         elevatorSubsystem.updatePIDF();
-
+        camera.updateColor();
         transfer();
         bucket();
         chamber();
@@ -185,10 +190,10 @@ public class Auto {
             score3 = new Path(new BezierLine(new Point(sample3Pose), new Point(sampleScorePose)));
             score3.setLinearHeadingInterpolation(sample3Pose.getHeading(), sampleScorePose.getHeading());
 
-//            park = follower.pathBuilder()
-//                    .addPath(new BezierCurve(new Point(sampleScorePose), new Point(parkControlPose), new Point(parkPose)))
-//                    .setLinearHeadingInterpolation(sampleScorePose.getHeading(), parkPose.getHeading())
-//                    .build();
+            park = follower.pathBuilder()
+                    .addPath(new BezierCurve(new Point(sampleScorePose), new Point(parkControlPose), new Point(parkPose)))
+                    .setLinearHeadingInterpolation(sampleScorePose.getHeading(), parkPose.getHeading())
+                    .build();
         }
 
         if (startLocation == RobotStart.BLUE_OBSERVATION || startLocation == RobotStart.RED_OBSERVATION) {
@@ -525,6 +530,36 @@ public class Auto {
         if (actionNotBusy()) {
             setParkState(1);
         }
+    }
+
+    public void runCamera() {
+        switch (cameraState) {
+            case 1:
+                cameraTimer.resetTimer();
+                setCameraState(2);
+                break;
+            case 2:
+                PathChain preload = follower.pathBuilder()
+                        .addPath(new BezierLine(new Point(parkPose), new Point(camera.driveAlign(), 0, 0)))
+                        .setLinearHeadingInterpolation(startPose.getHeading(), 0)
+                        .build();
+                follower.followPath(preload);
+                camera.extendAlign();
+                if (cameraTimer.getElapsedTimeSeconds() == 3){
+                    setCameraState(-1);
+                }
+                break;
+
+
+        }
+    }
+
+    public void setCameraState(int x) {
+        cameraState = x;
+    }
+
+    public void startCamera(){
+        setCameraState(1);
     }
 
     public boolean actionNotBusy() {

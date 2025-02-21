@@ -159,7 +159,7 @@ public class AllMotorAndServoTester extends OpMode {
             motor4.setPower(0);
         }
         if(gamepad1.a){
-            extendoSubsystem.fullExtend();
+            hang.raise();
         }
         if(gamepad1.b){
 //            extendoSubsystem.reset();

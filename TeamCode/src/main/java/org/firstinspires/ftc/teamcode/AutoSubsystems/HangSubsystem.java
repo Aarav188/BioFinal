@@ -52,6 +52,15 @@ public class HangSubsystem {
     public void lower() {
         hangMotor.setTargetPosition(hangMotor.getCurrentPosition()+1000);
         hangMotor.setPower(1);
+        telemetry.addData("HANG",this.getPos());
+        telemetry.update();
+    }
+
+    public void raise() {
+        hangMotor.setTargetPosition(hangMotor.getCurrentPosition()-1000);
+        hangMotor.setPower(1);
+        telemetry.addData("HANG",this.getPos());
+        telemetry.update();
     }
 
 
