@@ -90,30 +90,41 @@ public class IntakeSubsystem{
 
 
     public void stop(){
-        while (true) {
-            if (colorSensor.red() > 2500 && colorSensor.red() < 4000 && colorSensor.green() > 4000 && colorSensor.green() < 6000 && colorSensor.blue() > 800 && colorSensor.green() < 1700) {
+
+
+            if (colorSensor.red() - colorSensor.blue()> 600 && colorSensor.red() - colorSensor.blue()<1500) {
                 rotationMotor.set(0);
                 this.spinState = SpinState.STOP;
-                telemetry.addData("Color: ", "yellow");
-                break;
+                telemetry.addData("color", "red");
+                telemetry.addData("green", colorSensor.green());
+                telemetry.addData("red", colorSensor.red());
+                telemetry.addData("blue", colorSensor.blue());
             }
-            else if (colorSensor.red() > 2000 && colorSensor.red() < 3000 && colorSensor.green() > 800 && colorSensor.green() < 1600 && colorSensor.blue() > 500 && colorSensor.blue() < 1000) {
+            else if (colorSensor.green()-colorSensor.blue()>1000) {
                 rotationMotor.set(0);
                 this.spinState = SpinState.STOP;
-                telemetry.addData("Color: ", "red");
-                break;
+                telemetry.addData("color", "yellow");
+                telemetry.addData("green", colorSensor.green());
+                telemetry.addData("red", colorSensor.red());
+                telemetry.addData("blue", colorSensor.blue());
             }
-            else if (colorSensor.red() > 200 && colorSensor.red() < 900 && colorSensor.green() > 800 && colorSensor.green() < 1600 && colorSensor.blue() > 2500 && colorSensor.blue() < 5000) {
+            else if (colorSensor.blue() - colorSensor.red()>1000) {
                 rotationMotor.set(0);
                 this.spinState = SpinState.STOP;
-                telemetry.addData("Color: ", "blue");
-                break;
+                telemetry.addData("color", "blue");
+                telemetry.addData("green", colorSensor.green());
+                telemetry.addData("red", colorSensor.red());
+                telemetry.addData("blue", colorSensor.blue());
             }
             else{
-                telemetry.addData("Color: ", "none");
+                telemetry.addData("color", "none");
+                telemetry.addData("green", colorSensor.green());
+                telemetry.addData("red", colorSensor.red());
+                telemetry.addData("blue", colorSensor.blue());
+
             }
             telemetry.update();
-        }
+
     }
 
     //Stopper//

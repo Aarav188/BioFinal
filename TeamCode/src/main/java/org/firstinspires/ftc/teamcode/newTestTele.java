@@ -19,18 +19,23 @@ public class newTestTele extends OpMode {
 
     @Override
     public void init() {
-        Constants.setConstants(FConstants.class, LConstants.class);
         teleop = new Teleop(hardwareMap, telemetry, new Follower(hardwareMap), blueObservationParkPose, gamepad1, gamepad2);
+        Constants.setConstants(FConstants.class, LConstants.class);
         teleop.init();
     }
 
     @Override
     public void start() {
         teleop.start();
+
     }
 
     @Override
     public void loop() {
         teleop.update();
+    }
+
+    @Override
+    public void stop() {
     }
 }
