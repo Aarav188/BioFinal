@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.AutoSubsystems.HangSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.OuttakeArmSubsystem;
 import org.firstinspires.ftc.teamcode.AutoSubsystems.OuttakeClawSubsystem;
+import org.firstinspires.ftc.teamcode.configs.FieldConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
@@ -65,9 +66,12 @@ public class Teleop {
     private float starting_left_stick_y;
     private float starting_left_stick_x;
     private float starting_right_stick_x;
+    public String color;
+    public FieldConstants.RobotStart startLocation;
 
 
-    public Teleop(HardwareMap hardwareMap, Telemetry telemetry, Follower follower, Pose startPose, Gamepad gamepad1, Gamepad gamepad2) {
+
+    public Teleop(HardwareMap hardwareMap, Telemetry telemetry, Follower follower, Pose startPose, Gamepad gamepad1, Gamepad gamepad2,  boolean isBlue, boolean isBucket) {
 
         claw = new OuttakeClawSubsystem(hardwareMap, wristState, sampleGrabState, clawGrabState);
         elevatorSubsystem = new ElevatorSubsystem(hardwareMap, telemetry);
@@ -86,6 +90,12 @@ public class Teleop {
         this.gamepad2 = gamepad2;
         this.intakeActive = false;
         this.hangActive = false;
+
+        startLocation = isBlue ? (isBucket ? FieldConstants.RobotStart.BLUE_BUCKET : FieldConstants.RobotStart.BLUE_OBSERVATION) : (isBucket ? FieldConstants.RobotStart.RED_BUCKET : FieldConstants.RobotStart.RED_OBSERVATION);
+
+        color = isBlue ? "BLUE" : "RED";
+
+
     }
 
     public void init() {
@@ -144,6 +154,7 @@ public class Teleop {
             else if(gamepad1.left_trigger > 0){ //done
                 intakeActive = true;
                 intake();
+
             }
             else if(gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
                 float timer = System.currentTimeMillis();
@@ -207,9 +218,13 @@ public class Teleop {
         extend.fullExtend();
 
         Timer extendAndIntakeTimer = new Timer();
+        intake.intake();
         if (intakeActive){
-            intake.intake();
+            intake.stop(color);
+
+
         }
+
 
         long currentExtendTimer = System.currentTimeMillis();
         while(System.currentTimeMillis()<600+currentExtendTimer){}

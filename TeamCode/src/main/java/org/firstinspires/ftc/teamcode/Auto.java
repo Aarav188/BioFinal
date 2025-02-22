@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.configs.FieldConstants;
 
 public class Auto {
 
-    private RobotStart startLocation;
+    public RobotStart startLocation;
 
     public OuttakeClawSubsystem claw;
     public OuttakeClawSubsystem.ClawGrabState clawGrabState;
