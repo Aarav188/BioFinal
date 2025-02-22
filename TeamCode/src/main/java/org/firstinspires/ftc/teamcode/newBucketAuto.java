@@ -115,29 +115,32 @@ public class newBucketAuto extends OpMode {
                     //auto.startBucket();
                     auto.follower.setMaxPower(0.8);
                     auto.follower.followPath(auto.park);
-                    setPathState(-1);
+                    setPathState(8);
                 }
                 break;
             case 8:
-                if(!auto.follower.isBusy() && auto.actionNotBusy()) {
-                    //auto.startIntake();
-                    auto.follower.setMaxPower(0.5);
-                    auto.follower.followPath(auto.element3);
-                    setPathState(9);
+                if(!auto.follower.isBusy()) {
+                    auto.submersibleStartIntake();
+//                    auto.follower.setMaxPower(0.5);
+//                    auto.follower.followPath(auto.element3);
+                    setPathState(-1);
                 }
                 break;
             case 9:
-                if(auto.actionNotBusy() && !auto.follower.isBusy()) {
+                if(auto.transferState == 4 && auto.actionNotBusy() && !auto.follower.isBusy()) {
                     //auto.startTransfer();
+                    auto.startBucket();
+                    auto.follower.setMaxPower(0.5);
+                    auto.follower.followPath(auto.score4);
                     setPathState(10);
                 }
                 break;
             case 10:
-                if(auto.actionNotBusy() && !auto.follower.isBusy()) {
+                if(!auto.follower.isBusy()) {
                     //auto.startBucket();
-                    auto.follower.setMaxPower(0.5);
-                    auto.follower.followPath(auto.score3);
-                    setPathState(11);
+                    auto.follower.setMaxPower(0.8);
+                    auto.follower.followPath(auto.park);
+                    setPathState(-1);
                 }
                 break;
             case 11:

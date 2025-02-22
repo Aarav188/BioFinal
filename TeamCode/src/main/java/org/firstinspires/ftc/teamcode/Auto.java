@@ -47,11 +47,13 @@ public class Auto {
     public double liftManual = 0;
 
     public Timer transferTimer = new Timer(), bucketTimer = new Timer(), chamberTimer = new Timer(), intakeTimer = new Timer(), parkTimer = new Timer(), specimenTimer = new Timer(), chamberTimer2 = new Timer(), cameraTimer = new Timer();
-    public int transferState = -1, bucketState = -1, chamberState = -1, intakeState = -1, parkState = -1, specimenState = -1, cameraState = -1;
+    public int transferState = -1, bucketState = -1, chamberState = -1, intakeState = -1, parkState = -1, specimenState = -1, cameraState = -1, submersibleIntakeState = -1;
 
-    public Path element1, score1, element2, score2, element3, score3;
+    public Path element1, score1, element2, score2, element3, score3, score4;
     public PathChain pushSamples, preload,specimen1, specimen2, specimen3, specimen4, grab1, grab2, grab3, grab4, park;
     public Pose startPose, preloadPose, sample1Pose, sample1ControlPose, sample2Pose, sample2ControlPose, sample3Pose, sample3ControlPose, sampleScorePose, parkControlPose, parkPose, grab1Pose, specimen1Pose, grab2Pose, specimen2Pose, grab3Pose, specimen3Pose, grab4Pose, specimen4Pose, specimenSetPose;
+
+    public String color;
 
     public Auto(HardwareMap hardwareMap, Telemetry telemetry, Follower follower, boolean isBlue, boolean isBucket) {
         claw = new OuttakeClawSubsystem(hardwareMap, wristState, sampleGrabState, clawGrabState);
@@ -67,6 +69,7 @@ public class Auto {
 
         startLocation = isBlue ? (isBucket ? RobotStart.BLUE_BUCKET : RobotStart.BLUE_OBSERVATION) : (isBucket ? RobotStart.RED_BUCKET : RobotStart.RED_OBSERVATION);
 
+        color = isBlue ? "BLUE" : "RED";
         createPoses();
         buildPaths();
 
@@ -115,6 +118,7 @@ public class Auto {
         park();
         specimen();
         telemetryUpdate();
+        submersibleIntake();
     }
 
     public void createPoses() { //Able to be cut
@@ -151,8 +155,17 @@ public class Auto {
                 break;
 
             case RED_BUCKET:
-                startPose = FieldConstants.redBucketStartPose;
-                //parkPose = redBucketPark;
+                startPose = FieldConstants.blueBucketStartPose;
+                preloadPose = FieldConstants.blueBucketPreloadPose;
+                sample1ControlPose = FieldConstants.blueBucketLeftSampleControlPose;
+                sample1Pose = FieldConstants.blueBucketLeftSamplePose;
+                sample2ControlPose = FieldConstants.blueBucketMidSampleControlPose;
+                sample2Pose = FieldConstants.blueBucketMidSamplePose;
+                sample3ControlPose = FieldConstants.blueBucketRightSampleControlPose;
+                sample3Pose = FieldConstants.blueBucketRightSamplePose;
+                sampleScorePose = FieldConstants.blueBucketScorePose;
+                parkControlPose = FieldConstants.blueBucketParkControlPose;
+                parkPose = FieldConstants.blueBucketParkPose;
                 break;
 
             case RED_OBSERVATION:
@@ -194,6 +207,9 @@ public class Auto {
                     .addPath(new BezierCurve(new Point(sampleScorePose), new Point(parkControlPose), new Point(parkPose)))
                     .setLinearHeadingInterpolation(sampleScorePose.getHeading(), parkPose.getHeading())
                     .build();
+
+            score4 = new Path(new BezierLine(new Point(parkPose), new Point(sampleScorePose)));
+            score4.setLinearHeadingInterpolation(parkPose.getHeading(), sampleScorePose.getHeading());
         }
 
         if (startLocation == RobotStart.BLUE_OBSERVATION || startLocation == RobotStart.RED_OBSERVATION) {
@@ -494,6 +510,63 @@ public class Auto {
         this.actionBusy = true;
 //        if (actionNotBusy()) {
             setIntakeState(1);
+//        }
+    }
+
+    public void submersibleIntake() {
+        switch (intakeState) {
+            case 1:
+                this.actionBusy = true;
+                setTransferState(-1);
+                intakeTimer.resetTimer();
+                intake.lockSample();
+                intake.transfer();
+//                elevatorSubsystem.toReset();
+                setSubmersibleIntakeState(2);
+                break;
+            case 2:
+                if(intakeTimer.getElapsedTimeSeconds() > 0.6) {
+                    extend.halfExtend();
+                    setSubmersibleIntakeState(3);
+                    intakeTimer.resetTimer();
+                }
+                break;
+            case 3:
+                if (intakeTimer.getElapsedTimeSeconds() > 0.5) {
+                    intake.pickup();
+                    intake.intake();
+                    setSubmersibleIntakeState(4);
+                    intakeTimer.resetTimer();
+                }
+                break;
+            case 4:
+                if (intakeTimer.getElapsedTimeSeconds() > 1) {
+                    intake.stop(color);
+                    setSubmersibleIntakeState(5);
+                    intakeTimer.resetTimer();
+                }
+                break;
+            case 5:
+                if (intakeTimer.getElapsedTimeSeconds() > 1.2 && intake.spinState == IntakeSubsystem.SpinState.STOP) {
+                    intake.intake();
+                    intake.lockSample();
+                    intakeTimer.resetTimer();
+                    setSubmersibleIntakeState(-1);
+                    startTransfer();
+                    this.actionBusy = true;
+                }
+                break;
+        }
+    }
+
+    public void setSubmersibleIntakeState(int x) {
+        submersibleIntakeState = x;
+    }
+
+    public void submersibleStartIntake() {
+        this.actionBusy = true;
+//        if (actionNotBusy()) {
+        setSubmersibleIntakeState(1);
 //        }
     }
 

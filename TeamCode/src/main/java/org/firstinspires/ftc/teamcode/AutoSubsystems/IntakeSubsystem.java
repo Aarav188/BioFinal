@@ -33,7 +33,7 @@ public class IntakeSubsystem{
     public enum RotatorState{
         TRANSFER, PICKUP
     }
-    private SpinState spinState;
+    public SpinState spinState;
     private RotatorState rotatorState;
     private StopperState stopperState;
 
@@ -90,8 +90,6 @@ public class IntakeSubsystem{
 
 
     public void stop(){
-
-
             if (colorSensor.red() - colorSensor.blue()> 600 && colorSensor.red() - colorSensor.blue()<1500) {
                 rotationMotor.set(0);
                 this.spinState = SpinState.STOP;
@@ -126,6 +124,56 @@ public class IntakeSubsystem{
             telemetry.update();
 
     }
+
+    public void stop(String allianceColor)
+        {
+            if (colorSensor.red() - colorSensor.blue()> 600 && colorSensor.red() - colorSensor.blue()<1500) {
+                rotationMotor.set(0);
+//                this.spinState = SpinState.STOP;
+                telemetry.addData("color", "red");
+                telemetry.addData("green", colorSensor.green());
+                telemetry.addData("red", colorSensor.red());
+                telemetry.addData("blue", colorSensor.blue());
+                if (allianceColor.equals("BLUE")){
+                    outtake();
+                }
+                else{
+                    stop();
+                }
+            }
+            else if (colorSensor.green()-colorSensor.blue()>1000) {
+                rotationMotor.set(0);
+//                this.spinState = SpinState.STOP;
+                telemetry.addData("color", "yellow");
+                telemetry.addData("green", colorSensor.green());
+                telemetry.addData("red", colorSensor.red());
+                telemetry.addData("blue", colorSensor.blue());
+            }
+            else if (colorSensor.blue() - colorSensor.red()>1000) {
+                rotationMotor.set(0);
+//                this.spinState = SpinState.STOP;
+                telemetry.addData("color", "blue");
+                telemetry.addData("green", colorSensor.green());
+                telemetry.addData("red", colorSensor.red());
+                telemetry.addData("blue", colorSensor.blue());
+                if (allianceColor.equals("RED")){
+                    outtake();
+                }
+                else{
+                    stop();
+                }
+            }
+            else{
+                telemetry.addData("color", "none");
+                telemetry.addData("green", colorSensor.green());
+                telemetry.addData("red", colorSensor.red());
+                telemetry.addData("blue", colorSensor.blue());
+
+            }
+            telemetry.update();
+
+        }
+
 
     //Stopper//
     public void setPivotState(StopperState stopperState) {
