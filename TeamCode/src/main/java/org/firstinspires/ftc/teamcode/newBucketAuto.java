@@ -123,7 +123,7 @@ public class newBucketAuto extends OpMode {
                     auto.submersibleStartIntake();
 //                    auto.follower.setMaxPower(0.5);
 //                    auto.follower.followPath(auto.element3);
-                    setPathState(-1);
+                    setPathState(9);
                 }
                 break;
             case 9:

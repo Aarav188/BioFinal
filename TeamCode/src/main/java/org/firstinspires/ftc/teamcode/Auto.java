@@ -514,7 +514,7 @@ public class Auto {
     }
 
     public void submersibleIntake() {
-        switch (intakeState) {
+        switch (submersibleIntakeState) {
             case 1:
                 this.actionBusy = true;
                 setTransferState(-1);
@@ -526,7 +526,7 @@ public class Auto {
                 break;
             case 2:
                 if(intakeTimer.getElapsedTimeSeconds() > 0.6) {
-                    extend.halfExtend();
+                    extend.fullExtend();
                     setSubmersibleIntakeState(3);
                     intakeTimer.resetTimer();
                 }
