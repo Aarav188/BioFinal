@@ -68,6 +68,7 @@ public class Teleop {
     private float starting_right_stick_x;
     public String color;
     public FieldConstants.RobotStart startLocation;
+    public boolean triggerAction;
 
 
 
@@ -94,8 +95,6 @@ public class Teleop {
         startLocation = isBlue ? (isBucket ? FieldConstants.RobotStart.BLUE_BUCKET : FieldConstants.RobotStart.BLUE_OBSERVATION) : (isBucket ? FieldConstants.RobotStart.RED_BUCKET : FieldConstants.RobotStart.RED_OBSERVATION);
 
         color = isBlue ? "BLUE" : "RED";
-
-
     }
 
     public void init() {
@@ -106,6 +105,7 @@ public class Teleop {
         telemetry.addData("",starting_left_stick_x);
         telemetry.addData("", starting_left_stick_y);
         telemetry.addData("", starting_right_stick_x);
+        triggerAction = false;
     }
 
     public void start() {
@@ -132,6 +132,13 @@ public class Teleop {
                 stopIntake();
             }
 
+            if(intake.checkStop(color) == IntakeSubsystem.SpinState.OUTTAKE){
+                outtake();
+            }
+            else if(intake.checkStop(color) == IntakeSubsystem.SpinState.STOP){
+                transfer();
+            }
+
             if(gamepad1.a){ //done
                 intakeActive = true;
                 extendAndIntake();
@@ -148,17 +155,18 @@ public class Teleop {
             }
 
             if(gamepad1.right_trigger > 0){ //done
+                triggerAction = true;
                 intakeActive = true;
                 outtake();
             }
             else if(gamepad1.left_trigger > 0){ //done
+                triggerAction = true;
                 intakeActive = true;
                 intake();
 
             }
-            else if(gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
-                float timer = System.currentTimeMillis();
-                while(System.currentTimeMillis()<200+timer){}
+            else if(gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0 && triggerAction){
+                triggerAction = false;
                 intakeActive = false;
             }
 
@@ -218,22 +226,15 @@ public class Teleop {
         extend.fullExtend();
 
         Timer extendAndIntakeTimer = new Timer();
-        intake.intake();
-        if (intakeActive){
-            intake.stop(color);
 
-
-        }
+        intake.lockSample();
 
 
         long currentExtendTimer = System.currentTimeMillis();
         while(System.currentTimeMillis()<600+currentExtendTimer){}
-        intake.lockSample();
+
         intake.pickup();
         intake.intake();
-        currentExtendTimer = System.currentTimeMillis();
-        while(System.currentTimeMillis()<1000+currentExtendTimer){}
-        intakeActive = false;
 
 //        intake.stop("BLUE");
 
@@ -278,7 +279,7 @@ public class Teleop {
         arm.reset();
         claw.reset();
         intake.stop();
-
+        intakeActive = false;
 
 
     }
@@ -299,7 +300,10 @@ public class Teleop {
     }
 
     public void outtake(){
-        intake.outtake();
+        double outtakeTimer = System.currentTimeMillis();
+        while(System.currentTimeMillis() - outtakeTimer < 500){intake.outtake();}
+        intake.intake();
+
     }
     public void intake(){
         intake.intake();

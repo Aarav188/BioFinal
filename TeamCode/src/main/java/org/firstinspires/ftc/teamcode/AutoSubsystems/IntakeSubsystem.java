@@ -125,6 +125,18 @@ public class IntakeSubsystem{
 
     }
 
+    public SpinState checkStop(String alliance){
+        if (colorSensor.green() - colorSensor.blue() > 800) {
+            return SpinState.STOP;
+        } else if (colorSensor.red() - colorSensor.blue() > 800 && colorSensor.red() - colorSensor.blue() < 1400) {
+            return alliance.equals("BLUE") ? SpinState.OUTTAKE : SpinState.STOP;
+        } else if (colorSensor.blue() - colorSensor.red() > 1000) {
+            return alliance.equals("RED") ? SpinState.OUTTAKE : SpinState.STOP;
+        } else {
+            return SpinState.INTAKE;
+        }
+    }
+
     public void stop(String allianceColor)
         {
             if (colorSensor.green()-colorSensor.blue()>800) {
