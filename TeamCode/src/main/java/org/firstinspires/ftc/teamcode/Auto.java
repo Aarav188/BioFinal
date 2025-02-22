@@ -49,9 +49,9 @@ public class Auto {
     public Timer transferTimer = new Timer(), bucketTimer = new Timer(), chamberTimer = new Timer(), intakeTimer = new Timer(), parkTimer = new Timer(), specimenTimer = new Timer(), chamberTimer2 = new Timer(), cameraTimer = new Timer();
     public int transferState = -1, bucketState = -1, chamberState = -1, intakeState = -1, parkState = -1, specimenState = -1, cameraState = -1, submersibleIntakeState = -1;
 
-    public Path element1, score1, element2, score2, element3, score3, score4;
+    public Path element1, score1, element2, score2, element3, score3, score4, submersible;
     public PathChain pushSamples, preload,specimen1, specimen2, specimen3, specimen4, grab1, grab2, grab3, grab4, park;
-    public Pose startPose, preloadPose, sample1Pose, sample1ControlPose, sample2Pose, sample2ControlPose, sample3Pose, sample3ControlPose, sampleScorePose, parkControlPose, parkPose, grab1Pose, specimen1Pose, grab2Pose, specimen2Pose, grab3Pose, specimen3Pose, grab4Pose, specimen4Pose, specimenSetPose;
+    public Pose startPose, preloadPose, sample1Pose, sample1ControlPose, sample2Pose, sample2ControlPose, sample3Pose, sample3ControlPose, sampleScorePose, parkControlPose, parkPose, submersiblePose, grab1Pose, specimen1Pose, grab2Pose, specimen2Pose, grab3Pose, specimen3Pose, grab4Pose, specimen4Pose, specimenSetPose;
 
     public String color;
 
@@ -135,6 +135,8 @@ public class Auto {
                 sampleScorePose = FieldConstants.blueBucketScorePose;
                 parkControlPose = FieldConstants.blueBucketParkControlPose;
                 parkPose = FieldConstants.blueBucketParkPose;
+                submersiblePose = FieldConstants.blueBucketSubmersiblePose;
+
                 break;
 
             case BLUE_OBSERVATION:
@@ -149,6 +151,7 @@ public class Auto {
                 specimen2Pose = FieldConstants.blueObservationSpecimen2Pose;
                 specimen3Pose = FieldConstants.blueObservationSpecimen3Pose;
                 specimen4Pose = FieldConstants.blueObservationSpecimen4Pose;
+                submersiblePose = FieldConstants.blueBucketSubmersiblePose;
 
 
                 parkPose = FieldConstants.blueObservationParkPose;
@@ -208,8 +211,12 @@ public class Auto {
                     .setLinearHeadingInterpolation(sampleScorePose.getHeading(), parkPose.getHeading())
                     .build();
 
-            score4 = new Path(new BezierLine(new Point(parkPose), new Point(sampleScorePose)));
-            score4.setLinearHeadingInterpolation(parkPose.getHeading(), sampleScorePose.getHeading());
+            submersible = new Path(new BezierLine(new Point(parkPose), new Point(submersiblePose)));
+            submersible.setLinearHeadingInterpolation(parkPose.getHeading(), submersiblePose.getHeading());
+
+            score4 = new Path(new BezierCurve(new Point(submersiblePose), new Point(parkControlPose), new Point(sampleScorePose)));
+            score4.setLinearHeadingInterpolation(submersiblePose.getHeading(), sampleScorePose.getHeading());
+
         }
 
         if (startLocation == RobotStart.BLUE_OBSERVATION || startLocation == RobotStart.RED_OBSERVATION) {
@@ -310,14 +317,14 @@ public class Auto {
                 setTransferState(2);
                 break;
             case 2:
-                if (transferTimer.getElapsedTimeSeconds() > 1) {
+                if (transferTimer.getElapsedTimeSeconds() > 0.7) {
                     intake.unlockSample();
                     transferTimer.resetTimer();
                     setTransferState(3);
                 }
                 break;
             case 3:
-                if (transferTimer.getElapsedTimeSeconds() > 1) {
+                if (transferTimer.getElapsedTimeSeconds() > 0.3) {
 //                    elevatorSubsystem.toReset();
 
                     transferTimer.resetTimer();
@@ -367,7 +374,7 @@ public class Auto {
                 }
                 break;
             case 4:
-                if (bucketTimer.getElapsedTimeSeconds() > 1.6) {
+                if (bucketTimer.getElapsedTimeSeconds() > 1.5) {
 //                    long currentElevatorTimer = System.currentTimeMillis();
 //                    while(System.currentTimeMillis()<800+currentElevatorTimer){}
                     arm.reset();
@@ -483,7 +490,7 @@ public class Auto {
                 }
                 break;
             case 3:
-                if (intakeTimer.getElapsedTimeSeconds() > 0.5) {
+                if (intakeTimer.getElapsedTimeSeconds() > 0.3) {
                 intake.pickup();
                 intake.intake();
                 setIntakeState(4);
@@ -525,14 +532,14 @@ public class Auto {
                 setSubmersibleIntakeState(2);
                 break;
             case 2:
-                if(intakeTimer.getElapsedTimeSeconds() > 0.6) {
+                if(intakeTimer.getElapsedTimeSeconds() > 0.3) {
                     extend.fullExtend();
                     setSubmersibleIntakeState(3);
                     intakeTimer.resetTimer();
                 }
                 break;
             case 3:
-                if (intakeTimer.getElapsedTimeSeconds() > 0.5) {
+                if (intakeTimer.getElapsedTimeSeconds() > 0.8) {
                     intake.pickup();
                     intake.intake();
                     setSubmersibleIntakeState(4);
@@ -540,10 +547,12 @@ public class Auto {
                 }
                 break;
             case 4:
-                if (intakeTimer.getElapsedTimeSeconds() > 1) {
+                if (intakeTimer.getElapsedTimeSeconds() > 0.4) {
                     intake.stop(color);
-                    setSubmersibleIntakeState(5);
-                    intakeTimer.resetTimer();
+                    if (intake.spinState != IntakeSubsystem.SpinState.INTAKE) {
+                        setSubmersibleIntakeState(5);
+                        intakeTimer.resetTimer();
+                    }
                 }
                 break;
             case 5:

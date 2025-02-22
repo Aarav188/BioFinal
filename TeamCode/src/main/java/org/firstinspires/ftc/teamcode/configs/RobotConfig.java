@@ -11,7 +11,7 @@ public class RobotConfig {
     public static String INTAKE_STOPPER = "stopper";
     public static double INTAKE_LARGE_ROTATOR_UP_POSITION = 0.83;
 
-    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.67; //0
+    public static double INTAKE_LARGE_ROTATOR_DOWN_POSITION = 0.66; //0
     public static double INTAKE_SMALL_ROTATOR_UP_POSITION = 0.03;
     public static double INTAKE_SMALL_ROTATOR_DOWN_POSITION = 0.79;
     public static double INTAKE_STOPPER_UP_POSITION = 0.9;

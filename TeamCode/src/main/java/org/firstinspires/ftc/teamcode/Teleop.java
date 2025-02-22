@@ -104,6 +104,7 @@ public class Teleop {
         extend.init();
         intake.transfer();
         claw.closeClaw();
+        intake.lockSample();
         reset();
 
         follower.startTeleopDrive();
@@ -145,6 +146,8 @@ public class Teleop {
                 intake();
             }
             else if(gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
+                float timer = System.currentTimeMillis();
+                while(System.currentTimeMillis()<200+timer){}
                 intakeActive = false;
             }
 
@@ -213,7 +216,11 @@ public class Teleop {
         intake.lockSample();
         intake.pickup();
         intake.intake();
-        intake.stop();
+        currentExtendTimer = System.currentTimeMillis();
+        while(System.currentTimeMillis()<1000+currentExtendTimer){}
+        intakeActive = false;
+
+//        intake.stop("BLUE");
 
     }
 
@@ -228,7 +235,7 @@ public class Teleop {
         }
     }
     public void transfer(){
-        intake.stop();
+        intake.intake();
         intake.transfer();
         arm.transfer();
         claw.transfer();
@@ -255,6 +262,7 @@ public class Teleop {
         while(System.currentTimeMillis()<1600+currentTransferTimer){}
         arm.reset();
         claw.reset();
+        intake.stop();
 
 
 

@@ -90,31 +90,31 @@ public class IntakeSubsystem{
 
 
     public void stop(){
-            if (colorSensor.red() - colorSensor.blue()> 600 && colorSensor.red() - colorSensor.blue()<1500) {
-                rotationMotor.set(0);
-                this.spinState = SpinState.STOP;
+        rotationMotor.set(0);
+        this.spinState = SpinState.STOP;
+            if (colorSensor.red() - colorSensor.blue()> 700 && colorSensor.red() - colorSensor.blue()<1400) {
+
                 telemetry.addData("color", "red");
                 telemetry.addData("green", colorSensor.green());
                 telemetry.addData("red", colorSensor.red());
                 telemetry.addData("blue", colorSensor.blue());
             }
-            else if (colorSensor.green()-colorSensor.blue()>1000) {
-                rotationMotor.set(0);
-                this.spinState = SpinState.STOP;
+            else if (colorSensor.green()-colorSensor.blue()>900) {
+
                 telemetry.addData("color", "yellow");
                 telemetry.addData("green", colorSensor.green());
                 telemetry.addData("red", colorSensor.red());
                 telemetry.addData("blue", colorSensor.blue());
             }
             else if (colorSensor.blue() - colorSensor.red()>1000) {
-                rotationMotor.set(0);
-                this.spinState = SpinState.STOP;
+
                 telemetry.addData("color", "blue");
                 telemetry.addData("green", colorSensor.green());
                 telemetry.addData("red", colorSensor.red());
                 telemetry.addData("blue", colorSensor.blue());
             }
             else{
+
                 telemetry.addData("color", "none");
                 telemetry.addData("green", colorSensor.green());
                 telemetry.addData("red", colorSensor.red());
@@ -127,7 +127,16 @@ public class IntakeSubsystem{
 
     public void stop(String allianceColor)
         {
-            if (colorSensor.red() - colorSensor.blue()> 600 && colorSensor.red() - colorSensor.blue()<1500) {
+            if (colorSensor.green()-colorSensor.blue()>800) {
+//                rotationMotor.set(0);
+//                this.spinState = SpinState.STOP;
+                telemetry.addData("color", "yellow");
+                telemetry.addData("green", colorSensor.green());
+                telemetry.addData("red", colorSensor.red());
+                telemetry.addData("blue", colorSensor.blue());
+                stop();
+            }
+            else if (colorSensor.red() - colorSensor.blue()> 800 && colorSensor.red() - colorSensor.blue()<1400) {
 //                rotationMotor.set(0);
 //                this.spinState = SpinState.STOP;
                 telemetry.addData("color", "red");
@@ -140,14 +149,6 @@ public class IntakeSubsystem{
                 else{
                     stop();
                 }
-            }
-            else if (colorSensor.green()-colorSensor.blue()>1000) {
-//                rotationMotor.set(0);
-//                this.spinState = SpinState.STOP;
-                telemetry.addData("color", "yellow");
-                telemetry.addData("green", colorSensor.green());
-                telemetry.addData("red", colorSensor.red());
-                telemetry.addData("blue", colorSensor.blue());
             }
             else if (colorSensor.blue() - colorSensor.red()>1000) {
 //                rotationMotor.set(0);
