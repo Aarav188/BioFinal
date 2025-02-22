@@ -565,9 +565,19 @@ public class Auto {
                         startTransfer();
                         this.actionBusy = true;
                     }
-                    else if (intake.spinState == IntakeSubsystem.SpinState.OUTTAKE){
-                        intakeTimer.resetTimer();
+                    else if (intake.spinState == IntakeSubsystem.SpinState.OUTTAKE){ //TODO: more tests on this
+
                         setSubmersibleIntakeState(6);
+                        intakeTimer.resetTimer();
+                        /* TODO: Check if this works
+                        if (intakeTimer.getElapsedTimeSeconds()>5){
+                            intakeTimer.resetTimer();
+                            setSubmersibleIntakeState(-1);
+                            this.actionBusy = true;
+                            startTransfer();
+                        }
+                        */
+
                     }
                 }
                 break;
