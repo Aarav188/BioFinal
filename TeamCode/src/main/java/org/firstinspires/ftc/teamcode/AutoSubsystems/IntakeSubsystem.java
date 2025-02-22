@@ -128,7 +128,7 @@ public class IntakeSubsystem{
     public void stop(String allianceColor)
         {
             if (colorSensor.red() - colorSensor.blue()> 600 && colorSensor.red() - colorSensor.blue()<1500) {
-                rotationMotor.set(0);
+//                rotationMotor.set(0);
 //                this.spinState = SpinState.STOP;
                 telemetry.addData("color", "red");
                 telemetry.addData("green", colorSensor.green());
@@ -142,7 +142,7 @@ public class IntakeSubsystem{
                 }
             }
             else if (colorSensor.green()-colorSensor.blue()>1000) {
-                rotationMotor.set(0);
+//                rotationMotor.set(0);
 //                this.spinState = SpinState.STOP;
                 telemetry.addData("color", "yellow");
                 telemetry.addData("green", colorSensor.green());
@@ -150,7 +150,7 @@ public class IntakeSubsystem{
                 telemetry.addData("blue", colorSensor.blue());
             }
             else if (colorSensor.blue() - colorSensor.red()>1000) {
-                rotationMotor.set(0);
+//                rotationMotor.set(0);
 //                this.spinState = SpinState.STOP;
                 telemetry.addData("color", "blue");
                 telemetry.addData("green", colorSensor.green());

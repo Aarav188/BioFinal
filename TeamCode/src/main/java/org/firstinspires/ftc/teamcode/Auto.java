@@ -547,13 +547,24 @@ public class Auto {
                 }
                 break;
             case 5:
-                if (intakeTimer.getElapsedTimeSeconds() > 1.2 && intake.spinState == IntakeSubsystem.SpinState.STOP) {
-                    intake.intake();
-                    intake.lockSample();
-                    intakeTimer.resetTimer();
-                    setSubmersibleIntakeState(-1);
-                    startTransfer();
-                    this.actionBusy = true;
+                if (intakeTimer.getElapsedTimeSeconds() > 1.1) {
+                    if (intake.spinState == IntakeSubsystem.SpinState.STOP) {
+                        intake.intake();
+                        intake.lockSample();
+                        intakeTimer.resetTimer();
+                        setSubmersibleIntakeState(-1);
+                        startTransfer();
+                        this.actionBusy = true;
+                    }
+                    else if (intake.spinState == IntakeSubsystem.SpinState.OUTTAKE){
+                        intakeTimer.resetTimer();
+                        setSubmersibleIntakeState(6);
+                    }
+                }
+                break;
+            case 6:
+                if (intakeTimer.getElapsedTimeSeconds() > 0.3) {
+                    setSubmersibleIntakeState(3);
                 }
                 break;
         }
