@@ -143,9 +143,44 @@ public class Teleop {
                 intakeActive = true;
                 extendAndIntake();
             }
+            if(System.currentTimeMillis() - extendTimer >= 600 && extendoState == ExtendoState.INTAKE){
+                intake.pickup();
+                intake.intake();
+                extendTimer = 0;
+                extendoState = null;
+            }
+
+
             if(gamepad1.b){ //done
                 transfer();
                 intakeActive = false;
+            }
+
+            if(System.currentTimeMillis() - transferTimer >= 200 && transferState == 0){
+                extend.reset();
+                intake.intake();
+                transferState++;
+            }
+            else if(System.currentTimeMillis() - transferTimer >= 600 && transferState == 1){
+                intake.unlockSample();
+                transferState++;
+            }
+            else if(System.currentTimeMillis() - transferTimer >= 1300 && transferState == 2){
+                claw.lockSample();
+                transferState++;
+            }
+            else if(System.currentTimeMillis() - transferTimer >= 1600 && transferState == 3){
+                arm.reset();
+                claw.reset();
+                intake.stop();
+                intakeActive = false;
+                transferState = -1;
+            }
+
+
+            if(System.currentTimeMillis() - outtakeTimer >= 500 && outtakeState){
+                intake();
+                outtakeState = false;
             }
             if(gamepad1.x){ //done
                 reset();
@@ -221,7 +256,11 @@ public class Teleop {
         telemetry.addData("Auto Bucket State", autoBucketState);
         telemetry.update();
     }
-
+    double extendTimer = 0;
+    enum ExtendoState{
+        TRANSFER, INTAKE
+    }
+    ExtendoState extendoState = null;
     private void extendAndIntake(){
         extend.fullExtend();
 
@@ -230,11 +269,8 @@ public class Teleop {
         intake.lockSample();
 
 
-        long currentExtendTimer = System.currentTimeMillis();
-        while(System.currentTimeMillis()<600+currentExtendTimer){}
-
-        intake.pickup();
-        intake.intake();
+        extendTimer = System.currentTimeMillis();
+        extendoState = ExtendoState.INTAKE;
 
 //        intake.stop("BLUE");
 
@@ -250,19 +286,19 @@ public class Teleop {
             hangActive = false;
         }
     }
+    double transferTimer = 0;
+    int transferState = -1;
     public void transfer(){
+        transferState = 0;
         intake.intake();
         intake.transfer();
         arm.transfer();
         claw.transfer();
         claw.unlockSample();
-        Timer transferTimer = new Timer();
-        long currentTransferTimer = System.currentTimeMillis();
-        while(System.currentTimeMillis()<200+currentTransferTimer){}
+        transferTimer = System.currentTimeMillis();
+        extendoState = ExtendoState.TRANSFER;
 
-        extend.reset();
 
-        intake.intake();
 
 //        if(transferTimer.getElapsedTimeSeconds() >= 0.6) {
 //            intake.unlockSample();
@@ -271,38 +307,24 @@ public class Teleop {
 //            claw.lockSample();
 //        }
 
-        while(System.currentTimeMillis()<600+currentTransferTimer){}
-        intake.unlockSample();
-        while(System.currentTimeMillis()<1300+currentTransferTimer){}
-        claw.lockSample();
-        while(System.currentTimeMillis()<1600+currentTransferTimer){}
-        arm.reset();
-        claw.reset();
-        intake.stop();
-        intakeActive = false;
+
 
 
     }
+
     public void reset(){
         arm.reset();
         claw.reset();
         fullUnlock();
-//        Timer resetTimer = new Timer();
-//        if(resetTimer.getElapsedTimeSeconds() > 2){
-//            elevatorSubsystem.toReset();
-//        }
-
-        long currentResetTimer = System.currentTimeMillis();
-        while(System.currentTimeMillis()<1000+currentResetTimer){}
         elevatorSubsystem.toReset();
-
-
     }
 
+    double outtakeTimer = 0;
+    boolean outtakeState = false;
     public void outtake(){
-        double outtakeTimer = System.currentTimeMillis();
-        while(System.currentTimeMillis() - outtakeTimer < 500){intake.outtake();}
-        intake.intake();
+        intake.outtake();
+        outtakeTimer = System.currentTimeMillis();
+        outtakeState = true;
 
     }
     public void intake(){
