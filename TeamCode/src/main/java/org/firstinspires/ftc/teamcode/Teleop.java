@@ -135,9 +135,7 @@ public class Teleop {
             if(intake.checkStop(color) == IntakeSubsystem.SpinState.OUTTAKE){
                 outtake();
             }
-            else if(intake.checkStop(color) == IntakeSubsystem.SpinState.STOP){
-                transfer();
-            }
+
 
             if(gamepad1.a){ //done
                 intakeActive = true;
@@ -153,7 +151,7 @@ public class Teleop {
 
             if(gamepad1.b){ //done
                 transfer();
-                intakeActive = false;
+
             }
 
             if(System.currentTimeMillis() - transferTimer >= 200 && transferState == 0){
@@ -161,11 +159,11 @@ public class Teleop {
                 intake.intake();
                 transferState++;
             }
-            else if(System.currentTimeMillis() - transferTimer >= 600 && transferState == 1){
+            else if(System.currentTimeMillis() - transferTimer >= 700 && transferState == 1){
                 intake.unlockSample();
                 transferState++;
             }
-            else if(System.currentTimeMillis() - transferTimer >= 1300 && transferState == 2){
+            else if(System.currentTimeMillis() - transferTimer >= 1200 && transferState == 2){
                 claw.lockSample();
                 transferState++;
             }
@@ -189,18 +187,18 @@ public class Teleop {
                 gameHang();
             }
 
-            if(gamepad1.right_trigger > 0){ //done
-                triggerAction = true;
-                intakeActive = true;
-                outtake();
-            }
-            else if(gamepad1.left_trigger > 0){ //done
+//            if(gamepad1.right_trigger > 0){ //done
+//                triggerAction = true;
+//                intakeActive = true;
+//                outtake();
+//            }
+            if(gamepad1.left_trigger > 0){ //done
                 triggerAction = true;
                 intakeActive = true;
                 intake();
 
             }
-            else if(gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0 && triggerAction){
+            else if(gamepad1.left_trigger == 0 && triggerAction){
                 triggerAction = false;
                 intakeActive = false;
             }
@@ -225,8 +223,12 @@ public class Teleop {
                 specDrop();
             }
 
-
-            follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, true);
+            if (gamepad1.right_trigger > 0){
+                follower.setTeleOpMovementVectors(-gamepad1.left_stick_y/4, -gamepad1.left_stick_x/4, -gamepad1.right_stick_x/1.5, true);
+            }
+            else {
+                follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, true);
+            }
 
         } else {
             if(gamepad2.dpad_right) {

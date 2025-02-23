@@ -374,7 +374,7 @@ public class Auto {
                 }
                 break;
             case 4:
-                if (bucketTimer.getElapsedTimeSeconds() > 1.5) {
+                if (bucketTimer.getElapsedTimeSeconds() > 1.8) {
 //                    long currentElevatorTimer = System.currentTimeMillis();
 //                    while(System.currentTimeMillis()<800+currentElevatorTimer){}
                     arm.reset();
@@ -569,14 +569,14 @@ public class Auto {
 
                         setSubmersibleIntakeState(6);
                         intakeTimer.resetTimer();
-                        /* TODO: Check if this works
+//                        /* TODO: Check if this works
                         if (intakeTimer.getElapsedTimeSeconds()>5){
                             intakeTimer.resetTimer();
                             setSubmersibleIntakeState(-1);
                             this.actionBusy = true;
                             startTransfer();
                         }
-                        */
+
 
                     }
                 }

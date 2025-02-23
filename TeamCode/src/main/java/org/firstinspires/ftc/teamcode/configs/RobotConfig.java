@@ -18,10 +18,10 @@ public class RobotConfig {
     public static double INTAKE_STOPPER_DOWN_POSITION = 0.61;
 
     //extendo subsystem
-    public static double EXTENDO_LEFT_MAX_OUT_POSITION = 0.1; //0.08
+    public static double EXTENDO_LEFT_MAX_OUT_POSITION = 0.05; //0.08
     public static double EXTENDO_LEFT_HALF_OUT_POSITION = 0.1;
     public static double EXTENDO_RIGHT_HALF_OUT_POSITION = 0.7;
-    public static double EXTENDO_RIGHT_MAX_OUT_POSITION = 0.7;
+    public static double EXTENDO_RIGHT_MAX_OUT_POSITION = 0.93;
     public static double EXTENDO_LEFT_IN_POSITION = 0.41;
     public static double EXTENDO_RIGHT_IN_POSITION = 0.35;
 

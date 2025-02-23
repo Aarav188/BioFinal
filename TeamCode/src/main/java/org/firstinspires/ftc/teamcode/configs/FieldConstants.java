@@ -24,7 +24,7 @@ public class FieldConstants {
     public static final Pose redObservationPreloadPose = new Pose(144-blueObservationPreloadPose.getX(), blueObservationPreloadPose.getY(), 0);
 
     // Blue Bucket Sample Poses
-    public static final Pose blueBucketLeftSamplePose = new Pose(28.9, 128, Math.toRadians(-34));
+    public static final Pose blueBucketLeftSamplePose = new Pose(28.6, 128.3, Math.toRadians(-34));
     public static final Pose blueBucketLeftSampleControlPose = new Pose(19, 119);
     public static final Pose blueBucketMidSamplePose = new Pose(29, 130.5, 0);
     public static final Pose blueBucketMidSampleControlPose = new Pose(19.8, 136);

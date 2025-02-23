@@ -12,15 +12,15 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 
-@TeleOp(name="DriveBlue", group="A")
-public class newTestTele extends OpMode {
+@TeleOp(name="DriveRed", group="A")
+public class redTestTele extends OpMode {
 
     private Teleop teleop;
 
     @Override
     public void init() {
         Constants.setConstants(FConstants.class, LConstants.class);
-        teleop = new Teleop(hardwareMap, telemetry, new Follower(hardwareMap), blueObservationParkPose, gamepad1, gamepad2,true,true);
+        teleop = new Teleop(hardwareMap, telemetry, new Follower(hardwareMap), blueObservationParkPose, gamepad1, gamepad2,false,true);
 
         teleop.init();
     }

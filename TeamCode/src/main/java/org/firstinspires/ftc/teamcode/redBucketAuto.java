@@ -60,7 +60,7 @@ public class redBucketAuto extends OpMode {
                 break;
             case 1:
                 if(!auto.follower.isBusy()) {
-                    auto.follower.setMaxPower(0.8);
+                    auto.follower.setMaxPower(0.85);
                     auto.follower.followPath(auto.element1);
                     auto.startIntake();
                     auto.actionBusy = true;
@@ -80,7 +80,7 @@ public class redBucketAuto extends OpMode {
             case 3:
                 if(!auto.follower.isBusy()) {
 //                    auto.startTransfer();
-                    auto.follower.setMaxPower(0.75);
+                    auto.follower.setMaxPower(0.85);
                     auto.follower.followPath(auto.element2);
                     auto.startIntake();
                     setPathState(4);
@@ -98,7 +98,7 @@ public class redBucketAuto extends OpMode {
             case 5:
                 if(!auto.follower.isBusy()) {
                     //auto.startIntake();
-                    auto.follower.setMaxPower(0.7);
+                    auto.follower.setMaxPower(0.85);
                     auto.follower.followPath(auto.element3);
                     auto.startIntake();
                     setPathState(6);
@@ -108,7 +108,7 @@ public class redBucketAuto extends OpMode {
                 if(auto.transferState == 4 && auto.actionNotBusy() && !auto.follower.isBusy()) {
                     //auto.startTransfer();
                     auto.transferState = -1;
-                    auto.follower.setMaxPower(0.45);
+                    auto.follower.setMaxPower(0.5);
                     auto.follower.followPath(auto.score3);
                     auto.startBucket();
                     setPathState(7);
@@ -117,7 +117,7 @@ public class redBucketAuto extends OpMode {
             case 7:
                 if(!auto.follower.isBusy()) {
                     //auto.startBucket();
-                    auto.follower.setMaxPower(0.75);
+                    auto.follower.setMaxPower(0.78);
                     auto.follower.followPath(auto.park);
                     setPathState(8);
                 }
@@ -142,7 +142,7 @@ public class redBucketAuto extends OpMode {
                 if(auto.transferState == 4 && auto.actionNotBusy() && !auto.follower.isBusy()) {
                     //auto.startTransfer();
                     auto.transferState = -1;
-                    auto.follower.setMaxPower(0.8);
+                    auto.follower.setMaxPower(1);
                     auto.follower.followPath(auto.score4);
                     score5Timer.resetTimer();
                     setPathState(11);
