@@ -169,6 +169,7 @@ public class Auto {
                 sampleScorePose = FieldConstants.blueBucketScorePose;
                 parkControlPose = FieldConstants.blueBucketParkControlPose;
                 parkPose = FieldConstants.blueBucketParkPose;
+                submersiblePose = FieldConstants.blueBucketSubmersiblePose;
                 break;
 
             case RED_OBSERVATION:
